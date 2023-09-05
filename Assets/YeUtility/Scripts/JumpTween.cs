@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public class JumpTween : MonoBehaviour
     {

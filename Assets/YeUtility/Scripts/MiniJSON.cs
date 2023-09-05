@@ -31,6 +31,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using YeUtility;
 
 namespace MiniJSON {
     
@@ -491,7 +492,7 @@ namespace MiniJSON {
             } else if (value is System.Enum) {
                 SerializeString(value.ToString(), builder);
             } else {
-                SerializeString(Common.toString(value, true), builder);
+                SerializeString(Common.ToString(value, true), builder);
             }
             return true;
         }

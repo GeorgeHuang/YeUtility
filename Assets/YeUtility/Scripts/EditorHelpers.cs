@@ -1,20 +1,20 @@
-using Sirenix.OdinInspector;
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
-#if UNITY_EDITOR
+using Sirenix.OdinInspector;
 using UnityEditor;
+using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public class EditorUnit
     {
-        private static string ActorPath = "Assets/SO/Actor/Player";
+        private static readonly string ActorPath = "Assets/SO/Actor/Player";
 
         public static IEnumerable GetObjList<T>(Object sourceObj) where T : Object
         {
-            List<ValueDropdownItem> datas = new List<ValueDropdownItem>();
+            var datas = new List<ValueDropdownItem>();
             datas.Add(new ValueDropdownItem());
             var temp = AssetDatabase.GetAssetPath(sourceObj);
             temp = Path.GetDirectoryName(temp);//.Replace("\\","/");
@@ -29,7 +29,7 @@ namespace CommonUnit
         }
         public static IEnumerable GetObjList<T>(string sourcePath) where T : Object
         {
-            List<ValueDropdownItem> datas = new List<ValueDropdownItem>();
+            var datas = new List<ValueDropdownItem>();
             datas.Add(new ValueDropdownItem());
             var temp1 = AssetDatabase.FindAssets("a:all", new string[] { sourcePath });
             foreach (var id in temp1)
@@ -42,7 +42,7 @@ namespace CommonUnit
         }
         public static IEnumerable GetActorNameList()
         {
-            List<ValueDropdownItem> datas = new List<ValueDropdownItem>();
+            var datas = new List<ValueDropdownItem>();
             var temp1 = AssetDatabase.FindAssets("t:PlayerActorData", new string[] { ActorPath });
             foreach (var id in temp1)
             {

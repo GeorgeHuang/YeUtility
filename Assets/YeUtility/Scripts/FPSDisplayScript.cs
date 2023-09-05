@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public class FPSDisplayScript : MonoBehaviour
     {

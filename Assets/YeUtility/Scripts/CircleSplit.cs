@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using CommonUnit;
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public class CircleSplit : MonoBehaviour
     {
@@ -11,19 +12,7 @@ namespace CommonUnit
 
         public int number = 8;
 
-        List<GameObject> objs = new List<GameObject>();
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        List<GameObject> objs = new();
 
         public List<GameObject> Apply(int number, bool firstAtTop = false)
         {
@@ -32,34 +21,51 @@ namespace CommonUnit
         }
 
         [ContextMenu("Apply")]
-        public List<GameObject> Apply(bool firstAtTop = false)
+        public List<GameObject> Apply()
+        {
+            return Apply(false);
+        }
+        [ContextMenu("ApplyUp")]
+        public List<GameObject> ApplyUp()
+        {
+            return Apply(true);
+        }
+        
+        public List<GameObject> Apply(bool firstAtTop)
         {
             Clear();
-            float angleP = 360.0f / number;
-            for (int i = 0; i < number; ++i)
+
+            var dirs = Common.SplitCircle(
+                number, 
+                firstAtTop ? new Vector3(0,1,0) : null );
+            for (int i = 0; i < dirs.Count; i++)
             {
-                //神器的力量
-                var obj = new GameObject("" + i);
-                Vector3 angle = Vector3.zero;
-                angle.z = angleP * i + angle.z;
-                obj.transform.Rotate(angle, Space.World);
-                Common.changeGOParent(obj, gameObject, false, false);
-                obj.transform.Translate(radius, 0, 0, Space.Self);
+                var dir = dirs[i];
+                var obj = new GameObject(i.ToString());
+                Common.ChangeGOParent(obj,gameObject);
+                obj.transform.right = dir;
+                obj.transform.Translate(radius,0,0);
+                obj.transform.localScale = Vector3.one;
                 objs.Add(obj);
             }
+            
             transform.rotation = Quaternion.identity;
-            if (firstAtTop)
-            {
-                transform.Rotate(0, 0, -90);
-            }
             return objs;
         }
 
+        [ContextMenu("Clear")]
         public void Clear()
         {
             foreach (var go in objs)
             {
-                Destroy(go);
+                if (Application.isPlaying)
+                {
+                    Destroy(go);
+                }
+                else
+                {
+                    DestroyImmediate(go);   
+                }
             }
             objs.Clear();
         }

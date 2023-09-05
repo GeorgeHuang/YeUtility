@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public class MaterialGroup : MonoBehaviour
     {

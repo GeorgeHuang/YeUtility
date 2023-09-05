@@ -1,5 +1,6 @@
 using UnityEngine;
-namespace CommonUnit
+
+namespace YeUtility
 {
     public class FixAxis : MonoBehaviour
     {

@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public class CollisionBehaviour : MonoBehaviour
     {
@@ -17,8 +18,7 @@ namespace CommonUnit
         public UnityEvent<CollisionBehaviour> OnContact;
         public UnityEvent<CollisionBehaviour> OnExit;
         public ColliderType ctype = ColliderType.None;
-        public Rect DetectRect;
-        public float DetectTime;
+        public Transform trans;
 
         GameObject m_other;
         Collision m_collision;
@@ -26,17 +26,16 @@ namespace CommonUnit
 
         Collision2D m_collision2D;
         Collider2D m_collider2D;
-        Transform trans;
-        ContactFilter2D contactFilter2D = new ContactFilter2D();
         List<Collider2D> triggerObjects = new List<Collider2D>();
+        
+        Rect DetectRect;
+        ContactFilter2D contactFilter2D = new ContactFilter2D();
 
         #region Gizmos
         public bool ShowGizmos = false;
         public Color DetectColor = Color.red;
         public Color NoDetectColor = Color.green;
         #endregion
-
-        bool includeEnter = false;
 
         public UnityEngine.Collider OtherCollider
         {
@@ -71,17 +70,17 @@ namespace CommonUnit
             get { return transform.localScale.x * 0.5f; }
             set
             {
-                var s = transform.localScale;
+                var s = Trans.localScale;
                 s.x = value * 2;
-                transform.localScale = s;
+                Trans.localScale = s;
             }
         }
 
         public int TypeID { get; set; }
 
-        public bool IncludeEnter { get { return includeEnter; } set { includeEnter = value; } }
+        public bool IncludeEnter { get; set; } = false;
 
-        static readonly ProfilerMarker profilerMarker = new ProfilerMarker("CollisionBehaviour");
+        static readonly ProfilerMarker ProfilerMarker = new ProfilerMarker("CollisionBehaviour");
 
         public Transform Trans
         {
@@ -95,7 +94,7 @@ namespace CommonUnit
 
         void OnCollisionEnter(Collision collision)
         {
-            if (!includeEnter) return;
+            if (!IncludeEnter) return;
             CollisionObj = collision;
             OtherObj = collision.collider.gameObject;
             OnContact?.Invoke(this);
@@ -103,7 +102,7 @@ namespace CommonUnit
 
         void OnTriggerEnter(Collider other)
         {
-            if (!includeEnter) return;
+            if (!IncludeEnter) return;
             OtherCollider = other;
             OtherObj = other.gameObject;
             OnContact?.Invoke(this);
@@ -125,7 +124,7 @@ namespace CommonUnit
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!includeEnter) return;
+            if (!IncludeEnter) return;
             OtherCollision2D = collision;
             OtherObj = collision.collider.gameObject;
             OnContact?.Invoke(this);
@@ -140,7 +139,7 @@ namespace CommonUnit
 
         void OnTriggerEnter2D(Collider2D other)
         {
-            if (!includeEnter) return;
+            if (!IncludeEnter) return;
             OtherCollider2D = other;
             OtherObj = other.gameObject;
             OnContact?.Invoke(this);
@@ -174,60 +173,71 @@ namespace CommonUnit
         public void Init()
         {
             contactFilter2D.NoFilter();
+            trans = trans ? trans : transform;
         }
 
         public int Detect(Collider2D[] results)
         {
             //contactFilter2D.NoFilter();
-            using (profilerMarker.Auto())
+            using (ProfilerMarker.Auto())
             {
-                if (ctype == ColliderType.Rect)
+                switch (ctype)
                 {
-                    updateRect();
-                    var rect = DetectRect;
-                    //LayerMask layerMask = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
-                    //return Physics2D.OverlapBoxAll(rect.center, rect.size, transform.eulerAngles.z, 1 << layerMask);
-                    //LayerMask layerMask = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
-                    //return Physics2D.OverlapBoxAll(rect.center, rect.size, transform.eulerAngles.z);
-                    return Physics2D.OverlapBox(rect.center, rect.size, Trans.eulerAngles.z, contactFilter2D ,results);
-                }
-                else if (ctype == ColliderType.Circle)
-                {
-                    //return Physics2D.OverlapCircleAll(transform.position, transform.lossyScale.x * 0.5f);
-                    return Physics2D.OverlapCircle(Trans.position, Trans.lossyScale.x * 0.5f, contactFilter2D, results);
-                }
-                else
-                {
-                    results = triggerObjects.ToArray();
+                    case ColliderType.Rect:
+                    {
+                        UpdateRect();
+                        var rect = DetectRect;
+                        //LayerMask layerMask = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
+                        //return Physics2D.OverlapBoxAll(rect.center, rect.size, transform.eulerAngles.z, 1 << layerMask);
+                        //LayerMask layerMask = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
+                        //return Physics2D.OverlapBoxAll(rect.center, rect.size, transform.eulerAngles.z);
+                        return Physics2D.OverlapBox(rect.center, rect.size, Trans.eulerAngles.z, contactFilter2D ,results);
+                    }
+                    case ColliderType.Circle:
+                        //return Physics2D.OverlapCircleAll(transform.position, transform.lossyScale.x * 0.5f);
+                        return Physics2D.OverlapCircle(Trans.position, Trans.lossyScale.x * 0.5f, contactFilter2D, results);
+                    case ColliderType.None:
+                    default:
+                        results = triggerObjects.ToArray();
+                        break;
                 }
             }
             //return triggerObjects.ToArray();
             return triggerObjects.Count;
         }
 
-        void updateRect()
+        void UpdateRect()
         {
-            DetectRect.center = transform.position;
-            DetectRect.size = transform.lossyScale;
+            DetectRect.center = trans.position;
+            DetectRect.size = trans.lossyScale;
         }
 
         #region Gizmos
         private void OnDrawGizmos()
         {
             if (ShowGizmos == false) return;
+            
+            var gizmosColor = triggerObjects.Count > 0 ? DetectColor : NoDetectColor;
 
-            if (ctype == ColliderType.Rect)
+            switch (ctype)
             {
-                updateRect();
-                var m = Matrix4x4.Rotate(transform.rotation);
-                Gizmos.matrix = m;
-                Gizmos.color = NoDetectColor;
-                Gizmos.DrawCube(m.inverse * transform.position, DetectRect.size);
-            }
-            else if (ctype == ColliderType.Circle)
-            {
-                Gizmos.color = NoDetectColor;
-                Gizmos.DrawSphere(transform.position, transform.lossyScale.x * 0.5f);
+                case ColliderType.Rect:
+                {
+                    UpdateRect();
+                    var m = Matrix4x4.Rotate(transform.rotation);
+                    Gizmos.matrix = m;
+                    Gizmos.color = gizmosColor;
+                    Gizmos.DrawCube(m.inverse * trans.position, DetectRect.size);
+                    break;
+                }
+                case ColliderType.Circle:
+                    Gizmos.color = gizmosColor;
+                    Gizmos.DrawSphere(transform.position, trans.lossyScale.x * 0.5f);
+                    break;
+                case ColliderType.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
         #endregion

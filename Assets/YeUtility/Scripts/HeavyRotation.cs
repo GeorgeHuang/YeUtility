@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public class HeavyRotation : MonoBehaviour
     {
@@ -12,7 +12,7 @@ namespace CommonUnit
         bool m_pause;
         Transform m_transCache;
 
-        public void setPause(bool pause)
+        public void SetPause(bool pause)
         {
             m_pause = pause;
         }
@@ -33,7 +33,7 @@ namespace CommonUnit
         {
             if (m_fixedUpdate == false)
             {
-                updateRotation();
+                UpdateRotation();
             }
         }
 
@@ -41,18 +41,18 @@ namespace CommonUnit
         {
             if (m_fixedUpdate == true)
             {
-                updateRotation();
+                UpdateRotation();
             }
         }
 
-        bool hasValue()
+        bool HasValue()
         {
             return m_speed.sqrMagnitude > 0;
         }
 
-        void updateRotation()
+        void UpdateRotation()
         {
-            if (hasValue() == false || m_pause == true)
+            if (HasValue() == false || m_pause == true)
                 return;
             if (m_useRotateCenter == false)
             {

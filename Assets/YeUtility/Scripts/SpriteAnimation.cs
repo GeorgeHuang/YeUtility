@@ -16,15 +16,12 @@ public class SpriteAnimation : MonoBehaviour
         color = spriteRenderer.color;
     }
 
-    public void update(float dt)
+    public void Tick(float dt)
     {
         timer += dt;
-        if (timer >= 1f / frameRate)
-        {
-            currentIndex = (currentIndex + 1) % sprites.Length;
-            spriteRenderer.sprite = sprites[currentIndex];
-            //spriteRenderer.color = color;
-            timer = 0f;
-        }
+        if (!(timer >= 1f / frameRate)) return;
+        currentIndex = (currentIndex + 1) % sprites.Length;
+        spriteRenderer.sprite = sprites[currentIndex];
+        timer = 0f;
     }
 }

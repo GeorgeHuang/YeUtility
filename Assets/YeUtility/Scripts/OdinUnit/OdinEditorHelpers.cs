@@ -15,10 +15,10 @@ namespace OdinUnit
             EditorUtility.SetDirty(obj);
 #endif
         }
-#if UNITY_EDITOR
-        static public List<T> GetObjList<T>(string path) where T : Object
+        public static List<T> GetObjList<T>(string path) where T : Object
         {
             var rv = new List<T>();
+#if UNITY_EDITOR
             var temp1 = AssetDatabase.FindAssets("a:all",
                                                  new string[] { path });
             foreach (var id in temp1)
@@ -27,19 +27,18 @@ namespace OdinUnit
                 var obj = AssetDatabase.LoadAssetAtPath<T>(objPath);
                 if (obj != null) rv.Add(obj);
             }
-
+#endif
             return rv;
         }
         public static T GetScriptableObject<T>() where T : ScriptableObject
         {
             var list = GetScriptableObjects<T>();
-            if (list.Any())
-                return list.First();
-            return null;
+            return list.Any() ? list.First() : null;
         }
         public static List<T> GetScriptableObjects<T>() where T : ScriptableObject
         {
             var ts   = new List<T>();
+#if UNITY_EDITOR
             var type = typeof(T);
             var guids2 = AssetDatabase.FindAssets($"t:{type}");
             foreach (var guid2 in guids2)
@@ -47,6 +46,7 @@ namespace OdinUnit
                 var assetPath = AssetDatabase.GUIDToAssetPath(guid2);
                 ts.Add((T)AssetDatabase.LoadAssetAtPath(assetPath , type));
             }
+#endif
             return ts;
         }
 
@@ -54,6 +54,5 @@ namespace OdinUnit
         {
             return new ValueDropdownItem(text, value);
         }
-#endif
     }
 }

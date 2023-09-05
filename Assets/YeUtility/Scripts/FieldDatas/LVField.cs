@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     [CreateAssetMenu(fileName = "ProjectedOrbData", menuName = "Ye/ProjectedOrb/Create LVField")]
     public class LVField : FieldData
@@ -9,9 +9,9 @@ namespace CommonUnit
         public List<float> listValue;
         public CurveField curveFiled;
 
-        public override object getValueWithLv(int lv)
+        public override object GetValueWithLv(int lv)
         {
-            if (curveFiled != null) return curveFiled.getValueWithLv(lv);
+            if (curveFiled != null) return curveFiled.GetValueWithLv(lv);
             if (lv > 0 && listValue.Count > lv - 1)
             {
                 return listValue[lv - 1];

@@ -1,5 +1,5 @@
 ﻿
-namespace CommonUnit
+namespace YeUtility
 {
     public class RecoverValueFloat
     {
@@ -39,11 +39,9 @@ namespace CommonUnit
         public void Add(float value)
         {
             curValue += value;
-            if (curValue > maxValue)
-            {
-                curValue = maxValue; 
-                isFull= true;
-            }
+            if (!(curValue > maxValue)) return;
+            curValue = maxValue; 
+            isFull= true;
         }
 
         public void Reduce(float value)

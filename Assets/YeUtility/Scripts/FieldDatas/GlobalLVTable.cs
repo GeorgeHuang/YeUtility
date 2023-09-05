@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using CommonUnit;
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     [CreateAssetMenu(fileName = "ProjectedOrbData", menuName = "Ye/ProjectedOrb/Create GlobalLVTable")]
     public class GlobalLVTable : LVField
@@ -9,12 +10,12 @@ namespace CommonUnit
         public int MaxLV = 0;
         public int initValue = 1;
         public List<int> CostTable;
-        public override System.Object getCostWithLv(int lv)
+        public override System.Object GetCostWithLv(int lv)
         {
             return CostTable[lv - 1];
         }
 
-        public override object getMaxLV()
+        public object GetMaxLV()
         {
             return MaxLV;
         }

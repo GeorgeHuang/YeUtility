@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public class TrackingObj : MonoBehaviour
     {
@@ -30,28 +30,26 @@ namespace CommonUnit
             if (targetObj == null) return;
             IsTrackPos = false;
         }
-        public void update()
+        public void Tick()
         {
 
             //transform.position = targetObj.position;
-            updatePos();
+            UpdatePos();
 
 
             if (targetObj == null) return;
-            if (withRotate)
+            if (!withRotate) return;
+            if (Is2D)
             {
-                if (Is2D)
-                {
-                    trans.right = targetObj.right;
-                }
-                else
-                {
-                    trans.forward = targetObj.forward;
-                }
+                trans.right = targetObj.right;
+            }
+            else
+            {
+                trans.forward = targetObj.forward;
             }
         }
 
-        void updatePos()
+        void UpdatePos()
         {
             var pos = TargetPos;
 
@@ -67,33 +65,26 @@ namespace CommonUnit
                 }
             }
 
-            if (smoothTime < 0.0001f)
-            {
-                trans.position = pos;
-            }
-            else
-            {
-                trans.position = Vector3.SmoothDamp(trans.position, pos, ref posVelocity, smoothTime);
-            }
+            trans.position = smoothTime < 0.0001f ? pos : Vector3.SmoothDamp(trans.position, pos, ref posVelocity, smoothTime);
         }
 
-        public void setTarget(Transform target, bool needResetPos = true)
+        public void SetTarget(Transform target, bool needResetPos = true)
         {
             IsTrackPos = false;
             targetObj = target;
             if (needResetPos && target)
             {
-                resetPos(target.transform.position);
+                ResetPos(target.transform.position);
             }
             posVelocity = Vector3.zero;
         }
 
-        public void resetPos(Vector3 pos)
+        public void ResetPos(Vector3 pos)
         {
             transform.position = targetObj.position;
         }
 
-        public void setTrackPos(Vector3 targetPos)
+        public void SetTrackPos(Vector3 targetPos)
         {
             IsTrackPos = true;
             TargetPos = targetPos;

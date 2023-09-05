@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
@@ -49,7 +49,7 @@ namespace CommonUnit
         // Put all the initializations you need here, as you would do in Awake
         public virtual void Init() { }
 
-        public static bool isNull()
+        public static bool IsNull()
         {
             return m_Instance == null;
         }

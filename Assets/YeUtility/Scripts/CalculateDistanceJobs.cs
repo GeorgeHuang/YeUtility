@@ -5,7 +5,7 @@ using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Jobs;
 
-namespace CommonUnit
+namespace YeUtility
 {
     [BurstCompile]
     public struct CalculateDistanceJobs : IJobParallelFor, System.IDisposable
@@ -15,35 +15,32 @@ namespace CommonUnit
         [NativeDisableParallelForRestriction]
         [WriteOnly]
         public NativeArray<float> Result;
-        private int Length;
+        private int _length;
         public void Setup(List<Vector3> input)
         {
-            Length = input.Count;
+            _length = input.Count;
             SourcePosList = new NativeArray<Vector3>(input.ToArray(), Allocator.TempJob);
-            Result = new NativeArray<float>(Length*Length, Allocator.TempJob);
+            Result = new NativeArray<float>(_length*_length, Allocator.TempJob);
         }
         public void Setup(NativeArray<Vector3> input)
         {
-            Length = input.Length;
+            _length = input.Length;
             SourcePosList = new NativeArray<Vector3>(input, Allocator.TempJob);
-            Result = new NativeArray<float>(Length*Length, Allocator.TempJob);
+            Result = new NativeArray<float>(_length*_length, Allocator.TempJob);
         }
         [BurstCompile]
         public void Execute(int index)
         {
             var myPos = SourcePosList[index];
-            for(int i = 0; i < Length; ++i)
+            for(int i = 0; i < _length; ++i)
             {
-                float rv = 0;
-                if (i != index)
-                    rv = (myPos - SourcePosList[i]).magnitude;
-                Result[index * Length + i] = rv;
+                Result[index * _length + i]  = (myPos - SourcePosList[i]).magnitude;
             }
         }
         public void Execute_old(int index)
         {
-            int myI = index / Length;
-            int tarI = index % Length;
+            int myI = index / _length;
+            int tarI = index % _length;
             var myPos = SourcePosList[myI];
             var tarPos = SourcePosList[tarI];
             float rv = Vector3.Distance(myPos, tarPos);

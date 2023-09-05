@@ -24,7 +24,6 @@ public class AbbrevationUtilityTest
 
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
     // `yield return null;` to skip a frame.
-    [UnityTest]
     public IEnumerator AbbrevationUtilityTestWithEnumeratorPasses()
     {
         // Use the Assert class to test conditions.

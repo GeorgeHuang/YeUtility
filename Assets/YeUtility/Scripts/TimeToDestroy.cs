@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility
 {
     public class TimeToDestroy : MonoBehaviour
     {
@@ -16,20 +16,20 @@ namespace CommonUnit
         public bool IsCreated {get;set;}
 
         // Use this for initialization
-        virtual public void Start()
+        public virtual void Start()
         {
             if (m_autoStart)
             {
-                start();
+                MyStart();
             }
         }
 
-        virtual public void start()
+        protected virtual void MyStart()
         {
             m_timer = m_time;
         }
 
-        virtual public void update(float dt)
+        public virtual void Tick(float dt)
         {
             if (m_timer > 0)
             {
@@ -37,14 +37,14 @@ namespace CommonUnit
             }
             else
             {
-                stop();
+                Stop();
             }
         }
 
-        public void stop()
+        public void Stop()
         {
             if (IsCreated == false) return;
-            subStop();
+            SubStop();
             IsCreated = false;
             if (m_reuseMgr == null)
             {
@@ -64,7 +64,7 @@ namespace CommonUnit
             }
         }
 
-        virtual public void subStop()
+        protected virtual void SubStop()
         {
 
         }

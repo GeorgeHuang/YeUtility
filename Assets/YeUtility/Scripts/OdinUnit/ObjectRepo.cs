@@ -17,12 +17,7 @@ namespace OdinUnit
 
         public T GetData(string name)
         {
-            foreach (var data in datas)
-            {
-                if (data.name == name)
-                    return data;
-            }
-            return null;
+            return datas.FirstOrDefault(data => data.name == name);
         }
 
         public bool HasData(string name)
@@ -51,7 +46,7 @@ namespace OdinUnit
             OdinEditorHelpers.SetDirty(this);
         }
 
-        static public IEnumerable GetDropdownOdin()
+        public static IEnumerable GetDropdownOdin()
         {
             var repo = OdinEditorHelpers.GetScriptableObject<ObjectRepo<T>>();
             var rv = new List<ValueDropdownItem>();

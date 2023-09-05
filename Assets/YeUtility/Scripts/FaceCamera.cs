@@ -1,5 +1,6 @@
 using UnityEngine;
-namespace CommonUnit
+
+namespace YeUtility
 {
     public class FaceCamera : MonoBehaviour
     {
@@ -29,8 +30,7 @@ namespace CommonUnit
         // Update is called once per frame
         void LateUpdate()
         {
-            if (SelfUpdate)
-                update();
+            if (SelfUpdate) Tick();
             //trans.LookAt(cameraTrans);
             //print(trans.forward);
             //trans.rotation = Quaternion.identity;
@@ -41,7 +41,7 @@ namespace CommonUnit
             //trans.Rotate(rotDir, angle);
         }
 
-        public void update()
+        public void Tick()
         {
             if (axis == Axis.Z)
             {
