@@ -6,7 +6,7 @@
   "unity": "2022.3",
   "unityRelease": "0f1",
   "dependencies": {
-	  "com.cysharp.messagepipe.zenject": "1.7.4",
+	  "com.cysharp.messagepipe.zenject": "1.7.4"
   },
   "author": {
     "name": "Meader"
