@@ -8,11 +8,12 @@
   "dependencies": {
   },
   "author": {
-    "name": "Meader"
+    "name": "Meader",
+    "email": "ka1ss2ps@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/GeorgeHuang/YeUtility.git"
+    "url": "https://github.com/GeorgeHuang/YeUtility.git?path=Assets/YeUtility"
   },
   "samples": [
   ]

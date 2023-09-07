@@ -9,20 +9,19 @@ using System.Collections;
 #endif
 namespace OdinUnit
 {
-    public class ObjectRepo<T> : ScriptableObject where T : Object
+    public class ScriptableObjectRepo<T> : ScriptableObject where T : ScriptableObject
     {
-        [ReadOnly]
-        [SerializeField, ListDrawerSettings(Expanded = true)]
-        protected List<T> datas = new List<T>();
+        [ReadOnly] [SerializeField, ListDrawerSettings(ShowFoldout = true)]
+        protected List<T> datas = new();
 
-        public T GetData(string name)
+        public T GetData(string dataName)
         {
-            return datas.FirstOrDefault(data => data.name == name);
+            return datas.FirstOrDefault(x => x.name == dataName);
         }
 
-        public bool HasData(string name)
+        public bool HasData(string dataName)
         {
-            return datas.Any(x =>x.name == name);
+            return datas.Any(x =>x.name == dataName);
         }
 
         public IEnumerable<T> Datas => datas;
@@ -48,7 +47,7 @@ namespace OdinUnit
 
         public static IEnumerable GetDropdownOdin()
         {
-            var repo = OdinEditorHelpers.GetScriptableObject<ObjectRepo<T>>();
+            var repo = OdinEditorHelpers.GetScriptableObject<ScriptableObjectRepo<T>>();
             var rv = new List<ValueDropdownItem>();
             for (var i = 0; i < repo.Count; ++i)
             {

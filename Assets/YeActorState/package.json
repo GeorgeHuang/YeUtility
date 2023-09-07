@@ -1,0 +1,20 @@
+{
+  "name": "com.ye.yeactorstate",
+  "displayName": "YeActorState",
+  "description": "My Actor State Framework",
+  "version": "0.9.0",
+  "unity": "2022.3",
+  "unityRelease": "0f1",
+  "dependencies": {
+  },
+  "author": {
+    "name": "Meader",
+    "email": "ka1ss2ps@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GeorgeHuang/YeUtility.git?path=Assets/YeActorState"
+  },
+  "samples": [
+  ]
+}

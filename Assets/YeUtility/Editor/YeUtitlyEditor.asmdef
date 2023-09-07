@@ -1,0 +1,18 @@
+{
+    "name": "YeUtitlyEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2480862fdb054e243b819523d470c8bc"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
