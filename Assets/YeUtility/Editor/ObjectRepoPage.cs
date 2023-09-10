@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using OdinUnit;
 using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace YeUtility.Editor
         public ObjectRepoPage()
         {
             _repo = OdinEditorHelpers.GetScriptableObject<TR>();
+            if (_repo == null) return;
             _dataPath = Path.GetDirectoryName(AssetDatabase.GetAssetPath(_repo));
             RefreshNewData();
         }
@@ -32,7 +34,6 @@ namespace YeUtility.Editor
         [BoxGroup("新資料"), Button("選擇子型別"), PropertyOrder(-1)]
         public void ShowTypeSelector()
         {
-            
             var selector = new TypeSelector<T>();
             selector.SelectionConfirmed += selection =>
             {
@@ -49,7 +50,7 @@ namespace YeUtility.Editor
         [BoxGroup("新資料"), Button("新增資料", buttonSize:ButtonSizes.Large), PropertyOrder(0)]
         public void AddNewDataToRepo()
         {
-            if (_repo.HasData(_newDataFileName))
+            if (_repo == null || _repo.HasData(_newDataFileName))
             {
                 EditorUtility.DisplayDialog("錯誤", $"檔名已經存在 {_newDataFileName}", "OK");
                 return;
@@ -59,6 +60,15 @@ namespace YeUtility.Editor
             AssetDatabase.CreateAsset(_newData, newDataPath);
             _repo.UpdateList();
             RefreshNewData();
+        }
+
+        public void AddDateItem(OdinMenuTree tree, string key)
+        {
+            if (_repo == null) return;
+            foreach (var item in _repo.Datas)
+            {
+                tree.Add($"{key}/{item.name}", item);
+            }
         }
     }
 }

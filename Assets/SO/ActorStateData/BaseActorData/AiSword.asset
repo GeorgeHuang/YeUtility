@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6e0122c42744cfaae85cb46fce517f4, type: 3}
-  m_Name: YeActorBaseDataRepo
+  m_Script: {fileID: 11500000, guid: 91ab18aa386642c79a32926d226dd533, type: 3}
+  m_Name: AiSword
   m_EditorClassIdentifier: 
-  datas: []

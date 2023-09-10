@@ -20,8 +20,11 @@ namespace YeActorState.Editor
         protected override OdinMenuTree BuildMenuTree()
         {
             _tree = new OdinMenuTree(true);
-            
-            _tree.Add("角色基本屬性", new ObjectRepoPage<YeActorBaseDataRepo, YeActorBaseData>());
+
+            var page = new ObjectRepoPage<YeActorBaseDataRepo, YeActorBaseData>();
+            var key = "角色基本屬性";
+            _tree.Add(key, page);
+            page.AddDateItem(_tree, key);
             
             return _tree;
         }
