@@ -1,15 +1,17 @@
+using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using UnityEngine;
 using System.IO;
 using System.Linq;
+using OdinUnit;
+using Sirenix.OdinInspector;
 #if UNITY_EDITOR
 using UnityEditor;
-using System.Collections;
 #endif
-namespace OdinUnit
+using UnityEngine;
+
+namespace YeUtility
 {
-    public class ScriptableObjectRepo<T> : ScriptableObject where T : ScriptableObject
+    public class ScriptableObjectRepo<T> : ScriptableObject where T :ScriptableObject
     {
         [ReadOnly] [SerializeField, ListDrawerSettings(ShowFoldout = true)]
         protected List<T> datas = new();
@@ -27,7 +29,7 @@ namespace OdinUnit
         public IEnumerable<T> Datas => datas;
 
         public int Count => datas.Count;
-
+        
 #if UNITY_EDITOR
         [Button(ButtonSizes.Medium), PropertyOrder(-1)]
         public void UpdateList()
@@ -44,18 +46,17 @@ namespace OdinUnit
             }
             OdinEditorHelpers.SetDirty(this);
         }
-
-        public static IEnumerable GetDropdownOdin()
-        {
-            var repo = OdinEditorHelpers.GetScriptableObject<ScriptableObjectRepo<T>>();
-            var rv = new List<ValueDropdownItem>();
-            for (var i = 0; i < repo.Count; ++i)
-            {
-                var data = repo.datas[i];
-                rv.Add(new ValueDropdownItem ( data.name, data.name ));
-            }
-            return rv;
-        }
+//         public static IEnumerable GetDropdownOdin()
+//         {
+//             var repo = OdinEditorHelpers.GetScriptableObject<ScriptableObjectRepo<T>>();
+//             var rv = new List<ValueDropdownItem>();
+//             for (var i = 0; i < repo.Count; ++i)
+//             {
+//                 var data = repo.datas[i];
+//                 rv.Add(new ValueDropdownItem ( data.name, data.name ));
+//             }
+//             return rv;
+//         }
 #endif
     }
 }
