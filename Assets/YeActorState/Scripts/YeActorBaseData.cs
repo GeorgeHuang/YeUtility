@@ -13,7 +13,7 @@ namespace YeActorState
         [Serializable]
         public class PropertyData
         {
-            [ValueDropdown("@PropertyNames.GetDropdownOdin()")]
+            [ValueDropdown("@EditorHelper.PropertyNames")]
             public string name;
             public float value;
 

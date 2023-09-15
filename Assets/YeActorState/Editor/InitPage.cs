@@ -19,9 +19,10 @@ namespace YeActorState.Editor
         [BoxGroup("資料夾")]
         [FolderPath(RequireExistingPath = true, ParentFolder = "$rootPath"), OnValueChanged("CheckDir")]
         public string actorDataDirName = "ActorData";
-
+        
         [BoxGroup("資料庫")] public PropertyNames propertyNames;
         [BoxGroup("資料庫")] public YeActorBaseDataRepo actorBaseDataRepo;
+        [BoxGroup("資料庫")] public ActorDataTemplateRepo templateRepo;
 
         private bool showCreateDirButton = false;
         private bool hasRootDir;
@@ -57,7 +58,7 @@ namespace YeActorState.Editor
         }
 
         [BoxGroup("資料庫"), Button("建立資料庫")]
-        void CreateDataBase()
+        private void CreateDataBase()
         {
             var hasFile = propertyNames != null;
             if (hasFile == false)
@@ -65,6 +66,16 @@ namespace YeActorState.Editor
             hasFile = actorBaseDataRepo != null;
             if (hasFile == false)
                 actorBaseDataRepo = OdinEditorHelpers.CreateScriptableObject<YeActorBaseDataRepo>(actorDataPath);
+        }
+
+        [BoxGroup("資料庫"), Button("建立角色模板庫")]
+        private void CreateActorDataTemplate()
+        {
+            templateRepo = OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>();
+            if (templateRepo == null)
+            {
+                templateRepo = OdinEditorHelpers.CreateScriptableObject<ActorDataTemplateRepo>(metaPath);
+            }
         }
     }
 }

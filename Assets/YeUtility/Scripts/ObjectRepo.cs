@@ -8,6 +8,7 @@ namespace YeUtility
 {
     public class ObjectRepo<T> : ScriptableObject where T : INamedObject
     {
+        [Searchable]
         [SerializeField] protected List<T> datas = new();
 
         public int Count => datas.Count;

@@ -1,3 +1,4 @@
+using OdinUnit;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
@@ -24,10 +25,16 @@ namespace YeActorState.Editor
             var key = "總覽";
             _tree.Add(key, new InitPage());
 
+            key = "屬性總表";
+            _tree.Add(key, OdinEditorHelpers.GetScriptableObject<PropertyNames>());
+
             key = "角色基本屬性";
             var page = new ObjectRepoPage<YeActorBaseDataRepo, YeActorBaseData>();
             _tree.Add(key, page);
             page.AddDateItem(_tree, key);
+
+            key = "角色模板";
+            _tree.Add(key, OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>());
             
             return _tree;
         }
