@@ -12,4 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0a4eaa6a4b4075ae0ffdeb6f64f831, type: 3}
   m_Name: ActorDataTemplateRepo
   m_EditorClassIdentifier: 
-  datas: []
+  datas:
+  - displayName: "\u73A9\u5BB6\u6A21\u677F"
+    keyName: PlayerTemplate
+    propertyNames:
+    - Hp
+    - HpRecovery
+    - Mp
+    - MpRecovery
+    - MoveSpeed
+    - EatStoneDis
+    - DamageReduce
+    - BlockDamageReduce
+    - InvBodyTime
+    - DashAmount
+    - DashCoolingTime
+    - BlockRate
+    - CtriRate
+    - CtriDamgeRatio

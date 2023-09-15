@@ -9,7 +9,7 @@ namespace YeActorState
     [Serializable]
     public class ActorDataTemplate : NamedObject
     {
-        [ValueDropdown("@EditorHelper.PropertyNames")]
-        [SerializeField] private List<PropertyNames> datas;
+        [ValueDropdown("@EditorHelper.PropertyNames", IsUniqueList = true)]
+        public List<string> propertyNames;
     }
 }

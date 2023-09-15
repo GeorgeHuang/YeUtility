@@ -8,7 +8,7 @@ using YeUtility;
 namespace YeActorState
 {
     [CreateAssetMenu(menuName = "Tools/Create PropertyNames", fileName = "PropertyNames", order = 0)]
-    public class PropertyNames : ObjectRepo<PropertyNames.Data>
+    public class PropertyNames : ObjectRepo<PropertyNames, PropertyNames.Data>
     {
         
         [Serializable]

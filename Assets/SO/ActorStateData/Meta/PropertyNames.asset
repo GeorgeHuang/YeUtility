@@ -16,7 +16,7 @@ MonoBehaviour:
   - displayName: "\u6700\u5927Hp"
     name: Hp
     terms: 
-  - displayName: "HP\u518D\u751F"
+  - displayName: "Hp\u518D\u751F"
     name: HpRecovery
     terms: 
   - displayName: "\u64CA\u4E2DHp\u6062\u5FA9%"

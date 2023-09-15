@@ -6,21 +6,40 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class ObjectRepo<T> : ScriptableObject where T : INamedObject
+    public class ObjectRepo<RT, T> : ScriptableObject where RT : ObjectRepo<RT, T> where T : INamedObject
     {
         [Searchable]
         [SerializeField] protected List<T> datas = new();
 
         public int Count => datas.Count;
         
-        public static IEnumerable GetDropdownOdin()
+        public static IEnumerable GetStringDropdown()
         {
-            var repo = OdinEditorHelpers.GetScriptableObject<ObjectRepo<T>>();
+            var repo = OdinEditorHelpers.GetScriptableObject<RT>();
+            if (repo == null)
+            {
+                return new List<ValueDropdownItem>();
+            }
             var rv = new List<ValueDropdownItem>();
             for (var i = 0; i < repo.Count; ++i)
             {
                 var data = repo.datas[i];
                 rv.Add(new ValueDropdownItem ( data.GetDisplayName(), data.GetKeyName() ));
+            }
+            return rv;
+        }
+        public static IEnumerable GetObjectDropdown()
+        {
+            var repo = OdinEditorHelpers.GetScriptableObject<RT>();
+            if (repo == null)
+            {
+                return new List<ValueDropdownItem>();
+            }
+            var rv = new List<ValueDropdownItem>();
+            for (var i = 0; i < repo.Count; ++i)
+            {
+                var data = repo.datas[i];
+                rv.Add(new ValueDropdownItem ( data.GetDisplayName(), data ));
             }
             return rv;
         }

@@ -1,15 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace YeActorState
 {
     public class YeActorBaseData : SerializedScriptableObject 
     {
-        [SerializeField] private List<PropertyData> properties = new ();
-        
+        [SerializeField] public List<PropertyData> properties = new ();
+
+        public void AddPropertyData(string name, float value = 0)
+        {
+            if (properties.Any(x => x.name == name))
+                return;
+            properties.Add(new PropertyData{name = name, value = value});
+        }
+
         [Serializable]
         public class PropertyData
         {
@@ -30,5 +39,6 @@ namespace YeActorState
                 set => this.value = value;
             }
         }
+
     }
 }

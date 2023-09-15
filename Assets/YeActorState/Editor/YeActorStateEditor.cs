@@ -31,7 +31,15 @@ namespace YeActorState.Editor
             key = "角色基本屬性";
             var page = new ObjectRepoPage<YeActorBaseDataRepo, YeActorBaseData>();
             _tree.Add(key, page);
-            page.AddDateItem(_tree, key);
+            //page.AddDateItem(_tree, key);
+            var actorDataRepo = OdinEditorHelpers.GetScriptableObject<YeActorBaseDataRepo>();
+            if (actorDataRepo != null)
+            {
+                actorDataRepo.Datas.ForEach(x =>
+                {
+                    _tree.Add($"{key}/{x.name}", new ActorDataPage(x));
+                });
+            }
 
             key = "角色模板";
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>());

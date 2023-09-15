@@ -24,5 +24,29 @@ MonoBehaviour:
   properties:
   - name: Hp
     value: 100
+  - name: HpRecovery
+    value: 0
   - name: Mp
+    value: 0
+  - name: MpRecovery
+    value: 0
+  - name: MoveSpeed
+    value: 0
+  - name: EatStoneDis
+    value: 0
+  - name: DamageReduce
+    value: 0
+  - name: BlockDamageReduce
+    value: 0
+  - name: InvBodyTime
+    value: 0
+  - name: DashAmount
+    value: 0
+  - name: DashCoolingTime
+    value: 0
+  - name: BlockRate
+    value: 0
+  - name: CtriRate
+    value: 0
+  - name: CtriDamgeRatio
     value: 0
