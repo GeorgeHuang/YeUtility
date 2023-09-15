@@ -476,7 +476,7 @@ namespace YeUtility
             return actorUIPos;
         }
 
-        private static string ToMiniJson(System.Object obj)
+        public static string ToMiniJson(System.Object obj)
         {
             return MiniJSON.Json.Serialize(obj);
         }
@@ -734,9 +734,24 @@ namespace YeUtility
             return dir.normalized;
         }
 
+        public static bool HasDir(string pathName)
+        {
+            return Directory.Exists(path: pathName);
+        }
+
+        public static void CreateDir(string pathName)
+        {
+            var rv = Directory.CreateDirectory(pathName);
+            Debug.Log(rv);
+        }
         public static bool FileExists(string saveFileName)
         {
             return File.Exists(saveFileName);
+        }
+
+        public static string PathCombine(string[] pathArray)
+        {
+            return Path.Combine(pathArray);
         }
 
         public static void SaveFile(string saveFileName, byte[] saveData)

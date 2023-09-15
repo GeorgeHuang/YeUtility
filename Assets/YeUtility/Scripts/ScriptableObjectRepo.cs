@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class ScriptableObjectRepo<T> : ScriptableObject where T :ScriptableObject
+    public class ScriptableObjectRepo<T> : ScriptableObject where T : ScriptableObject
     {
         [ReadOnly] [SerializeField, ListDrawerSettings(ShowFoldout = true)]
         protected List<T> datas = new();

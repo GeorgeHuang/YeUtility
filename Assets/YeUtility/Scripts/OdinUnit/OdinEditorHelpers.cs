@@ -15,12 +15,13 @@ namespace OdinUnit
             EditorUtility.SetDirty(obj);
 #endif
         }
+
         public static List<T> GetObjList<T>(string path) where T : Object
         {
             var rv = new List<T>();
 #if UNITY_EDITOR
             var temp1 = AssetDatabase.FindAssets("a:all",
-                                                 new string[] { path });
+                new string[] { path });
             foreach (var id in temp1)
             {
                 var objPath = AssetDatabase.GUIDToAssetPath(id);
@@ -30,21 +31,32 @@ namespace OdinUnit
 #endif
             return rv;
         }
-        public static T GetScriptableObject<T>() where T : ScriptableObject
+
+        public static T CreateScriptableObject<T>(string path) where T : ScriptableObject
         {
-            var list = GetScriptableObjects<T>();
+            var newFile = ScriptableObject.CreateInstance<T>();
+            var newFileType = typeof(T).ToString().Split(".").LastOrDefault();
+            var newFilePath = $"{path}\\{newFileType}.asset";
+            AssetDatabase.CreateAsset(newFile, newFilePath);
+            return newFile;
+        }
+
+        public static T GetScriptableObject<T>(string path = "Assets") where T : ScriptableObject
+        {
+            var list = GetScriptableObjects<T>(path);
             return list.Any() ? list.First() : null;
         }
-        public static List<T> GetScriptableObjects<T>() where T : ScriptableObject
+
+        public static List<T> GetScriptableObjects<T>(string path = "Assets") where T : ScriptableObject
         {
-            var ts   = new List<T>();
+            var ts = new List<T>();
 #if UNITY_EDITOR
             var type = typeof(T);
-            var guids2 = AssetDatabase.FindAssets($"t:{type}");
+            var guids2 = AssetDatabase.FindAssets($"t:{type}", new[] { path });
             foreach (var guid2 in guids2)
             {
                 var assetPath = AssetDatabase.GUIDToAssetPath(guid2);
-                ts.Add((T)AssetDatabase.LoadAssetAtPath(assetPath , type));
+                ts.Add((T)AssetDatabase.LoadAssetAtPath(assetPath, type));
             }
 #endif
             return ts;

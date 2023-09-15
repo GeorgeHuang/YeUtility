@@ -21,8 +21,11 @@ namespace YeActorState.Editor
         {
             _tree = new OdinMenuTree(true);
 
+            var key = "總覽";
+            _tree.Add(key, new InitPage());
+
+            key = "角色基本屬性";
             var page = new ObjectRepoPage<YeActorBaseDataRepo, YeActorBaseData>();
-            var key = "角色基本屬性";
             _tree.Add(key, page);
             page.AddDateItem(_tree, key);
             

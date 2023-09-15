@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   properties:
-  - name: BaseHp
+  - name: Hp
     value: 100
-  - name: 
+  - name: Mp
     value: 0

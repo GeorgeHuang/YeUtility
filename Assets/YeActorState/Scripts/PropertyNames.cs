@@ -1,16 +1,32 @@
+using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
+using YeUtility;
 
 namespace YeActorState
 {
-    public class PropertyNames : ScriptableObject
+    [CreateAssetMenu(menuName = "Tools/Create PropertyNames", fileName = "PropertyNames", order = 0)]
+    public class PropertyNames : ObjectRepo<PropertyNames.Data>
     {
-        [SerializeField] private List<Data> datas = new();
-        public class Data
+        
+        [Serializable]
+        public class Data : INamedObject
         {
-            [SerializeField] private string displayName;
-            [SerializeField] private string name;
-            [SerializeField] private string terms;
+            public string displayName;
+            public string name;
+            public string terms;
+            
+            public string GetDisplayName()
+            {
+                return displayName;
+            }
+
+            public string GetKeyName()
+            {
+                return name;
+            }
         }
     }
 }

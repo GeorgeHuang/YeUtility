@@ -13,6 +13,7 @@ namespace YeActorState
         [Serializable]
         public class PropertyData
         {
+            [ValueDropdown("@PropertyNames.GetDropdownOdin()")]
             public string name;
             public float value;
 
@@ -28,11 +29,6 @@ namespace YeActorState
                 get => value;
                 set => this.value = value;
             }
-        }
-
-        public class PropertyNames : ScriptableObject
-        {
-            [SerializeField] private List<string> _names = new();
         }
     }
 }
