@@ -12,3 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ab18aa386642c79a32926d226dd533, type: 3}
   m_Name: AiSword
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  properties:
+  - name: Hp
+    value: 0
+  - name: HpRecovery
+    value: 0
+  - name: Mp
+    value: 0
+  - name: MpRecovery
+    value: 0
+  - name: MoveSpeed
+    value: 0
+  - name: EatStoneDis
+    value: 0
+  - name: DamageReduce
+    value: 0
+  - name: BlockDamageReduce
+    value: 0
+  - name: InvBodyTime
+    value: 0
+  - name: DashAmount
+    value: 0
+  - name: DashCoolingTime
+    value: 0
+  - name: BlockRate
+    value: 0
+  - name: CtriRate
+    value: 0
+  - name: CtriDamgeRatio
+    value: 0
