@@ -23,20 +23,20 @@ namespace YeUtility
 
         public bool HasData(string dataName)
         {
-            return datas.Any(x =>x.name == dataName);
+            return datas.Any(x => x.name == dataName);
         }
 
         public IEnumerable<T> Datas => datas;
 
         public int Count => datas.Count;
-        
+
 #if UNITY_EDITOR
         [Button(ButtonSizes.Medium), PropertyOrder(-1)]
         public void UpdateList()
         {
             datas.Clear();
             var temp = AssetDatabase.GetAssetPath(this);
-            temp = Path.GetDirectoryName(temp);//.Replace("\\","/");
+            temp = Path.GetDirectoryName(temp); //.Replace("\\","/");
             var temp1 = AssetDatabase.FindAssets("a:all", new string[] { temp });
             foreach (var id in temp1)
             {
@@ -44,19 +44,22 @@ namespace YeUtility
                 var obj = AssetDatabase.LoadAssetAtPath<T>(path);
                 if (obj != null) datas.Add(obj);
             }
+
             OdinEditorHelpers.SetDirty(this);
         }
-//         public static IEnumerable GetDropdownOdin()
-//         {
-//             var repo = OdinEditorHelpers.GetScriptableObject<ScriptableObjectRepo<T>>();
-//             var rv = new List<ValueDropdownItem>();
-//             for (var i = 0; i < repo.Count; ++i)
-//             {
-//                 var data = repo.datas[i];
-//                 rv.Add(new ValueDropdownItem ( data.name, data.name ));
-//             }
-//             return rv;
-//         }
+
+        public static IEnumerable GetStringDropdown()
+        {
+            var repo = OdinEditorHelpers.GetScriptableObject<ScriptableObjectRepo<T>>();
+            var rv = new List<ValueDropdownItem>();
+            for (var i = 0; i < repo.Count; ++i)
+            {
+                var data = repo.datas[i];
+                rv.Add(new ValueDropdownItem(data.name, data.name));
+            }
+
+            return rv;
+        }
 #endif
     }
 }

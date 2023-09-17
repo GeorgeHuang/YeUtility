@@ -9,5 +9,7 @@ namespace YeActorState.Editor
     {
         public static IEnumerable PropertyNames => PropertyNamesRepo.GetStringDropdown();
         public static IEnumerable ActorTemplates => ActorDataTemplateRepo.GetObjectDropdown();
+
+        public static IEnumerable BaseActorNames => YeActorBaseDataRepo.GetStringDropdown();
     }
 }

@@ -6,7 +6,6 @@
         {
             [Inject] private YeActorBaseDataRepo actorBaseDataRepo;
 
-
             public int AddActor(string name)
             {
                 foreach (var baseData in actorBaseDataRepo.Datas)
@@ -20,7 +19,7 @@
             
             public int AddActor(YeActorBaseData baseData)
             {
-                return -1;
+                return baseData ? 1 : -1;
             }
         }
     }
