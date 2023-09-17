@@ -2,7 +2,7 @@ using YeUtility;
 
 namespace YeActorState
 {
-    public class YeActorBaseDataRepo : ScriptableObjectRepo<YeActorBaseData>
+    public class YeActorBaseDataRepo : ScriptableObjectRepo<YeActorBaseDataRepo, YeActorBaseData>
     {
         
     }

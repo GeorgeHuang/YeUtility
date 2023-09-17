@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class ScriptableObjectRepo<T> : ScriptableObject where T : ScriptableObject
+    public class ScriptableObjectRepo<TR, T> : ScriptableObject where TR : ScriptableObjectRepo<TR, T> where T : ScriptableObject
     {
         [ReadOnly] [SerializeField, ListDrawerSettings(ShowFoldout = true)]
         protected List<T> datas = new();
@@ -50,7 +50,7 @@ namespace YeUtility
 
         public static IEnumerable GetStringDropdown()
         {
-            var repo = OdinEditorHelpers.GetScriptableObject<ScriptableObjectRepo<T>>();
+            var repo = OdinEditorHelpers.GetScriptableObject<TR>();
             var rv = new List<ValueDropdownItem>();
             for (var i = 0; i < repo.Count; ++i)
             {
@@ -58,6 +58,18 @@ namespace YeUtility
                 rv.Add(new ValueDropdownItem(data.name, data.name));
             }
 
+            return rv;
+        }
+
+        public static IEnumerable GetObjectDropdown()
+        {
+            var repo = OdinEditorHelpers.GetScriptableObject<TR>();
+            var rv = new List<ValueDropdownItem>();
+            for (var i = 0; i < repo.Count; ++i)
+            {
+                var data = repo.datas[i];
+                rv.Add(new ValueDropdownItem(data.name, data));
+            }
             return rv;
         }
 #endif

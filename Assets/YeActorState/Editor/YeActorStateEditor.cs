@@ -7,7 +7,7 @@ using YeUtility.Editor;
 
 namespace YeActorState.Editor
 {
-    public class YeActorStateEditor :OdinMenuEditorWindow
+    public class YeActorStateEditor : OdinMenuEditorWindow
     {
         private OdinMenuTree _tree;
 
@@ -35,15 +35,12 @@ namespace YeActorState.Editor
             var actorDataRepo = OdinEditorHelpers.GetScriptableObject<YeActorBaseDataRepo>();
             if (actorDataRepo != null)
             {
-                actorDataRepo.Datas.ForEach(x =>
-                {
-                    _tree.Add($"{key}/{x.name}", new ActorDataPage(x));
-                });
+                actorDataRepo.Datas.ForEach(x => { _tree.Add($"{key}/{x.name}", new ActorDataPage(x)); });
             }
 
             key = "角色模板";
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>());
-            
+
             return _tree;
         }
     }

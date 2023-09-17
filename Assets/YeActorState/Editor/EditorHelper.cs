@@ -11,5 +11,6 @@ namespace YeActorState.Editor
         public static IEnumerable ActorTemplates => ActorDataTemplateRepo.GetObjectDropdown();
 
         public static IEnumerable BaseActorNames => YeActorBaseDataRepo.GetStringDropdown();
+        public static IEnumerable BaseActorData => YeActorBaseDataRepo.GetObjectDropdown();
     }
 }

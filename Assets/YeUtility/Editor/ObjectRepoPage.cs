@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace YeUtility.Editor
 {
-    public class ObjectRepoPage<TR, T> where TR : ScriptableObjectRepo<T> where T : ScriptableObject
+    public class ObjectRepoPage<TR, T> where TR : ScriptableObjectRepo<TR, T> where T : ScriptableObject
     {
         
         [BoxGroup("新資料"), LabelText("新資料檔名"), SerializeField] private string _newDataFileName;

@@ -4,7 +4,7 @@
     {
         public class YeActorStateSys
         {
-            [Inject] private YeActorBaseDataRepo actorBaseDataRepo;
+            [Inject, InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
 
             public int AddActor(string name)
             {
