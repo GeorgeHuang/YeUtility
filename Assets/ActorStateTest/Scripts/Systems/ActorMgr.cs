@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using ActorStateTest.Data;
 using ActorStateTest.Element;
-using UnityEngine;
 using UnityEngine.Assertions;
 using YeActorState;
 using Zenject;
@@ -22,11 +20,13 @@ namespace ActorStateTest.Systems
 
             var yeActorHandler = yeActorStateSys.AddActor(actorData.yeActorBaseData);
 
-            var perimeter = new List<object> {yeActorHandler};
-            
+            var perimeter = new List<object> { yeActorHandler };
+
             var player = container.InstantiatePrefabForComponent<Player>(actorData.modelPrefab, perimeter);
-            player.Initialize();
-            
+            var playerInstaller = player.GetComponent<PlayerInstaller>();
+            container.Inject(playerInstaller, perimeter);
+            playerInstaller.InstallBindings();
+
             ActorHandler rv = new();
             perimeter.Add(player.gameObject);
             perimeter.Add(player);
