@@ -9,7 +9,8 @@ namespace ActorStateTest.Systems
     public class ShootingRageConfig : ScriptableObjectInstaller
     {
         [SerializeField] private YeActorBaseDataRepo actorBaseDataRepo;
-        [ValueDropdown("@EditorHelper.BaseActorNames")]
+        
+        [ValueDropdown("@EditorHelper.ActorNames")]
         [SerializeField] public string PlayerDataName;
 
         public override void InstallBindings()

@@ -10,7 +10,7 @@ namespace YeActorState.Editor
     {
         [SerializeField, InlineEditor] private YeActorBaseData data;
 
-        [ValueDropdown("@EditorHelper.ActorTemplates")]
+        [ValueDropdown("@YeActorStateEditorHelper.ActorTemplates")]
         [SerializeField] private ActorDataTemplate template;
         
         public ActorDataPage(YeActorBaseData data)

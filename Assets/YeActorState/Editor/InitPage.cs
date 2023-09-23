@@ -33,6 +33,7 @@ namespace YeActorState.Editor
             CheckDir();
             propertyNames = OdinEditorHelpers.GetScriptableObject<PropertyNames>(metaPath);
             actorBaseDataRepo = OdinEditorHelpers.GetScriptableObject<YeActorBaseDataRepo>(actorDataPath);
+            templateRepo = OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>(metaPath);
         }
 
         private void CheckDir()

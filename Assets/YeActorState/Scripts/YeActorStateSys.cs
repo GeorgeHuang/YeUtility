@@ -1,25 +1,28 @@
-    using Zenject;
+using Zenject;
 
-    namespace YeActorState
+namespace YeActorState
+{
+    public class YeActorStateSys
     {
-        public class YeActorStateSys
+        [InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
+        [Inject] private DiContainer container;
+
+        public ActorStateHandler AddActor(string name)
         {
-            [Inject, InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
-
-            public int AddActor(string name)
+            foreach (var baseData in actorBaseDataRepo.Datas)
             {
-                foreach (var baseData in actorBaseDataRepo.Datas)
-                {
-                    if (baseData.name == name)
-                        return AddActor(baseData);
-                }
+                if (baseData.name == name)
+                    return AddActor(baseData);
+            }
 
-                return -1;
-            }
-            
-            public int AddActor(YeActorBaseData baseData)
-            {
-                return baseData ? 1 : -1;
-            }
+            return null;
+        }
+
+        public ActorStateHandler AddActor(YeActorBaseData baseData)
+        {
+            var rv = container.Instantiate<ActorStateHandler>();
+            container.Inject(rv, new[] { baseData });
+            return rv;
         }
     }
+}

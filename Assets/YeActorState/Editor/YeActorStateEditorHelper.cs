@@ -5,7 +5,7 @@ using ActorDataTemplateRepo = YeActorState.ActorDataTemplate;
 
 namespace YeActorState.Editor
 {
-    public class EditorHelper
+    public class YeActorStateEditorHelper
     {
         public static IEnumerable PropertyNames => PropertyNamesRepo.GetStringDropdown();
         public static IEnumerable ActorTemplates => ActorDataTemplateRepo.GetObjectDropdown();

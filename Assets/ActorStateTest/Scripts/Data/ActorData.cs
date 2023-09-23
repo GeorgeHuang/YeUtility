@@ -1,6 +1,6 @@
-using MergetoolGui;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 using YeActorState;
 using YeUtility;
 
@@ -13,6 +13,7 @@ namespace ActorStateTest.Data
         public YeActorBaseData yeActorBaseData;
 
         public string displayName;
+        [SerializeField] public GameObject modelPrefab;
 
         public string GetDisplayName()
         {

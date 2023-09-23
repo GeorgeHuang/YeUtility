@@ -22,7 +22,7 @@ namespace YeActorState
         [Serializable]
         public class PropertyData
         {
-            [ValueDropdown("@EditorHelper.PropertyNames")]
+            [ValueDropdown("@YeActorStateEditorHelper.PropertyNames")]
             public string name;
             public float value;
 
