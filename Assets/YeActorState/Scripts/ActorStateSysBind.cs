@@ -7,6 +7,7 @@ namespace YeActorState
     {
         public override void InstallBindings()
         {
+            //Container.Bind<ActorStateHandler>().FromInstance(new ActorStateHandler(null));
             Container.Bind<YeActorStateSys>().AsSingle();
         }
     }

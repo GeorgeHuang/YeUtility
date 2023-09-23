@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using YeActorState;
+using Zenject;
 
 namespace ActorStateTest.Systems
 {
     public class ActorHandler
     {
-        private readonly ActorStateHandler yeActorHandler;
-        private readonly GameObject gameObject;
+        [Inject] private readonly ActorStateHandler yeActorHandler;
+        [Inject] private readonly GameObject gameObject;
+        [Inject] private Player player;
 
-        public ActorHandler(ActorStateHandler yeActorHandler, GameObject gameObject)
+        public void Move(Vector3 moveDir)
         {
-            this.yeActorHandler = yeActorHandler;
-            this.gameObject = gameObject;
+            player.Move(moveDir);
         }
     }
 }

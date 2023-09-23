@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Zenject;
 
 namespace YeActorState
@@ -20,9 +21,11 @@ namespace YeActorState
 
         public ActorStateHandler AddActor(YeActorBaseData baseData)
         {
-            //var rv = container.Instantiate<ActorStateHandler>();
-            var rv = new ActorStateHandler(baseData);
-            //container.Inject(rv, new[] { baseData });
+            var rv = new ActorStateHandler();
+            var runtime = new YeActorRuntimeData();
+            runtime.Setup(baseData);
+            var perimeter = new List<object> { runtime, baseData };
+            container.Inject(rv, perimeter);
             return rv;
         }
     }

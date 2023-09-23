@@ -1,4 +1,7 @@
-﻿using ActorStateTest.Data;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using ActorStateTest.Data;
+using UnityEngine;
 using UnityEngine.Assertions;
 using YeActorState;
 using Zenject;
@@ -17,9 +20,17 @@ namespace ActorStateTest.Systems
             Assert.IsNotNull(actorData, $"沒找到角色 {name}");
 
             var yeActorHandler = yeActorStateSys.AddActor(actorData.yeActorBaseData);
-            var gameObject = container.InstantiatePrefab(actorData.modelPrefab);
+
+            var perimeter = new List<object> {yeActorHandler};
             
-            ActorHandler rv = new(yeActorHandler, gameObject);
+            var player = container.InstantiatePrefabForComponent<Player>(actorData.modelPrefab, perimeter);
+            player.Initialize();
+            
+            ActorHandler rv = new();
+            perimeter.Add(player.gameObject);
+            perimeter.Add(player);
+            container.Inject(rv, perimeter);
+
             return rv;
         }
     }

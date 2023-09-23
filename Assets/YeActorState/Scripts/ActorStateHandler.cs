@@ -4,11 +4,12 @@ namespace YeActorState
 {
     public class ActorStateHandler
     {
-        private YeActorBaseData actorBaseData;
+        [Inject] private YeActorBaseData actorBaseData;
+        [Inject] private YeActorRuntimeData runtimeData;
 
-        public ActorStateHandler(YeActorBaseData actorBaseData)
+        public float GetProperty(string propertyName)
         {
-            this.actorBaseData = actorBaseData;
+            return runtimeData.GetProperty(propertyName);
         }
     }
 }

@@ -19,10 +19,10 @@ namespace ActorStateTest.Systems
 
         public void Tick()
         {
-            var key = Input.GetKeyUp(KeyCode.A);
-            if (key && mainActorStateHandler == null)
+            var key = Input.GetKeyDown(KeyCode.A);
+            if (key)
             {
-                mainActorStateHandler = actorMgr.CreatePlayer(_config.PlayerDataName);
+                mainActorStateHandler.Move(Vector3.left);
             }
         }
     }

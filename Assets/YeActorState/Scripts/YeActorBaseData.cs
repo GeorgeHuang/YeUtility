@@ -12,11 +12,16 @@ namespace YeActorState
     {
         [SerializeField] public List<PropertyData> properties = new ();
 
-        public void AddPropertyData(string name, float value = 0)
+        public float GetProperty(string _name)
         {
-            if (properties.Any(x => x.name == name))
+            return properties.FirstOrDefault(x => x.Name == _name)!.value;
+        }
+
+        public void AddPropertyData(string _name, float value = 0)
+        {
+            if (properties.Any(x => x.Name == _name))
                 return;
-            properties.Add(new PropertyData{name = name, value = value});
+            properties.Add(new PropertyData{name = _name, value = value});
         }
 
         [Serializable]
