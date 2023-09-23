@@ -10,7 +10,8 @@ namespace ActorStateTest.Element
     {
         [Inject] private TimeSys timeSys;
         [Inject] private MoveHandler moveHandler;
-        [Inject] private ActorStateHandler actorStateHandler;
+
+        public ActorStateHandler ActorStateHandler { get; set; }
 
         public Transform Trans { get; private set; }
 
@@ -22,12 +23,22 @@ namespace ActorStateTest.Element
         public void Initialize()
         {
             Trans = transform;
-            moveHandler.Initialize();
-            Debug.Log($"{GetHashCode()}");
+            //Debug.Log($"{GetHashCode()}");
         }
 
-        private void Update()
+        public float GetProperty(string propertyName)
         {
+            return ActorStateHandler.GetRuntimeProperty(propertyName);
+        }
+
+        public void SetPos(Vector3 pos)
+        {
+            Trans.position = pos;
+        }
+
+        public Vector3 GetPos()
+        {
+            return Trans.position;
         }
     }
 }

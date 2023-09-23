@@ -7,7 +7,7 @@ namespace YeActorState
         [Inject] private YeActorBaseData actorBaseData;
         [Inject] private YeActorRuntimeData runtimeData;
 
-        public float GetProperty(string propertyName)
+        public float GetRuntimeProperty(string propertyName)
         {
             return runtimeData.GetProperty(propertyName);
         }
