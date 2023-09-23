@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using ActorStateTest.Data;
+using ActorStateTest.Element;
 using UnityEngine;
 using UnityEngine.Assertions;
 using YeActorState;
