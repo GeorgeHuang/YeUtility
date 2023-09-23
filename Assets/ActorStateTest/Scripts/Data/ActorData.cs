@@ -9,7 +9,7 @@ namespace ActorStateTest.Data
     [CreateAssetMenu(fileName = "ActorData", menuName = "Tools/SO/Create ActorData", order = 0)]
     public class ActorData : ScriptableObject, INamedObject
     {
-        [ValueDropdown("@EditorHelper.BaseActorData")]
+        [ValueDropdown("@YeActorStateEditorHelper.BaseActorData")]
         public YeActorBaseData yeActorBaseData;
 
         public string displayName;

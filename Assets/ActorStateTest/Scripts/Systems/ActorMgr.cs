@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using ActorStateTest.Data;
+﻿using ActorStateTest.Data;
 using UnityEngine.Assertions;
 using YeActorState;
 using Zenject;
@@ -14,7 +13,6 @@ namespace ActorStateTest.Systems
 
         public ActorHandler CreatePlayer(string name)
         {
-
             var actorData = actorDataRepo.GetData(name);
             Assert.IsNotNull(actorData, $"沒找到角色 {name}");
 

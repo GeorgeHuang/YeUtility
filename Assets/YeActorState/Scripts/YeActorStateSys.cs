@@ -20,8 +20,9 @@ namespace YeActorState
 
         public ActorStateHandler AddActor(YeActorBaseData baseData)
         {
-            var rv = container.Instantiate<ActorStateHandler>();
-            container.Inject(rv, new[] { baseData });
+            //var rv = container.Instantiate<ActorStateHandler>();
+            var rv = new ActorStateHandler(baseData);
+            //container.Inject(rv, new[] { baseData });
             return rv;
         }
     }

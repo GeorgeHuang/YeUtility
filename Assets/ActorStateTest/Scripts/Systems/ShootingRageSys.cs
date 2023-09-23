@@ -9,7 +9,7 @@ namespace ActorStateTest.Systems
     {
         [Inject] private ShootingRageConfig _config;
         [Inject] private ActorMgr actorMgr;
-        
+
         private ActorHandler mainActorStateHandler;
 
         public void Initialize()
@@ -20,6 +20,10 @@ namespace ActorStateTest.Systems
         public void Tick()
         {
             var key = Input.GetKeyUp(KeyCode.A);
+            if (key && mainActorStateHandler == null)
+            {
+                mainActorStateHandler = actorMgr.CreatePlayer(_config.PlayerDataName);
+            }
         }
     }
 }

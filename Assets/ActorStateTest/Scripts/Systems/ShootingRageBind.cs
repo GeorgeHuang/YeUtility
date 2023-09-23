@@ -7,6 +7,7 @@ namespace ActorStateTest.Systems
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<ShootingRageSys>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ActorMgr>().AsSingle();
         }
     }
 }
