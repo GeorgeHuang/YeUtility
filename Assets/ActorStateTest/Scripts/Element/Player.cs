@@ -1,4 +1,5 @@
-﻿using ActorStateTest.Systems;
+﻿using System;
+using ActorStateTest.Systems;
 using UnityEngine;
 using YeActorState;
 using Zenject;
@@ -21,6 +22,12 @@ namespace ActorStateTest.Element
         public void Initialize()
         {
             Trans = transform;
+            moveHandler.Initialize();
+            Debug.Log($"{GetHashCode()}");
+        }
+
+        private void Update()
+        {
         }
     }
 }

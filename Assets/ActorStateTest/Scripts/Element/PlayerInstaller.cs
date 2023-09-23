@@ -4,17 +4,19 @@ using Zenject;
 
 namespace ActorStateTest.Element
 {
-    public class PlayerInstaller : MonoInstaller
+    public class PlayerInstaller : Installer
     {
-        [Inject] private ActorStateHandler actorStateHandler;
-        
+        private ActorStateHandler actorStateHandler;
+
+        public PlayerInstaller(ActorStateHandler actorStateHandler)
+        {
+            this.actorStateHandler = actorStateHandler;
+        }
+
         public override void InstallBindings()
         {
-            Container.BindInstance(transform);
             Container.BindInstance(actorStateHandler);
-            Container.BindInterfacesAndSelfTo<MoveHandler>().AsSingle();
-            var player = GetComponent<Player>();
-            Container.Inject(player);
+            Container.BindInterfacesAndSelfTo<MoveHandler>().AsTransient();
         }
     }
 }

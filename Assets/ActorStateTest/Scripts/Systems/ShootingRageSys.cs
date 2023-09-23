@@ -12,16 +12,19 @@ namespace ActorStateTest.Systems
         [Inject] private ActorMgr actorMgr;
 
         private ActorHandler mainActorStateHandler;
+        private ActorHandler mainActorStateHandler2;
 
         public void Initialize()
         {
             mainActorStateHandler = actorMgr.CreatePlayer(config.PlayerDataName);
+            mainActorStateHandler2 = actorMgr.CreatePlayer(config.PlayerDataName);
             inputState.MovePress.Subscribe(InputMovePress);
         }
 
         private void InputMovePress(Vector2 dir)
         {
             mainActorStateHandler.Move(dir);
+            mainActorStateHandler2.Move(dir);
         }
 
 

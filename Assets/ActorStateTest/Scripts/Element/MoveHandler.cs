@@ -5,10 +5,11 @@ namespace ActorStateTest.Element
 {
     public class MoveHandler : IInitializable, ITickable
     {
-        [Inject] private Transform trans;
+        [Inject] private Player player;
         
         public void Initialize()
         {
+            Debug.Log($"move handler move {this.GetHashCode()} {player.GetHashCode()}");
         }
 
         public void Tick()
@@ -17,7 +18,7 @@ namespace ActorStateTest.Element
 
         public void Move(Vector3 dir)
         {
-            Debug.Log("move handler move");
+            Debug.Log($"move handler move {this.GetHashCode()} {player.GetHashCode()}");
         }
     }
 }

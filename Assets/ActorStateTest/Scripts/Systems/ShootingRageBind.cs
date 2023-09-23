@@ -11,6 +11,7 @@ namespace ActorStateTest.Systems
             Container.BindInterfacesAndSelfTo<TimeSys>().AsSingle();
             Container.BindInterfacesAndSelfTo<ShootingRageSys>().AsSingle();
             Container.BindInterfacesAndSelfTo<ActorMgr>().AsSingle();
+
         }
     }
 }

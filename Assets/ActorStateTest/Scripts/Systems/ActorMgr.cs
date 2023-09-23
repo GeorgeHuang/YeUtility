@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using ActorStateTest.Data;
 using ActorStateTest.Element;
+using UnityEngine;
 using UnityEngine.Assertions;
 using YeActorState;
 using Zenject;
+using Object = UnityEngine.Object;
 
 namespace ActorStateTest.Systems
 {
@@ -12,6 +16,7 @@ namespace ActorStateTest.Systems
         [Inject] private ActorDataRepo actorDataRepo;
         [Inject] private YeActorStateSys yeActorStateSys;
         [Inject] private DiContainer container;
+        private bool bind = false;
 
         public ActorHandler CreatePlayer(string name)
         {
@@ -22,10 +27,31 @@ namespace ActorStateTest.Systems
 
             var perimeter = new List<object> { yeActorHandler };
 
-            var player = container.InstantiatePrefabForComponent<Player>(actorData.modelPrefab, perimeter);
-            var playerInstaller = player.GetComponent<PlayerInstaller>();
-            container.Inject(playerInstaller, perimeter);
-            playerInstaller.InstallBindings();
+            // container.Bind<MoveHandler>().FromSubContainerResolve().ByInstaller<PlayerInstaller>()
+            //     .WithArguments(perimeter).WhenInjectedInto<Player>().NonLazy();
+            // Debug.Log($"{container.HasBinding<Player>()}");
+            // if (!bind)
+            // {
+            //     bind = true;
+            //     //container.BindInterfacesAndSelfTo<Player>().FromComponentSibling().AsTransient();
+            //     container.BindInterfacesAndSelfTo<MoveHandler>().FromSubContainerResolve()
+            //         .ByMethod(c => PlayerInstallerMethod(c, yeActorHandler)).WhenInjectedInto<Player>();
+            // }
+            //
+            //var player = container.InstantiatePrefabForComponent<Player>(actorData.modelPrefab, perimeter);
+            var gameObject = Object.Instantiate(actorData.modelPrefab);
+            var player = gameObject.GetComponent<Player>();
+            var playerInstaller = player.GetComponent<PlayerMonoInstaller>();
+            playerInstaller.ActorStateHandler = yeActorHandler;
+
+            var gameContext = player.GetComponent<GameObjectContext>();
+            gameContext.Install(container);
+            
+            player.Initialize();
+
+            // var gameObject = Object.Instantiate(actorData.modelPrefab);
+            // var player = gameObject.GetComponent<Player>();
+            // container.Inject(player);
 
             ActorHandler rv = new();
             perimeter.Add(player.gameObject);
@@ -33,6 +59,13 @@ namespace ActorStateTest.Systems
             container.Inject(rv, perimeter);
 
             return rv;
+        }
+
+        private void PlayerInstallerMethod(DiContainer diContainer, ActorStateHandler actorStateHandler)
+        {
+            //diContainer.Bind<Player>().FromComponentOnRoot().AsSingle();
+            diContainer.BindInstance(actorStateHandler);
+            diContainer.BindInterfacesAndSelfTo<MoveHandler>().AsSingle();
         }
     }
 }
