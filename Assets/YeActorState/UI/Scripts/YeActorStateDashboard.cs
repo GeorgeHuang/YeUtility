@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OdinUnit;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -12,10 +13,13 @@ namespace YeActorState.UI
     public class YeActorStateDashboard : MonoInstaller
     {
         [SerializeField] private PropertyElement propertyElementPrefab;
+        [SerializeField] private PropertyEffectElement propertyEffectElementPrefab;
         [SerializeField] private List<Color> elementColos;
 
         [Inject(Id = "RuntimeListDropdown")] private TMP_Dropdown runtimeListDropdown;
         [Inject(Id = "PropertyContent")] private RectTransform propertyContentTrans;
+        [Inject(Id = "CurrentEffectViewContent")] private RectTransform CurrentEffectViewContentTrans;
+        [Inject(Id = "DatabaseEffectViewContent")] private RectTransform DatabaseEffectViewContentTrans;
         [Inject] private YeActorStateSys yeActorStateSys;
 
 
@@ -27,6 +31,22 @@ namespace YeActorState.UI
         {
             UpdateRuntimeDataDropdown();
             SetupPropertyContent(actorStateHandlers.First());
+            SetupDatabaseEffect();
+        }
+
+        private void SetupDatabaseEffect()
+        {
+            ClearViewContent(DatabaseEffectViewContentTrans);
+
+            var repo = OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>();
+            
+            foreach (var propertyEffectData in repo.Datas)
+            {
+                var effectElement =
+                    Container.InstantiatePrefabForComponent<PropertyEffectElement>(propertyEffectElementPrefab);
+                effectElement.transform.parent = DatabaseEffectViewContentTrans;
+                effectElement.Setup(propertyEffectData);
+            }
         }
 
         private void UpdateRuntimeDataDropdown()
@@ -47,10 +67,7 @@ namespace YeActorState.UI
 
         private void SetupPropertyContent(ActorStateHandler actorStateHandler)
         {
-            foreach (Transform c in propertyContentTrans.gameObject.transform)
-            {
-                Destroy(c.gameObject);
-            }
+            ClearViewContent(propertyContentTrans);
 
             if (actorStateHandlers == null) return;
 
@@ -64,6 +81,14 @@ namespace YeActorState.UI
                 propertyElement.Setup(propertyName, actorStateHandler,
                     elementColos[index % elementColos.Count]);
                 index++;
+            }
+        }
+
+        private static void ClearViewContent(RectTransform trans)
+        {
+            foreach (Transform c in trans.gameObject.transform)
+            {
+                Destroy(c.gameObject);
             }
         }
 
