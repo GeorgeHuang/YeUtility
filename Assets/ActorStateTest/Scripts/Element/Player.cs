@@ -1,4 +1,5 @@
 ﻿using System;
+using ActorStateTest.Data;
 using ActorStateTest.Systems;
 using UnityEngine;
 using YeActorState;
@@ -11,7 +12,7 @@ namespace ActorStateTest.Element
         [Inject] private TimeSys timeSys;
         [Inject] private MoveHandler moveHandler;
 
-        public ActorStateHandler ActorStateHandler { get; set; }
+        public IPropertyProvider PropertyProvider { get; set; }
 
         public Transform Trans { get; private set; }
 
@@ -23,12 +24,11 @@ namespace ActorStateTest.Element
         public void Initialize()
         {
             Trans = transform;
-            //Debug.Log($"{GetHashCode()}");
         }
 
         public float GetProperty(string propertyName)
         {
-            return ActorStateHandler.GetRuntimeProperty(propertyName);
+            return PropertyProvider.GetRuntimeProperty(propertyName);
         }
 
         public void SetPos(Vector3 pos)

@@ -12,7 +12,6 @@ namespace ActorStateTest.Systems
         [Inject] private ActorDataRepo actorDataRepo;
         [Inject] private YeActorStateSys yeActorStateSys;
         [Inject] private DiContainer container;
-        private bool bind = false;
 
         public ActorHandler CreatePlayer(string name)
         {
@@ -21,10 +20,10 @@ namespace ActorStateTest.Systems
 
             var yeActorHandler = yeActorStateSys.AddActor(actorData.yeActorBaseData);
 
-            var player = container.InstantiatePrefabForComponent<Player>(actorData.modelPrefab);
-            player.ActorStateHandler = yeActorHandler;
-
             ActorHandler rv = new();
+            var player = container.InstantiatePrefabForComponent<Player>(actorData.modelPrefab);
+            player.PropertyProvider = rv;
+
             var perimeter = new List<object>
             {
                 yeActorHandler,
@@ -34,13 +33,6 @@ namespace ActorStateTest.Systems
             container.Inject(rv, perimeter);
 
             return rv;
-        }
-
-        private void PlayerInstallerMethod(DiContainer diContainer, ActorStateHandler actorStateHandler)
-        {
-            //diContainer.Bind<Player>().FromComponentOnRoot().AsSingle();
-            diContainer.BindInstance(actorStateHandler);
-            diContainer.BindInterfacesAndSelfTo<MoveHandler>().AsSingle();
         }
     }
 }

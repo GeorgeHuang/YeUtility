@@ -1,6 +1,8 @@
-﻿using ActorStateTest.Data;
+﻿using System;
+using ActorStateTest.Data;
 using ActorStateTest.Systems;
 using NUnit.Framework;
+using YeActorState;
 using Zenject;
 
 namespace Test.MainTest
@@ -13,14 +15,24 @@ namespace Test.MainTest
         {
             var repo = OdinUnit.OdinEditorHelpers.GetScriptableObject<ActorDataRepo>();
             Container.BindInstance(repo);
+            Container.Bind<YeActorStateSys>().AsSingle();
             Container.BindInterfacesAndSelfTo<ActorMgr>().AsSingle();
         }
         
         [Test]
-        public void ActorMgrTestSimplePasses()
+        public void ActorMgrCreatePlayerErrorTest()
         {
             var actorMgr = Container.Resolve<ActorMgr>();
-            var handler = actorMgr.CreatePlayer("aaa");
+            var throwAssert = false;
+            try
+            {
+                actorMgr.CreatePlayer("aaa");
+            }
+            catch (Exception e)
+            {
+                throwAssert = true;
+            }
+            Assert.IsTrue(throwAssert, "沒丟出Assert");
         }
 
         // A UnityTest behaves like a coroutine in PlayMode
