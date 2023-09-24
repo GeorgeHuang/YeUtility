@@ -12,6 +12,7 @@ namespace YeUtility
         [SerializeField] protected List<T> datas = new();
 
         public int Count => datas.Count;
+        public IEnumerable<T> Datas => datas;
         
         public static IEnumerable GetStringDropdown()
         {

@@ -35,15 +35,10 @@ namespace YeActorState.Editor
                 var index = data.properties.FindIndex(x => x.Name == name);
                 if (index != i)
                 {
-                    swap(data.properties, index, i);
+                    newPropertyNames.Swap(index, i);
                 }
             }
             OdinEditorHelpers.SetDirty(data);
-            return;
-            void swap<T>(IList<T> L, int i, int j)
-            {
-                (L[i], L[j]) = (L[j], L[i]);
-            }
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using YeActorState.RuntimeCore;
 using Zenject;
 
 namespace YeActorState.UI
@@ -53,15 +54,38 @@ namespace YeActorState.UI
 
             if (actorStateHandlers == null) return;
 
+            var runtimes = SortRuntimeProperties(actorStateHandler);
+
             var index = 0;
-            foreach (DictionaryEntry runtimeProperty in actorStateHandler.AllRuntimeProperties)
+            foreach (var propertyName in runtimes)
             {
                 var propertyElement = Container.InstantiatePrefabForComponent<PropertyElement>(propertyElementPrefab);
                 propertyElement.transform.parent = propertyContentTrans;
-                propertyElement.Setup(runtimeProperty.Key as string, actorStateHandler,
+                propertyElement.Setup(propertyName, actorStateHandler,
                     elementColos[index % elementColos.Count]);
                 index++;
             }
+        }
+
+        //將 runtimeProperty 用總表順序排序
+        private List<string> SortRuntimeProperties(ActorStateHandler actorStateHandler)
+        {
+            var names = new List<string>();
+            var runtimes = (from DictionaryEntry runtimeProperty in actorStateHandler.AllRuntimeProperties
+                select runtimeProperty.Key as string).ToList();
+
+            foreach (var propertyNamesData in propertyNames.Datas)
+            {
+                var runtimePropertyKey = propertyNamesData.GetKeyName();
+                var runtimeIndex = runtimes.FindIndex(x => x == runtimePropertyKey);
+                if (runtimeIndex < 0) continue;
+                names.Add(runtimePropertyKey);
+                var nameIndex = names.Count - 1;
+                if (runtimeIndex == nameIndex) continue;
+                runtimes.Swap(runtimeIndex, nameIndex);
+            }
+
+            return runtimes;
         }
 
         public override void InstallBindings()

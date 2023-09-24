@@ -3,6 +3,7 @@ using ActorStateTest.Data;
 using ActorStateTest.Systems;
 using NUnit.Framework;
 using YeActorState;
+using YeActorState.RuntimeCore;
 using Zenject;
 
 namespace Test.MainTest

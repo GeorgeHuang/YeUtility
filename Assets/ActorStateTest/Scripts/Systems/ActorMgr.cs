@@ -3,6 +3,7 @@ using ActorStateTest.Data;
 using ActorStateTest.Element;
 using UnityEngine.Assertions;
 using YeActorState;
+using YeActorState.RuntimeCore;
 using Zenject;
 
 namespace ActorStateTest.Systems

@@ -1,4 +1,5 @@
 using UnityEngine;
+using YeActorState.RuntimeCore;
 using Zenject;
 
 namespace YeActorState

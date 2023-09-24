@@ -13,23 +13,29 @@ MonoBehaviour:
   m_Name: PropertyNames
   m_EditorClassIdentifier: 
   datas:
+  - displayName: "\u73FE\u6709Hp"
+    name: CurHp
+    terms: 
   - displayName: "\u6700\u5927Hp"
     name: Hp
     terms: 
+  - displayName: "\u6700\u5927Mp"
+    name: Mp
+    terms: 
+  - displayName: "\u73FE\u6709Mp"
+    name: CurMp
+    terms: 
   - displayName: "Hp\u518D\u751F"
     name: HpRecovery
+    terms: 
+  - displayName: "Mp\u518D\u751F"
+    name: MpRecovery
     terms: 
   - displayName: "\u64CA\u4E2DHp\u6062\u5FA9%"
     name: HpStealOnHit
     terms: 
   - displayName: "\u64CA\u6BBAHp\u6062\u5FA9%"
     name: HpStealOnKill
-    terms: 
-  - displayName: "\u6700\u5927Mp"
-    name: Mp
-    terms: 
-  - displayName: "Mp\u518D\u751F"
-    name: MpRecovery
     terms: 
   - displayName: "\u64CA\u6BBAMp\u6062\u5FA9%"
     name: MpStealOnKill
@@ -72,10 +78,4 @@ MonoBehaviour:
     terms: 
   - displayName: "\u9583\u907F\u6B21\u6578"
     name: DashAmount
-    terms: 
-  - displayName: "\u73FE\u6709Hp"
-    name: CurHp
-    terms: 
-  - displayName: "\u73FE\u6709Mp"
-    name: CurMp
     terms: 
