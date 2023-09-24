@@ -6,24 +6,30 @@ namespace YeActorState
 {
     public class ActorStateHandler
     {
-        [Inject] private YeActorBaseData actorBaseData;
-        [Inject] private YeActorRuntimeData runtimeData;
-        public Hashtable AllRuntimeProperties => runtimeData.AllProperties;
+        [field: Inject] internal YeActorBaseData ActorBaseData { get; }
+        [field: Inject] internal YeActorRuntimeData RuntimeData { get; }
+        [Inject] private YeActorStateSys yeActorStateSys;
+        
+        public Hashtable AllRuntimeProperties => RuntimeData.AllProperties;
 
         public float GetRuntimeProperty(string propertyName)
         {
-            return runtimeData.GetProperty(propertyName);
+            return RuntimeData.GetProperty(propertyName);
         }
 
         public string GetBaseDataName()
         {
-            return actorBaseData.name;
+            return ActorBaseData.name;
         }
 
         public void SetProperty(string propertyName, float value)
         {
-            runtimeData.SetProperty(propertyName, value);
+            RuntimeData.SetProperty(propertyName, value);
         }
-    
+
+        public void ApplyEffect(PropertyEffectData propertyEffectData)
+        {
+            yeActorStateSys.ApplyEffect(propertyEffectData, this);
+        }
     }
 }

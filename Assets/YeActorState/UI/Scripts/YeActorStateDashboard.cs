@@ -18,14 +18,20 @@ namespace YeActorState.UI
 
         [Inject(Id = "RuntimeListDropdown")] private TMP_Dropdown runtimeListDropdown;
         [Inject(Id = "PropertyContent")] private RectTransform propertyContentTrans;
-        [Inject(Id = "CurrentEffectViewContent")] private RectTransform CurrentEffectViewContentTrans;
-        [Inject(Id = "DatabaseEffectViewContent")] private RectTransform DatabaseEffectViewContentTrans;
+
+        [Inject(Id = "CurrentEffectViewContent")]
+        private RectTransform CurrentEffectViewContentTrans;
+
+        [Inject(Id = "DatabaseEffectViewContent")]
+        private RectTransform DatabaseEffectViewContentTrans;
+
         [Inject] private YeActorStateSys yeActorStateSys;
 
 
         private List<string> runtimeDropdownContent;
         private List<ActorStateHandler> actorStateHandlers;
         private PropertyNames propertyNames;
+        private ActorStateHandler curActorStateHandler;
 
         private void Start()
         {
@@ -39,13 +45,13 @@ namespace YeActorState.UI
             ClearViewContent(DatabaseEffectViewContentTrans);
 
             var repo = OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>();
-            
+
             foreach (var propertyEffectData in repo.Datas)
             {
                 var effectElement =
                     Container.InstantiatePrefabForComponent<PropertyEffectElement>(propertyEffectElementPrefab);
                 effectElement.transform.parent = DatabaseEffectViewContentTrans;
-                effectElement.Setup(propertyEffectData);
+                effectElement.Setup(propertyEffectData, curActorStateHandler);
             }
         }
 
@@ -67,6 +73,8 @@ namespace YeActorState.UI
 
         private void SetupPropertyContent(ActorStateHandler actorStateHandler)
         {
+            curActorStateHandler = actorStateHandler;
+            
             ClearViewContent(propertyContentTrans);
 
             if (actorStateHandlers == null) return;

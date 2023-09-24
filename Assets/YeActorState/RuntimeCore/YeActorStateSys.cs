@@ -29,11 +29,15 @@ namespace YeActorState.RuntimeCore
             var runtime = new YeActorRuntimeData();
             runtime.Setup(baseData);
             defaultPropertyProcessor.Processor(baseData, runtime);
-            var perimeter = new List<object> { runtime, baseData };
+            var perimeter = new List<object> { runtime, baseData, this };
             container.Inject(rv, perimeter);
             handlers.Add(rv);
             return rv;
         }
 
+        public void ApplyEffect(PropertyEffectData propertyEffectData, ActorStateHandler actorStateHandler)
+        {
+            propertyEffectData.Processor(actorStateHandler.ActorBaseData, actorStateHandler.RuntimeData);
+        }
     }
 }
