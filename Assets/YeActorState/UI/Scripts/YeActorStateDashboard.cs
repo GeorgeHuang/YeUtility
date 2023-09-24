@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OdinUnit;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -78,10 +79,12 @@ namespace YeActorState.UI
             SetupPropertyContent(actorStateHandlers[i]);
         }
 
-        private void SetupPropertyContent(ActorStateHandler actorStateHandler)
+        private async void SetupPropertyContent(ActorStateHandler actorStateHandler)
         {
             curActorStateHandler = actorStateHandler;
-            
+
+            await UniTask.WaitUntil(() => actorStateHandler.IsDirty == false);
+
             ClearViewContent(propertyContentTrans);
 
             if (actorStateHandlers == null) return;
@@ -144,7 +147,7 @@ namespace YeActorState.UI
             //     var element = c.GetComponent<PropertyElement>();
             //     element.Refresh();
             // }
-            
+
             //有點那個
             RefreshBtnPress(Unit.Default);
         }

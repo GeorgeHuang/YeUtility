@@ -1,31 +1,31 @@
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
+using UnityEngine;
 using Zenject;
 
 namespace YeActorState.RuntimeCore
 {
-    public class YeActorStateSys
+    public class YeActorStateSys : ITickable
     {
         [InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
         [Inject] private DiContainer container;
         private List<ActorStateHandler> handlers = new();
         private DefaultPropertyProcessor defaultPropertyProcessor = new();
+        private Dictionary<ActorStateHandler, List<PropertyEffectData>> actorEffectList = new();
 
         public IEnumerable<ActorStateHandler> AllHandlers => handlers;
-        
+
         public ActorStateHandler AddActor(string name)
         {
-            foreach (var baseData in actorBaseDataRepo.Datas)
-            {
-                if (baseData.name == name)
-                    return AddActor(baseData);
-            }
-
-            return null;
+            return (from baseData in actorBaseDataRepo.Datas where baseData.name == name select AddActor(baseData))
+                .FirstOrDefault();
         }
 
         public ActorStateHandler AddActor(YeActorBaseData baseData)
         {
             var rv = new ActorStateHandler();
+            actorEffectList.Add(rv, new List<PropertyEffectData>());
             var runtime = new YeActorRuntimeData();
             runtime.Setup(baseData);
             defaultPropertyProcessor.Processor(baseData, runtime);
@@ -37,7 +37,37 @@ namespace YeActorState.RuntimeCore
 
         public void ApplyEffect(PropertyEffectData propertyEffectData, ActorStateHandler actorStateHandler)
         {
-            propertyEffectData.Processor(actorStateHandler.ActorBaseData, actorStateHandler.RuntimeData);
+            actorStateHandler.IsDirty = true;
+            actorEffectList[actorStateHandler].Add(propertyEffectData);
+        }
+
+        public void Tick()
+        {
+            foreach (var actorStateHandler in handlers.Where(actorStateHandler => actorStateHandler.IsDirty))
+            {
+                Calculate(actorStateHandler);
+                actorStateHandler.IsDirty = false;
+            }
+        }
+
+        private void Calculate(ActorStateHandler actorStateHandler)
+        {
+            var runtimeData = new YeActorRuntimeData();
+            runtimeData.Setup(actorStateHandler.ActorBaseData);
+            var baseData = actorStateHandler.ActorBaseData;
+            defaultPropertyProcessor.Processor(baseData, runtimeData);
+            var effectList = actorEffectList[actorStateHandler];
+            foreach (var data in effectList)
+            {
+                data.Processor(baseData: baseData, runtimeData: runtimeData);
+            }
+
+            //可能要給處理器
+            var moveSpeed = runtimeData.GetProperty("MoveSpeed");
+            var moveSpeedRatio = runtimeData.GetProperty("MoveSpeedRatio");
+            moveSpeed = moveSpeed * (1 + moveSpeedRatio * 0.01f);
+            runtimeData.SetProperty("MoveSpeed", moveSpeed);
+            actorStateHandler.RuntimeData = runtimeData;
         }
     }
 }

@@ -22,9 +22,7 @@ namespace ActorStateTest.Element
         public void Move(Vector3 dir)
         {
             var moveSpeed = player.GetProperty("MoveSpeed");
-            var moveSpeedRatio = 1 + player.GetProperty("MoveSpeedRatio") * 0.01f;
-            var realMoveSpeed = moveSpeed * moveSpeedRatio;
-            player.SetPos(player.GetPos() + dir * realMoveSpeed * timeSys.DeltaTime);
+            player.SetPos(player.GetPos() + dir * moveSpeed * timeSys.DeltaTime);
         }
     }
 }

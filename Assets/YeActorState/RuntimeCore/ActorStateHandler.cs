@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine;
 using YeActorState.RuntimeCore;
 using Zenject;
 
@@ -7,10 +8,11 @@ namespace YeActorState
     public class ActorStateHandler
     {
         [field: Inject] internal YeActorBaseData ActorBaseData { get; }
-        [field: Inject] internal YeActorRuntimeData RuntimeData { get; }
+        [field: Inject] internal YeActorRuntimeData RuntimeData { get; set; }
         [Inject] private YeActorStateSys yeActorStateSys;
         
         public Hashtable AllRuntimeProperties => RuntimeData.AllProperties;
+        public bool IsDirty { get; set; }
 
         public float GetRuntimeProperty(string propertyName)
         {
