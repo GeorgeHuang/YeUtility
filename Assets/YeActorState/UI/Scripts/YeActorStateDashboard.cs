@@ -12,7 +12,7 @@ using Zenject;
 
 namespace YeActorState.UI
 {
-    public class YeActorStateDashboard : MonoInstaller
+    public class YeActorStateDashboard : MonoBehaviour 
     {
         [SerializeField] private PropertyElement propertyElementPrefab;
         [SerializeField] private PropertyEffectElement propertyEffectElementPrefab;
@@ -29,11 +29,13 @@ namespace YeActorState.UI
 
         [Inject] private YeActorStateSys yeActorStateSys;
         [Inject(Id = "RefreshBtn")] private Button refreshBtn;
+        [Inject] private PropertyNames propertyNames;
+        [Inject] private DiContainer Container;
 
         private List<string> runtimeDropdownContent;
         private List<ActorStateHandler> actorStateHandlers;
-        private PropertyNames propertyNames;
         private ActorStateHandler curActorStateHandler;
+
 
         private void Start()
         {
@@ -58,7 +60,7 @@ namespace YeActorState.UI
             {
                 var effectElement =
                     Container.InstantiatePrefabForComponent<PropertyEffectElement>(propertyEffectElementPrefab);
-                effectElement.transform.parent = DatabaseEffectViewContentTrans;
+                effectElement.transform.SetParent(DatabaseEffectViewContentTrans);
                 effectElement.Setup(propertyEffectData, curActorStateHandler);
             }
         }
@@ -95,7 +97,7 @@ namespace YeActorState.UI
             foreach (var propertyName in runtimes)
             {
                 var propertyElement = Container.InstantiatePrefabForComponent<PropertyElement>(propertyElementPrefab);
-                propertyElement.transform.parent = propertyContentTrans;
+                propertyElement.transform.SetParent(propertyContentTrans);
                 propertyElement.Setup(propertyName, actorStateHandler,
                     elementColos[index % elementColos.Count]);
                 index++;
@@ -129,15 +131,6 @@ namespace YeActorState.UI
             }
 
             return runtimes;
-        }
-
-        public override void InstallBindings()
-        {
-            propertyNames = OdinUnit.OdinEditorHelpers.GetScriptableObject<PropertyNames>();
-            if (Container.HasBinding<PropertyNames>() == false)
-            {
-                Container.BindInstance(propertyNames).AsSingle();
-            }
         }
 
         public void RefreshPropertyView()
