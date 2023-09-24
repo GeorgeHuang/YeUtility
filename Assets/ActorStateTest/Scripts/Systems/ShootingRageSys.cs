@@ -21,7 +21,7 @@ namespace ActorStateTest.Systems
 
         private async void Setup()
         {
-            await UniTask.WaitForSeconds(1);
+            await UniTask.WaitForSeconds(0.25f);
             mainActorStateHandler = actorMgr.CreatePlayer(config.PlayerDataName);
             inputState.MovePress.Subscribe(InputMovePress);
         }
