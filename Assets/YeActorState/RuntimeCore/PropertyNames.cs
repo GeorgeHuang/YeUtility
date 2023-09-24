@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -27,6 +28,16 @@ namespace YeActorState
             {
                 return name;
             }
+        }
+
+        public string GetDisplayName(string propertyName)
+        {
+            foreach (var data in datas.Where(data => data.GetKeyName() == propertyName))
+            {
+                return data.displayName;
+            }
+
+            return propertyName;
         }
     }
 }

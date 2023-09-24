@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Zenject;
 
 namespace YeActorState.UI
 {
-    public class YeActorStateDashboard : MonoBehaviour
+    public class YeActorStateDashboard : MonoInstaller
     {
         [SerializeField] private PropertyElement propertyElementPrefab;
 
@@ -20,6 +18,7 @@ namespace YeActorState.UI
 
         private List<string> runtimeDropdownContent;
         private List<ActorStateHandler> actorStateHandlers;
+        private PropertyNames propertyNames;
 
         private void Start()
         {
@@ -52,12 +51,23 @@ namespace YeActorState.UI
 
             if (actorStateHandlers == null) return;
 
+            var index = 0;
             foreach (DictionaryEntry runtimeProperty in actorStateHandler.AllRuntimeProperties)
             {
-                var propertyElement = Instantiate(propertyElementPrefab, propertyContentTrans, true);
-                propertyElement.Setup(runtimeProperty.Key as string, actorStateHandler);
+                var propertyElement = Container.InstantiatePrefabForComponent<PropertyElement>(propertyElementPrefab);
+                propertyElement.transform.parent = propertyContentTrans;
+                propertyElement.Setup(runtimeProperty.Key as string, actorStateHandler, index);
+                index++;
             }
-            //propertyScrollView.
+        }
+
+        public override void InstallBindings()
+        {
+            propertyNames = OdinUnit.OdinEditorHelpers.GetScriptableObject<PropertyNames>();
+            if (Container.HasBinding<PropertyNames>() == false)
+            {
+                Container.BindInstance(propertyNames).AsSingle();
+            }
         }
     }
 }
