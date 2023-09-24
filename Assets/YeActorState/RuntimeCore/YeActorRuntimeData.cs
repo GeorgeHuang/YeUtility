@@ -20,14 +20,16 @@ namespace YeActorState.RuntimeCore
 
         public float GetProperty(string key)
         {
-            foreach (DictionaryEntry property in properties)
-            {
-                
-            }
-            
             if (properties.ContainsKey(key) == false)
                 properties.Add(key, 0);
             return Convert.ToSingle(properties[key]);
+        }
+
+        public void SetProperty(string key, float value)
+        {
+            if (properties.ContainsKey(key) == false)
+                properties.Add(key, 0);
+            properties[key] = value;
         }
     }
 }

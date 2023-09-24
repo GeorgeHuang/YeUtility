@@ -11,10 +11,12 @@ namespace YeActorState.UI
     public class YeActorStateDashboard : MonoInstaller
     {
         [SerializeField] private PropertyElement propertyElementPrefab;
+        [SerializeField] private List<Color> elementColos;
 
         [Inject(Id = "RuntimeListDropdown")] private TMP_Dropdown runtimeListDropdown;
         [Inject(Id = "PropertyContent")] private RectTransform propertyContentTrans;
         [Inject] private YeActorStateSys yeActorStateSys;
+
 
         private List<string> runtimeDropdownContent;
         private List<ActorStateHandler> actorStateHandlers;
@@ -56,7 +58,8 @@ namespace YeActorState.UI
             {
                 var propertyElement = Container.InstantiatePrefabForComponent<PropertyElement>(propertyElementPrefab);
                 propertyElement.transform.parent = propertyContentTrans;
-                propertyElement.Setup(runtimeProperty.Key as string, actorStateHandler, index);
+                propertyElement.Setup(runtimeProperty.Key as string, actorStateHandler,
+                    elementColos[index % elementColos.Count]);
                 index++;
             }
         }

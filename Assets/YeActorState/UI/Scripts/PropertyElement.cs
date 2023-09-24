@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Globalization;
 using TMPro;
+using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 using Zenject;
+using Image = UnityEngine.UI.Image;
 
 namespace YeActorState.UI
 {
@@ -10,22 +13,34 @@ namespace YeActorState.UI
     {
         [SerializeField] private TextMeshProUGUI propertyNameText;
         [SerializeField] private Image image;
-        [SerializeField] private List<Color> colos;
+        [SerializeField] private TMP_InputField value;
 
         [Inject] private PropertyNames propertyNames;
-        
+
         private ActorStateHandler stateHandler;
         private string propertyName;
-        private int index;
 
-        public void Setup(string propertyName, ActorStateHandler stateHandler, int index)
+        public void Setup(string propertyName, ActorStateHandler stateHandler, Color color)
         {
             this.stateHandler = stateHandler;
             this.propertyName = propertyName;
             var displayName = propertyNames.GetDisplayName(propertyName);
             propertyNameText.text = displayName;
-            this.index = index;
-            image.color = colos[index % 2];
+            image.color = color;
+            value.text = stateHandler.GetRuntimeProperty(this.propertyName).ToString();
+            value.onValueChanged.AsObservable().Subscribe(_ => ValueChanged(_));
+        }
+
+        private void ValueChanged(string s)
+        {
+            if (float.TryParse(s, out var v))
+            {
+                stateHandler.SetProperty(propertyName, v);
+            }
+            else
+            {
+                value.text = stateHandler.GetRuntimeProperty(this.propertyName).ToString();
+            }
         }
     }
 }

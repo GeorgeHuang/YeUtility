@@ -1358,6 +1358,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   propertyElementPrefab: {fileID: 2249035644012808935, guid: 7fecc4fee08540e4b8c12fa66a7a02ba, type: 3}
+  elementColos:
+  - {r: 0.5372549, g: 0.7254902, b: 0.7058824, a: 1}
+  - {r: 0.5372549, g: 0.5568628, b: 0.7254902, a: 1}
 --- !u!114 &6725247540267705561
 MonoBehaviour:
   m_ObjectHideFlags: 0

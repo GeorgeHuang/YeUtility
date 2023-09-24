@@ -19,5 +19,11 @@ namespace YeActorState
         {
             return actorBaseData.name;
         }
+
+        public void SetProperty(string propertyName, float value)
+        {
+            runtimeData.SetProperty(propertyName, value);
+        }
+    
     }
 }
