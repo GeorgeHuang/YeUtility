@@ -3,6 +3,7 @@ using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
+using YeActorState.RuntimeCore;
 using YeUtility.Editor;
 
 namespace YeActorState.Editor
@@ -40,6 +41,10 @@ namespace YeActorState.Editor
 
             key = "角色模板";
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>());
+
+            key = "屬性效果資料庫";
+            _tree.Add(key, OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>());
+                
 
             return _tree;
         }

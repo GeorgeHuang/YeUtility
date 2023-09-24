@@ -1,5 +1,6 @@
 using OdinUnit;
 using Sirenix.OdinInspector;
+using YeActorState.RuntimeCore;
 using YeUtility;
 
 namespace YeActorState.Editor
@@ -20,6 +21,7 @@ namespace YeActorState.Editor
         [BoxGroup("資料庫")] public PropertyNames propertyNames;
         [BoxGroup("資料庫")] public YeActorBaseDataRepo actorBaseDataRepo;
         [BoxGroup("資料庫")] public ActorDataTemplateRepo templateRepo;
+        [BoxGroup("資料庫")] public PropertyEffectRepo propertyEffectRepo;
 
         private bool showCreateDirButton = false;
         private bool hasRootDir;
@@ -34,6 +36,7 @@ namespace YeActorState.Editor
             propertyNames = OdinEditorHelpers.GetScriptableObject<PropertyNames>(metaPath);
             actorBaseDataRepo = OdinEditorHelpers.GetScriptableObject<YeActorBaseDataRepo>(actorDataPath);
             templateRepo = OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>(metaPath);
+            propertyEffectRepo = OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>(metaPath);
         }
 
         private void CheckDir()
@@ -74,6 +77,14 @@ namespace YeActorState.Editor
             {
                 templateRepo = OdinEditorHelpers.CreateScriptableObject<ActorDataTemplateRepo>(metaPath);
             }
+        }
+
+        [BoxGroup("資料庫"), Button("建立屬性效果資料庫")]
+        private void CreateEffectDataRepo()
+        {
+            propertyEffectRepo = OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>();
+            if (propertyEffectRepo != null) return;
+            propertyEffectRepo = OdinEditorHelpers.CreateScriptableObject<PropertyEffectRepo>(metaPath);
         }
     }
 }
