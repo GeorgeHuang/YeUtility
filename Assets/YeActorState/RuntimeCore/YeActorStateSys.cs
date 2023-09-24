@@ -7,7 +7,10 @@ namespace YeActorState
     {
         [InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
         [Inject] private DiContainer container;
+        private List<ActorStateHandler> handlers = new();
 
+        public IEnumerable<ActorStateHandler> AllHandlers => handlers;
+        
         public ActorStateHandler AddActor(string name)
         {
             foreach (var baseData in actorBaseDataRepo.Datas)
@@ -26,7 +29,9 @@ namespace YeActorState
             runtime.Setup(baseData);
             var perimeter = new List<object> { runtime, baseData };
             container.Inject(rv, perimeter);
+            handlers.Add(rv);
             return rv;
         }
+
     }
 }

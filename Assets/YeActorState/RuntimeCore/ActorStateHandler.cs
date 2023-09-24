@@ -11,5 +11,10 @@ namespace YeActorState
         {
             return runtimeData.GetProperty(propertyName);
         }
+
+        public string GetBaseDataName()
+        {
+            return actorBaseData.name;
+        }
     }
 }

@@ -1,15 +1,12 @@
 {
-    "name": "YeActorStateEditor",
+    "name": "YeActorState.UI",
     "rootNamespace": "",
     "references": [
-        "GUID:e736674366a55134e9ab00bae629c78a",
-        "GUID:5016a238b7cbb444693a9fc900d7c0fc",
-        "GUID:2480862fdb054e243b819523d470c8bc",
-        "GUID:ab88e96c7ea96534aae5e531f8181d38"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:e736674366a55134e9ab00bae629c78a"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
