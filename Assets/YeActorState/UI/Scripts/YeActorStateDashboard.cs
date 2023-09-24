@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OdinUnit;
 using Cysharp.Threading.Tasks;
+using Sirenix.Reflection.Editor;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace YeActorState.UI
     {
         [SerializeField] private PropertyElement propertyElementPrefab;
         [SerializeField] private PropertyEffectElement propertyEffectElementPrefab;
+        [SerializeField] private CurrentEffectElement currentEffectElementPrefab;
         [SerializeField] private List<Color> elementColos;
 
         [Inject(Id = "RuntimeListDropdown")] private TMP_Dropdown runtimeListDropdown;
@@ -36,9 +38,9 @@ namespace YeActorState.UI
         private List<ActorStateHandler> actorStateHandlers;
         private ActorStateHandler curActorStateHandler;
 
-
-        private void Start()
+        private async void Start()
         {
+            await UniTask.WaitUntil(() => yeActorStateSys.AllHandlers.ToList().Count > 0);
             UpdateRuntimeDataDropdown();
             SetupPropertyContent(actorStateHandlers.First());
             SetupDatabaseEffect();
@@ -48,6 +50,22 @@ namespace YeActorState.UI
         private void RefreshBtnPress(Unit unit)
         {
             SetupPropertyContent(curActorStateHandler);
+            SetupApplyEffectContent(curActorStateHandler);
+        }
+
+        private void SetupApplyEffectContent(ActorStateHandler actorStateHandler)
+        {
+            ClearViewContent(CurrentEffectViewContentTrans);
+            var effects = actorStateHandler.GetCurrentEffectList();
+            var index = 0;
+            foreach (var propertyEffectData in effects)
+            {
+                var effectElement =
+                    Container.InstantiatePrefabForComponent<CurrentEffectElement>(currentEffectElementPrefab);
+                effectElement.transform.SetParent(CurrentEffectViewContentTrans);
+                effectElement.Setup(propertyEffectData, curActorStateHandler, elementColos[index % elementColos.Count]);
+                index++;
+            }
         }
 
         private void SetupDatabaseEffect()

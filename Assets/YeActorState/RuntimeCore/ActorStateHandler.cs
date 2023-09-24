@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using YeActorState.RuntimeCore;
 using Zenject;
@@ -32,6 +33,16 @@ namespace YeActorState
         public void ApplyEffect(PropertyEffectData propertyEffectData)
         {
             yeActorStateSys.ApplyEffect(propertyEffectData, this);
+        }
+
+        public List<PropertyEffectData> GetCurrentEffectList()
+        {
+            return yeActorStateSys.GetCurrentEffectList(this);
+        }
+
+        public void DeleteEffect(PropertyEffectData propertyEffectData)
+        {
+            yeActorStateSys.DeleteEffect(propertyEffectData, this);
         }
     }
 }

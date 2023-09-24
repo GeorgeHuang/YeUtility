@@ -2598,6 +2598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   propertyElementPrefab: {fileID: 2249035644012808935, guid: 7fecc4fee08540e4b8c12fa66a7a02ba, type: 3}
   propertyEffectElementPrefab: {fileID: 2748497943997068123, guid: 9c5daaf4bb8209d49ba8f1c51c4a8699, type: 3}
+  currentEffectElementPrefab: {fileID: 131661321740051738, guid: 7be52f20fc417354590cf460505ba95e, type: 3}
   elementColos:
   - {r: 0.5372549, g: 0.7254902, b: 0.7058824, a: 1}
   - {r: 0.5372549, g: 0.5568628, b: 0.7254902, a: 1}

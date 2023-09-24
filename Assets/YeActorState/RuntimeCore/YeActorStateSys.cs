@@ -35,12 +35,6 @@ namespace YeActorState.RuntimeCore
             return rv;
         }
 
-        public void ApplyEffect(PropertyEffectData propertyEffectData, ActorStateHandler actorStateHandler)
-        {
-            actorStateHandler.IsDirty = true;
-            actorEffectList[actorStateHandler].Add(propertyEffectData);
-        }
-
         public void Tick()
         {
             foreach (var actorStateHandler in handlers.Where(actorStateHandler => actorStateHandler.IsDirty))
@@ -68,6 +62,23 @@ namespace YeActorState.RuntimeCore
             moveSpeed = moveSpeed * (1 + moveSpeedRatio * 0.01f);
             runtimeData.SetProperty("MoveSpeed", moveSpeed);
             actorStateHandler.RuntimeData = runtimeData;
+        }
+
+        public List<PropertyEffectData> GetCurrentEffectList(ActorStateHandler actorStateHandler)
+        {
+            return actorEffectList[actorStateHandler];
+        }
+
+        public void DeleteEffect(PropertyEffectData propertyEffectData, ActorStateHandler actorStateHandler)
+        {
+            actorStateHandler.IsDirty = true;
+            actorEffectList[actorStateHandler].Remove(propertyEffectData);
+        }
+
+        public void ApplyEffect(PropertyEffectData propertyEffectData, ActorStateHandler actorStateHandler)
+        {
+            actorStateHandler.IsDirty = true;
+            actorEffectList[actorStateHandler].Add(propertyEffectData);
         }
     }
 }

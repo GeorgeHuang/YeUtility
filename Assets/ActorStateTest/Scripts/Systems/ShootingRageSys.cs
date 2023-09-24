@@ -1,4 +1,5 @@
 using ActorStateTest.Element;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -15,6 +16,12 @@ namespace ActorStateTest.Systems
 
         public void Initialize()
         {
+            Setup();
+        }
+
+        private async void Setup()
+        {
+            await UniTask.WaitForSeconds(1);
             mainActorStateHandler = actorMgr.CreatePlayer(config.PlayerDataName);
             inputState.MovePress.Subscribe(InputMovePress);
         }
