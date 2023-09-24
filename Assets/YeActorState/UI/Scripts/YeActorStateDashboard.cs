@@ -5,6 +5,7 @@ using OdinUnit;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 using YeActorState.RuntimeCore;
 using Zenject;
 
@@ -26,7 +27,7 @@ namespace YeActorState.UI
         private RectTransform DatabaseEffectViewContentTrans;
 
         [Inject] private YeActorStateSys yeActorStateSys;
-
+        [Inject(Id = "RefreshBtn")] private Button refreshBtn;
 
         private List<string> runtimeDropdownContent;
         private List<ActorStateHandler> actorStateHandlers;
@@ -38,6 +39,12 @@ namespace YeActorState.UI
             UpdateRuntimeDataDropdown();
             SetupPropertyContent(actorStateHandlers.First());
             SetupDatabaseEffect();
+            refreshBtn.OnClickAsObservable().Subscribe(RefreshBtnPress);
+        }
+
+        private void RefreshBtnPress(Unit unit)
+        {
+            SetupPropertyContent(curActorStateHandler);
         }
 
         private void SetupDatabaseEffect()
@@ -128,6 +135,18 @@ namespace YeActorState.UI
             {
                 Container.BindInstance(propertyNames).AsSingle();
             }
+        }
+
+        public void RefreshPropertyView()
+        {
+            // foreach (Transform c in propertyContentTrans.transform)
+            // {
+            //     var element = c.GetComponent<PropertyElement>();
+            //     element.Refresh();
+            // }
+            
+            //有點那個
+            RefreshBtnPress(Unit.Default);
         }
     }
 }

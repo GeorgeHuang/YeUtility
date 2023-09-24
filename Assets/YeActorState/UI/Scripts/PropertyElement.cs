@@ -19,6 +19,7 @@ namespace YeActorState.UI
 
         private ActorStateHandler stateHandler;
         private string propertyName;
+        private IDisposable disposable;
 
         public void Setup(string propertyName, ActorStateHandler stateHandler, Color color)
         {
@@ -28,7 +29,7 @@ namespace YeActorState.UI
             propertyNameText.text = displayName;
             image.color = color;
             value.text = stateHandler.GetRuntimeProperty(this.propertyName).ToString();
-            value.onValueChanged.AsObservable().Subscribe(_ => ValueChanged(_));
+            disposable = value.onValueChanged.AsObservable().Subscribe(_ => ValueChanged(_));
         }
 
         private void ValueChanged(string s)
@@ -41,6 +42,16 @@ namespace YeActorState.UI
             {
                 value.text = stateHandler.GetRuntimeProperty(this.propertyName).ToString();
             }
+        }
+
+        private void OnDestroy()
+        {
+           disposable.Dispose();
+        }
+
+        public void Refresh()
+        {
+            value.text = stateHandler.GetRuntimeProperty(this.propertyName).ToString();
         }
     }
 }

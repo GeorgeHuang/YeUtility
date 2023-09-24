@@ -13,10 +13,17 @@ MonoBehaviour:
   m_Name: PropertyEffectRepo
   m_EditorClassIdentifier: 
   datas:
-  - name: "\u52A0\u901F\u978B"
+  - name: "\u52A0\u901F\u978B-base"
     key: SpeedShoe
     datas:
     - sourcePropertyName: MoveSpeed
       targetPropertyName: MoveSpeed
       effectType: 1
-      value: 5
+      value: 2
+  - name: "\u52A0\u901F\u978B-%"
+    key: SpeepdShoe%
+    datas:
+    - sourcePropertyName: MoveSpeedRatio
+      targetPropertyName: MoveSpeedRatio
+      effectType: 1
+      value: 30

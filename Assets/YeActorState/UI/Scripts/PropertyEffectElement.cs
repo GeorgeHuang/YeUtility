@@ -4,6 +4,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
+using Zenject;
 
 namespace YeActorState.UI
 {
@@ -11,6 +12,8 @@ namespace YeActorState.UI
     {
         [SerializeField] private TextMeshProUGUI labelText;
         [SerializeField] private Button btn;
+
+        [Inject] private YeActorStateDashboard dashboard;
 
         private PropertyEffectData propertyEffectData;
         private ActorStateHandler stateHandler;
@@ -32,6 +35,7 @@ namespace YeActorState.UI
         void OnBtnPress(Unit u)
         {
             stateHandler.ApplyEffect(propertyEffectData);
+            dashboard.RefreshPropertyView();
         }
     }
 }
