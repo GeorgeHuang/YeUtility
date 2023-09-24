@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
-using UnityEngine;
+using System.Collections.Generic;
+using System.ComponentModel;
 
-namespace YeActorState
+namespace YeActorState.RuntimeCore
 {
     public class YeActorRuntimeData
     {
         private Hashtable properties = new();
+        public Hashtable AllProperties => properties;
 
         public void Setup(YeActorBaseData baseData)
         {
@@ -19,6 +20,11 @@ namespace YeActorState
 
         public float GetProperty(string key)
         {
+            foreach (DictionaryEntry property in properties)
+            {
+                
+            }
+            
             if (properties.ContainsKey(key) == false)
                 properties.Add(key, 0);
             return Convert.ToSingle(properties[key]);

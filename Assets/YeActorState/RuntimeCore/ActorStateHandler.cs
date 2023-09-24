@@ -1,4 +1,6 @@
-﻿using Zenject;
+﻿using System.Collections;
+using YeActorState.RuntimeCore;
+using Zenject;
 
 namespace YeActorState
 {
@@ -6,6 +8,7 @@ namespace YeActorState
     {
         [Inject] private YeActorBaseData actorBaseData;
         [Inject] private YeActorRuntimeData runtimeData;
+        public Hashtable AllRuntimeProperties => runtimeData.AllProperties;
 
         public float GetRuntimeProperty(string propertyName)
         {
