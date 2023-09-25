@@ -50,3 +50,5 @@ MonoBehaviour:
     value: 0
   - name: CtriDamgeRatio
     value: 0
+  - name: AtkSpeed
+    value: 1

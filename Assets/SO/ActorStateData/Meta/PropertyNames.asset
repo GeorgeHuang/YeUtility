@@ -46,8 +46,11 @@ MonoBehaviour:
   - displayName: "\u50B7\u5BB3%"
     name: DamageRatio
     terms: 
-  - displayName: "\u653B\u64CA\u901F\u5EA6%"
+  - displayName: "\u57FA\u672C\u653B\u901F"
     name: AtkSpeed
+    terms: 
+  - displayName: "\u653B\u64CA\u901F\u5EA6%"
+    name: AtkSpeedRatio
     terms: 
   - displayName: "\u7206\u64CA\u6A5F\u7387%"
     name: CtriRate

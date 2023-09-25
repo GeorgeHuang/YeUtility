@@ -20,6 +20,7 @@ MonoBehaviour:
     - HpRecovery
     - Mp
     - MpRecovery
+    - AtkSpeed
     - MoveSpeed
     - EatStoneDis
     - DamageReduce

@@ -34,8 +34,8 @@ MonoBehaviour:
       targetPropertyName: Damage
       effectType: 1
       value: 55
-    - sourcePropertyName: AtkSpeed
-      targetPropertyName: AtkSpeed
+    - sourcePropertyName: AtkSpeedRatio
+      targetPropertyName: AtkSpeedRatio
       effectType: 1
       value: 30
     - sourcePropertyName: DamageRatio

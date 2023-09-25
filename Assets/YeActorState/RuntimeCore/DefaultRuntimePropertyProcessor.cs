@@ -4,10 +4,17 @@
     {
         public void Processor(YeActorBaseData baseData, YeActorRuntimeData runtimeData)
         {
-            var moveSpeed = runtimeData.GetProperty("MoveSpeed");
-            var moveSpeedRatio = runtimeData.GetProperty("MoveSpeedRatio");
-            moveSpeed *= (1 + moveSpeedRatio * 0.01f);
-            runtimeData.SetProperty("MoveSpeed", moveSpeed);
+            ApplyRatioValue(runtimeData, "MoveSpeed", "MoveSpeedRatio");
+            ApplyRatioValue(runtimeData, "Damage", "DamageRatio");
+            ApplyRatioValue(runtimeData, "AtkSpeed", "AtkSpeedRatio");
+        }
+
+        private static void ApplyRatioValue(YeActorRuntimeData runtimeData, string key, string ratioKey)
+        {
+            var value = runtimeData.GetProperty(key);
+            var valueRatio = runtimeData.GetProperty(ratioKey);
+            value *= (1 + valueRatio * 0.01f);
+            runtimeData.SetProperty(key, value);
         }
     }
 }
