@@ -27,3 +27,18 @@ MonoBehaviour:
       targetPropertyName: MoveSpeedRatio
       effectType: 1
       value: 30
+  - name: "\u9577\u8239"
+    key: CaptainBizenHikari
+    datas:
+    - sourcePropertyName: Damage
+      targetPropertyName: Damage
+      effectType: 1
+      value: 55
+    - sourcePropertyName: AtkSpeed
+      targetPropertyName: AtkSpeed
+      effectType: 1
+      value: 30
+    - sourcePropertyName: DamageRatio
+      targetPropertyName: DamageRatio
+      effectType: 1
+      value: 8

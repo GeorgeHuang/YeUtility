@@ -40,6 +40,9 @@ MonoBehaviour:
   - displayName: "\u64CA\u6BBAMp\u6062\u5FA9%"
     name: MpStealOnKill
     terms: 
+  - displayName: "\u653B\u64CA\u529B"
+    name: Damage
+    terms: 
   - displayName: "\u50B7\u5BB3%"
     name: DamageRatio
     terms: 

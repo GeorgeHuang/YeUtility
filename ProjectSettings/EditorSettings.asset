@@ -35,8 +35,8 @@ EditorSettings:
   m_DisableCookiesInLightmapper: 0
   m_AssetPipelineMode: 1
   m_RefreshImportMode: 0
-  m_CacheServerMode: 0
-  m_CacheServerEndpoint: 
+  m_CacheServerMode: 1
+  m_CacheServerEndpoint: 127.0.0.1
   m_CacheServerNamespacePrefix: default
   m_CacheServerEnableDownload: 1
   m_CacheServerEnableUpload: 1

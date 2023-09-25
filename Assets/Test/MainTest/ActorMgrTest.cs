@@ -29,7 +29,7 @@ namespace Test.MainTest
             {
                 actorMgr.CreatePlayer("aaa");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throwAssert = true;
             }

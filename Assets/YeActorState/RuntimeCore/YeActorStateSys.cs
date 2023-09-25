@@ -1,12 +1,10 @@
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
-using UnityEngine;
 using Zenject;
 
 namespace YeActorState.RuntimeCore
 {
-    public class YeActorStateSys : ITickable
+    public class YeActorStateSys : ITickable, IInitializable
     {
         [InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
         [Inject] private DiContainer container;
@@ -14,7 +12,16 @@ namespace YeActorState.RuntimeCore
         private DefaultPropertyProcessor defaultPropertyProcessor = new();
         private Dictionary<ActorStateHandler, List<PropertyEffectData>> actorEffectList = new();
 
+        private LinkedList<ActorStateHandler> dirtyList = new();
+
+        private List<IBasePropertyProcessor> runtimeProcessors = new();
+
         public IEnumerable<ActorStateHandler> AllHandlers => handlers;
+
+        public void Initialize()
+        {
+            runtimeProcessors.Add(new DefaultRuntimePropertyProcessor());
+        }
 
         public ActorStateHandler AddActor(string name)
         {
@@ -29,6 +36,7 @@ namespace YeActorState.RuntimeCore
             var runtime = new YeActorRuntimeData();
             runtime.Setup(baseData);
             defaultPropertyProcessor.Processor(baseData, runtime);
+            runtimeProcessors.ForEach(x=>x.Processor(baseData, runtime));
             var perimeter = new List<object> { runtime, baseData, this };
             container.Inject(rv, perimeter);
             handlers.Add(rv);
@@ -37,31 +45,33 @@ namespace YeActorState.RuntimeCore
 
         public void Tick()
         {
-            foreach (var actorStateHandler in handlers.Where(actorStateHandler => actorStateHandler.IsDirty))
+            for (var data = dirtyList.First; data != null; data = data.Next)
             {
-                Calculate(actorStateHandler);
-                actorStateHandler.IsDirty = false;
+                Calculate(data.Value);
+                data.Value.IsDirty = false;
             }
+            dirtyList.Clear();
         }
 
         private void Calculate(ActorStateHandler actorStateHandler)
         {
-            var runtimeData = new YeActorRuntimeData();
-            runtimeData.Setup(actorStateHandler.ActorBaseData);
+            var runtime = new YeActorRuntimeData();
             var baseData = actorStateHandler.ActorBaseData;
-            defaultPropertyProcessor.Processor(baseData, runtimeData);
+            var oldRuntime = actorStateHandler.RuntimeData;
+            runtime.Setup(baseData);
+            
+            runtime.SetProperty("CurHp", oldRuntime.GetProperty("CurHp"));
+            runtime.SetProperty("CurMp", oldRuntime.GetProperty("CurMp"));
+            
             var effectList = actorEffectList[actorStateHandler];
             foreach (var data in effectList)
             {
-                data.Processor(baseData: baseData, runtimeData: runtimeData);
+                data.Processor(baseData: baseData, runtimeData: runtime);
             }
 
-            //可能要給處理器
-            var moveSpeed = runtimeData.GetProperty("MoveSpeed");
-            var moveSpeedRatio = runtimeData.GetProperty("MoveSpeedRatio");
-            moveSpeed = moveSpeed * (1 + moveSpeedRatio * 0.01f);
-            runtimeData.SetProperty("MoveSpeed", moveSpeed);
-            actorStateHandler.RuntimeData = runtimeData;
+            runtimeProcessors.ForEach(x=>x.Processor(baseData, runtime));
+            
+            actorStateHandler.RuntimeData = runtime;
         }
 
         public List<PropertyEffectData> GetCurrentEffectList(ActorStateHandler actorStateHandler)
@@ -73,12 +83,14 @@ namespace YeActorState.RuntimeCore
         {
             actorStateHandler.IsDirty = true;
             actorEffectList[actorStateHandler].Remove(propertyEffectData);
+            dirtyList.AddLast(actorStateHandler);
         }
 
         public void ApplyEffect(PropertyEffectData propertyEffectData, ActorStateHandler actorStateHandler)
         {
             actorStateHandler.IsDirty = true;
             actorEffectList[actorStateHandler].Add(propertyEffectData);
+            dirtyList.AddLast(actorStateHandler);
         }
     }
 }
