@@ -45,6 +45,11 @@ namespace YeActorState.Editor
             key = "屬性效果資料庫";
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>());
                 
+            key = "Tag庫";
+            _tree.Add(key, OdinEditorHelpers.GetScriptableObject<TagDataRepo>());
+            
+            key = "技能庫";
+            _tree.Add(key, OdinEditorHelpers.GetScriptableObject<SkillObjectRepo>());
 
             return _tree;
         }

@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using YeUtility;
 
 namespace CommonUnit
 {
+    [Serializable]
     public class NamedObject : INamedObject
     {
         [SerializeField] private string displayName;

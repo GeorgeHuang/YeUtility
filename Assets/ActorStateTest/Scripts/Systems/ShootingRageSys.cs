@@ -1,5 +1,8 @@
+using System;
 using ActorStateTest.Element;
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Linq;
+using Cysharp.Threading.Tasks.Triggers;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -18,6 +21,13 @@ namespace ActorStateTest.Systems
         {
             Setup();
         }
+
+        // private async UniTaskVoid AAA()
+        // {
+        //     var task1 = UniTask.Delay(TimeSpan.FromSeconds(1));
+        //     var source = new UniTaskCompletionSource<Collision>();
+        //     var r = await UniTask.WhenAny(task1, source.Task);
+        // }
 
         private async void Setup()
         {

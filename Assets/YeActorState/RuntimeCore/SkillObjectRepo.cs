@@ -1,7 +1,10 @@
-﻿namespace YeActorState.RuntimeCore
+﻿using System;
+using YeUtility;
+
+namespace YeActorState.RuntimeCore
 {
-    public class SkillObjectRepo
+    [Serializable]
+    public class SkillObjectRepo : ObjectRepo<SkillObjectRepo, SkillObject>
     {
-        
     }
 }

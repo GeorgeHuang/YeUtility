@@ -1,7 +1,10 @@
-﻿namespace YeActorState.RuntimeCore
+﻿using System;
+using CommonUnit;
+
+namespace YeActorState.RuntimeCore
 {
-    public class TagData
+    [Serializable]
+    public class TagData : NamedObject
     {
-        
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
 using UnityEngine;

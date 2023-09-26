@@ -18,10 +18,13 @@ namespace YeActorState.Editor
         [FolderPath(RequireExistingPath = true, ParentFolder = "$rootPath"), OnValueChanged("CheckDir")]
         public string actorDataDirName = "ActorData";
         
-        [BoxGroup("資料庫")] public PropertyNames propertyNames;
-        [BoxGroup("資料庫")] public YeActorBaseDataRepo actorBaseDataRepo;
-        [BoxGroup("資料庫")] public ActorDataTemplateRepo templateRepo;
-        [BoxGroup("資料庫")] public PropertyEffectRepo propertyEffectRepo;
+        [BoxGroup("資料庫")] public PropertyNames PropertyNames;
+        [BoxGroup("資料庫")] public YeActorBaseDataRepo ActorBaseDataRepo;
+        [BoxGroup("資料庫")] public ActorDataTemplateRepo TemplateRepo;
+        [BoxGroup("資料庫")] public PropertyEffectRepo PropertyEffectRepo;
+        [BoxGroup("資料庫")] public TagDataRepo TagDataRepo;
+        [BoxGroup("資料庫")] public SkillObjectRepo SkillObjectRepo;
+        
 
         private bool showCreateDirButton = false;
         private bool hasRootDir;
@@ -33,10 +36,12 @@ namespace YeActorState.Editor
         public InitPage()
         {
             CheckDir();
-            propertyNames = OdinEditorHelpers.GetScriptableObject<PropertyNames>(metaPath);
-            actorBaseDataRepo = OdinEditorHelpers.GetScriptableObject<YeActorBaseDataRepo>(actorDataPath);
-            templateRepo = OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>(metaPath);
-            propertyEffectRepo = OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>(metaPath);
+            PropertyNames = OdinEditorHelpers.GetScriptableObject<PropertyNames>(metaPath);
+            ActorBaseDataRepo = OdinEditorHelpers.GetScriptableObject<YeActorBaseDataRepo>(actorDataPath);
+            TemplateRepo = OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>(metaPath);
+            PropertyEffectRepo = OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>(metaPath);
+            TagDataRepo = OdinEditorHelpers.GetScriptableObject<TagDataRepo>(metaPath);
+            SkillObjectRepo = OdinEditorHelpers.GetScriptableObject<SkillObjectRepo>();
         }
 
         private void CheckDir()
@@ -61,30 +66,46 @@ namespace YeActorState.Editor
         [BoxGroup("資料庫"), Button("建立資料庫")]
         private void CreateDataBase()
         {
-            var hasFile = propertyNames != null;
+            var hasFile = PropertyNames != null;
             if (hasFile == false)
-                propertyNames = OdinEditorHelpers.CreateScriptableObject<PropertyNames>(metaPath);
-            hasFile = actorBaseDataRepo != null;
+                PropertyNames = OdinEditorHelpers.CreateScriptableObject<PropertyNames>(metaPath);
+            hasFile = ActorBaseDataRepo != null;
             if (hasFile == false)
-                actorBaseDataRepo = OdinEditorHelpers.CreateScriptableObject<YeActorBaseDataRepo>(actorDataPath);
+                ActorBaseDataRepo = OdinEditorHelpers.CreateScriptableObject<YeActorBaseDataRepo>(actorDataPath);
         }
 
         [BoxGroup("資料庫"), Button("建立角色模板庫")]
         private void CreateActorDataTemplate()
         {
-            templateRepo = OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>();
-            if (templateRepo == null)
+            TemplateRepo = OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>();
+            if (TemplateRepo == null)
             {
-                templateRepo = OdinEditorHelpers.CreateScriptableObject<ActorDataTemplateRepo>(metaPath);
+                TemplateRepo = OdinEditorHelpers.CreateScriptableObject<ActorDataTemplateRepo>(metaPath);
             }
         }
 
         [BoxGroup("資料庫"), Button("建立屬性效果資料庫")]
         private void CreateEffectDataRepo()
         {
-            propertyEffectRepo = OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>();
-            if (propertyEffectRepo != null) return;
-            propertyEffectRepo = OdinEditorHelpers.CreateScriptableObject<PropertyEffectRepo>(metaPath);
+            PropertyEffectRepo = OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>();
+            if (PropertyEffectRepo != null) return;
+            PropertyEffectRepo = OdinEditorHelpers.CreateScriptableObject<PropertyEffectRepo>(metaPath);
+        }
+        
+        [BoxGroup("資料庫"), Button("建立Tag庫")]
+        private void CreateTagDataRepo()
+        {
+            TagDataRepo = OdinEditorHelpers.GetScriptableObject<TagDataRepo>();
+            if (TagDataRepo != null) return;
+            TagDataRepo = OdinEditorHelpers.CreateScriptableObject<TagDataRepo>(metaPath);
+        }
+        
+        [BoxGroup("資料庫"), Button("建立技能庫")]
+        private void CreateSkillRepo()
+        {
+            SkillObjectRepo = OdinEditorHelpers.GetScriptableObject<SkillObjectRepo>();
+            if (SkillObjectRepo != null) return;
+            SkillObjectRepo = OdinEditorHelpers.CreateScriptableObject<SkillObjectRepo>(metaPath);
         }
     }
 }

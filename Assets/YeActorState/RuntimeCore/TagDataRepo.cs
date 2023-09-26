@@ -1,6 +1,8 @@
-﻿namespace YeActorState.RuntimeCore
+﻿using YeUtility;
+
+namespace YeActorState.RuntimeCore
 {
-    public class TagDataRepo
+    public class TagDataRepo : ObjectRepo<TagDataRepo, TagData>
     {
         
     }
