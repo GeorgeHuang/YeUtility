@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using OdinUnit;
 using Cysharp.Threading.Tasks;
-using Sirenix.Reflection.Editor;
 using TMPro;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
 using Zenject;
@@ -36,6 +34,7 @@ namespace YeActorState.UI
         private RectTransform SkillObjectViewContentTrans;
         
         [Inject(Id = "RefreshBtn")] private Button refreshBtn;
+        [Inject(Id = "Message")] private TextMeshProUGUI messageGUI;
 
         [Inject] private YeActorStateSys yeActorStateSys;
         [Inject] private PropertyNames propertyNames;
@@ -98,11 +97,15 @@ namespace YeActorState.UI
 
         private void OnSkillElementExit()
         {
-            
+            messageGUI.text = "";
         }
 
         private void OnSkillElementEnter(SkillObject skillObject)
         {
+            var tagString = string.Join(",", skillObject.tagEffectList.Select(e => e.tagName).ToList());
+            var customString = string.Join(",", skillObject.customEffects.Select(_ => _.propertyName).ToList());
+            messageGUI.text =
+                $"{skillObject.GetDisplayName()}<br>Tags:{tagString}<br>Customs:{customString}";
         }
 
         private void SetupDatabaseEffect()
