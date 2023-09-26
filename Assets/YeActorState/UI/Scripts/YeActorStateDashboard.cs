@@ -6,18 +6,21 @@ using Cysharp.Threading.Tasks;
 using Sirenix.Reflection.Editor;
 using TMPro;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
 using Zenject;
 
 namespace YeActorState.UI
 {
-    public class YeActorStateDashboard : MonoBehaviour 
+    public class YeActorStateDashboard : MonoBehaviour
     {
         [SerializeField] private PropertyElement propertyElementPrefab;
         [SerializeField] private PropertyEffectElement propertyEffectElementPrefab;
         [SerializeField] private CurrentEffectElement currentEffectElementPrefab;
+        [SerializeField] private SkillObjectElement skillObjectElementPrefab;
         [SerializeField] private List<Color> elementColos;
 
         [Inject(Id = "RuntimeListDropdown")] private TMP_Dropdown runtimeListDropdown;
@@ -28,9 +31,13 @@ namespace YeActorState.UI
 
         [Inject(Id = "DatabaseEffectViewContent")]
         private RectTransform DatabaseEffectViewContentTrans;
+        
+        [Inject(Id = "SkillObjectViewContent")]
+        private RectTransform SkillObjectViewContentTrans;
+        
+        [Inject(Id = "RefreshBtn")] private Button refreshBtn;
 
         [Inject] private YeActorStateSys yeActorStateSys;
-        [Inject(Id = "RefreshBtn")] private Button refreshBtn;
         [Inject] private PropertyNames propertyNames;
         [Inject] private DiContainer Container;
 
@@ -44,6 +51,7 @@ namespace YeActorState.UI
             UpdateRuntimeDataDropdown();
             SetupPropertyContent(actorStateHandlers.First());
             SetupDatabaseEffect();
+            SetupSkillContent();
             refreshBtn.OnClickAsObservable().Subscribe(RefreshBtnPress);
         }
 
@@ -66,6 +74,35 @@ namespace YeActorState.UI
                 effectElement.Setup(propertyEffectData, curActorStateHandler, elementColos[index % elementColos.Count]);
                 index++;
             }
+        }
+
+        private void SetupSkillContent()
+        {
+            ClearViewContent(SkillObjectViewContentTrans);
+            var repo = OdinEditorHelpers.GetScriptableObject<SkillObjectRepo>();
+            foreach (var skillObject in repo.Datas)
+            {
+                var element = Container.InstantiatePrefabForComponent<SkillObjectElement>(skillObjectElementPrefab);
+                element.transform.SetParent(SkillObjectViewContentTrans);
+                element.Setup(skillObject);
+                element.Btn.OnPointerEnterAsObservable().Subscribe(_ => OnSkillElementEnter(skillObject));
+                element.Btn.OnPointerExitAsObservable().Subscribe(_ => OnSkillElementExit());
+                element.Btn.OnClickAsObservable().Subscribe(_ => OnSkillClick(skillObject));
+            }
+        }
+
+        private void OnSkillClick(SkillObject skillObject)
+        {
+            
+        }
+
+        private void OnSkillElementExit()
+        {
+            
+        }
+
+        private void OnSkillElementEnter(SkillObject skillObject)
+        {
         }
 
         private void SetupDatabaseEffect()

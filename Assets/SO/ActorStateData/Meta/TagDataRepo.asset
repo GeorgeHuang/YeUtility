@@ -12,3 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed93c1c878484524b6d5ea788bbb3551, type: 3}
   m_Name: TagDataRepo
   m_EditorClassIdentifier: 
+  datas:
+  - displayName: "\u7B26\u5361"
+    keyName: Card
+  - displayName: "\u6295\u5C04"
+    keyName: Project
+  - displayName: "\u4ED9\u8853"
+    keyName: Immortal
+  - displayName: "\u7BC4\u570D"
+    keyName: Range

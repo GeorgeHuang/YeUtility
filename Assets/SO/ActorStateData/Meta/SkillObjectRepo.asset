@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd62eb91f02d4983983406a7b0220a13, type: 3}
   m_Name: SkillObjectRepo
   m_EditorClassIdentifier: 
-  datas: []
+  datas:
+  - displayName: "\u5C0F\u7B26\u5361"
+    keyName: FireCard
+    tagEffectList:
+    - tagName: Card
+      value: 1
+    - tagName: Project
+      value: 1
+    customEffects:
+    - propertyName: Damge
+      value: 1
