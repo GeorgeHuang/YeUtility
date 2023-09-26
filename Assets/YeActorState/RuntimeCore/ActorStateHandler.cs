@@ -44,5 +44,15 @@ namespace YeActorState
         {
             yeActorStateSys.DeleteEffect(propertyEffectData, this);
         }
+
+        public void AddSkill(SkillObject skillObject)
+        {
+            yeActorStateSys.AddSkill(skillObject, this);
+        }
+
+        public List<RuntimeSkill> GetSkillList()
+        {
+            return yeActorStateSys.GetRuntimeList(this);
+        }
     }
 }

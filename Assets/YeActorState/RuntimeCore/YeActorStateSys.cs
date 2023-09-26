@@ -11,9 +11,10 @@ namespace YeActorState.RuntimeCore
         private List<ActorStateHandler> handlers = new();
         private DefaultPropertyProcessor defaultPropertyProcessor = new();
         private Dictionary<ActorStateHandler, List<PropertyEffectData>> actorEffectList = new();
+        private Dictionary<ActorStateHandler, List<RuntimeSkill>> actorSkillList = new();
 
-        private LinkedList<ActorStateHandler> dirtyList = new();
-
+        private LinkedList<ActorStateHandler> dirtyActorList = new();
+        private LinkedList<RuntimeSkill> dirtySkillList = new();
         private List<IBasePropertyProcessor> runtimeProcessors = new();
 
         public IEnumerable<ActorStateHandler> AllHandlers => handlers;
@@ -33,6 +34,7 @@ namespace YeActorState.RuntimeCore
         {
             var rv = new ActorStateHandler();
             actorEffectList.Add(rv, new List<PropertyEffectData>());
+            actorSkillList.Add(rv, new List<RuntimeSkill>());
             var runtime = new YeActorRuntimeData();
             runtime.Setup(baseData);
             defaultPropertyProcessor.Processor(baseData, runtime);
@@ -45,12 +47,19 @@ namespace YeActorState.RuntimeCore
 
         public void Tick()
         {
-            for (var data = dirtyList.First; data != null; data = data.Next)
+            for (var data = dirtyActorList.First; data != null; data = data.Next)
             {
                 Calculate(data.Value);
                 data.Value.IsDirty = false;
             }
-            dirtyList.Clear();
+            dirtyActorList.Clear();
+            
+            for (var data = dirtySkillList.First; data != null; data = data.Next)
+            {
+                data.Value.Calculate();
+                data.Value.IsDirty = false;
+            }
+            dirtySkillList.Clear();
         }
 
         private void Calculate(ActorStateHandler actorStateHandler)
@@ -83,14 +92,33 @@ namespace YeActorState.RuntimeCore
         {
             actorStateHandler.IsDirty = true;
             actorEffectList[actorStateHandler].Remove(propertyEffectData);
-            dirtyList.AddLast(actorStateHandler);
+            dirtyActorList.AddLast(actorStateHandler);
         }
 
         public void ApplyEffect(PropertyEffectData propertyEffectData, ActorStateHandler actorStateHandler)
         {
             actorStateHandler.IsDirty = true;
             actorEffectList[actorStateHandler].Add(propertyEffectData);
-            dirtyList.AddLast(actorStateHandler);
+            dirtyActorList.AddLast(actorStateHandler);
+        }
+
+        public void AddSkill(SkillObject skillObject, ActorStateHandler actorStateHandler)
+        {
+            var skillList = actorSkillList[actorStateHandler];
+            if (skillList.Any(x => x.Compare(skillObject)))
+            {
+                return;
+            }
+
+            var newRuntimeSkill = new RuntimeSkill(skillObject, actorStateHandler);
+            actorSkillList[actorStateHandler].Add(newRuntimeSkill);
+            dirtySkillList.AddLast(newRuntimeSkill);
+            newRuntimeSkill.IsDirty = true;
+        }
+
+        public List<RuntimeSkill> GetRuntimeList(ActorStateHandler actorStateHandler)
+        {
+            return actorSkillList[actorStateHandler];
         }
     }
 }

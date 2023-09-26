@@ -10,6 +10,7 @@ namespace YeActorState.RuntimeCore
     [Serializable]
     public class SkillObject : NamedObject
     {
+        public CustomEffect baseDamage;
         public List<TagEffect> tagEffectList;
         public List<CustomEffect> customEffects;
         
@@ -18,14 +19,14 @@ namespace YeActorState.RuntimeCore
         {
             [ValueDropdown("@YeActorStateEditorHelper.Tags")]
             public string tagName;
-            public float value = 1;
+            public float value;
         }
         
         [Serializable]
         public class CustomEffect
         {
             public string propertyName;
-            public float value = 1;
+            public float value;
         }
     }
 }

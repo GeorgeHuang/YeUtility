@@ -15,11 +15,12 @@ MonoBehaviour:
   datas:
   - displayName: "\u5C0F\u7B26\u5361"
     keyName: FireCard
+    baseDamage:
+      propertyName: Damage
+      value: 110
     tagEffectList:
     - tagName: Card
       value: 1
     - tagName: Project
       value: 1
-    customEffects:
-    - propertyName: Damge
-      value: 1
+    customEffects: []

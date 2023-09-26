@@ -19,6 +19,7 @@ namespace YeActorState.UI
         [SerializeField] private PropertyEffectElement propertyEffectElementPrefab;
         [SerializeField] private CurrentEffectElement currentEffectElementPrefab;
         [SerializeField] private SkillObjectElement skillObjectElementPrefab;
+        [SerializeField] private RuntimeSkillElement runtimeSkillElementPrefab;
         [SerializeField] private List<Color> elementColos;
 
         [Inject(Id = "RuntimeListDropdown")] private TMP_Dropdown runtimeListDropdown;
@@ -32,6 +33,9 @@ namespace YeActorState.UI
         
         [Inject(Id = "SkillObjectViewContent")]
         private RectTransform SkillObjectViewContentTrans;
+        
+        [Inject(Id = "CurrentSkillObjectViewContent")]
+        private RectTransform CurrentSkillObjectViewContentTrans;
         
         [Inject(Id = "RefreshBtn")] private Button refreshBtn;
         [Inject(Id = "Message")] private TextMeshProUGUI messageGUI;
@@ -90,9 +94,24 @@ namespace YeActorState.UI
             }
         }
 
+        private async void SetupCurrentSkillPanel()
+        {
+            ClearViewContent(CurrentSkillObjectViewContentTrans);
+            var currentSkillList = curActorStateHandler.GetSkillList();
+            foreach (var runtimeSkill in currentSkillList)
+            {
+                await UniTask.WaitUntil(() => runtimeSkill.IsDirty == false);
+                var element = Container.InstantiatePrefabForComponent<RuntimeSkillElement>(runtimeSkillElementPrefab);
+                element.transform.SetParent(CurrentSkillObjectViewContentTrans);
+                element.Setup(runtimeSkill);
+            }
+        }
+        
         private void OnSkillClick(SkillObject skillObject)
         {
-            
+            curActorStateHandler.AddSkill(skillObject);
+            RefreshBtnPress(Unit.Default);
+            SetupCurrentSkillPanel();
         }
 
         private void OnSkillElementExit()
