@@ -14,6 +14,8 @@ namespace ActorStateTest.Systems
             Container.BindInterfacesAndSelfTo<TimeSys>().AsSingle();
             Container.BindInterfacesAndSelfTo<ShootingRageSys>().AsSingle();
             Container.BindInterfacesAndSelfTo<ActorMgr>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SkillChangeHandler>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SkillSys>().AsSingle();
             Container.BindInterfacesAndSelfTo<YeActorStateDashboard>().FromComponentInNewPrefab(dashboard).AsSingle().NonLazy();
         }
     }

@@ -1,11 +1,11 @@
 using System;
+using System.Collections.Generic;
 using ActorStateTest.Element;
 using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Linq;
-using Cysharp.Threading.Tasks.Triggers;
 using UniRx;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace ActorStateTest.Systems
 {
@@ -16,6 +16,7 @@ namespace ActorStateTest.Systems
         [Inject] private ActorMgr actorMgr;
 
         private ActorHandler mainActorStateHandler;
+        private List<ActorHandler> enemys = new();
 
         public void Initialize()
         {
@@ -33,7 +34,25 @@ namespace ActorStateTest.Systems
         {
             await UniTask.WaitForSeconds(0.25f);
             mainActorStateHandler = actorMgr.CreatePlayer(config.PlayerDataName);
+            mainActorStateHandler.SetPos(new Vector3(-5, 0, 0));
             inputState.MovePress.Subscribe(InputMovePress);
+
+            UniTask.Void(CheckEnemyNumber);
+        }
+
+        private async UniTaskVoid CheckEnemyNumber()
+        {
+            while (true)
+            {
+                if (enemys.Count < config.MaxEnemyNumber)
+                {
+                    var newEnemy = actorMgr.CreatePlayer(config.EnemyDataName);
+                    var posX = Random.Range(0, 10);
+                    newEnemy.SetPos(new Vector3(posX, 0 , 0));
+                    enemys.Add(newEnemy);
+                }
+                await UniTask.Yield();
+            }
         }
 
         private void InputMovePress(Vector2 dir)

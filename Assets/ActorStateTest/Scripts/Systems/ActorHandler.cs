@@ -2,6 +2,7 @@
 using ActorStateTest.Element;
 using UnityEngine;
 using YeActorState;
+using YeActorState.RuntimeCore;
 using Zenject;
 
 namespace ActorStateTest.Systems
@@ -11,6 +12,7 @@ namespace ActorStateTest.Systems
         [Inject] private readonly ActorStateHandler yeActorHandler;
         [Inject] private readonly GameObject gameObject;
         [Inject] private Player player;
+        [Inject] private SkillSys skillSys;
 
         public void Move(Vector3 moveDir)
         {
@@ -20,6 +22,26 @@ namespace ActorStateTest.Systems
         public float GetRuntimeProperty(string propertyName)
         {
             return yeActorHandler.GetRuntimeProperty(propertyName);
+        }
+
+        public bool Compare(ActorStateHandler actorStateHandler)
+        {
+            return yeActorHandler == actorStateHandler;
+        }
+
+        public void AddSkill(SkillObject skillObject)
+        {
+            skillSys.AddSkillLunchInfo(this, skillObject.GetKeyName());
+        }
+
+        public void SetPos(Vector3 pos)
+        {
+            player.SetPos(pos);
+        }
+
+        public Vector3 GetLaunchPos()
+        {
+            return player.GetPos();
         }
     }
 }

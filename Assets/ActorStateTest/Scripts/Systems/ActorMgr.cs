@@ -14,6 +14,10 @@ namespace ActorStateTest.Systems
         [Inject] private YeActorStateSys yeActorStateSys;
         [Inject] private DiContainer container;
 
+        private List<ActorHandler> actorHandlers = new();
+
+        public IEnumerable<ActorHandler> ActorHandlers => actorHandlers;
+
         public ActorHandler CreatePlayer(string name)
         {
             var actorData = actorDataRepo.GetData(name);
@@ -32,7 +36,7 @@ namespace ActorStateTest.Systems
                 player
             };
             container.Inject(rv, perimeter);
-
+            actorHandlers.Add(rv);
             return rv;
         }
     }

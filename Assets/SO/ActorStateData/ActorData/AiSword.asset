@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes: []
   properties:
   - name: Hp
-    value: 0
+    value: 1000
   - name: HpRecovery
     value: 0
   - name: Mp
@@ -31,7 +31,7 @@ MonoBehaviour:
   - name: MpRecovery
     value: 0
   - name: MoveSpeed
-    value: 0
+    value: 1
   - name: EatStoneDis
     value: 0
   - name: DamageReduce

@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd62eb91f02d4983983406a7b0220a13, type: 3}
-  m_Name: SkillObjectRepo
+  m_Script: {fileID: 11500000, guid: 212fc1adefdc4578880404690338f5b0, type: 3}
+  m_Name: "\u7B26\u5361"
   m_EditorClassIdentifier: 
-  datas:
-  - displayName: "\u5C0F\u7B26\u5361"
+  displayName: "\u7B26\u5361"
+  icon: {fileID: 0}
+  prefab: {fileID: 172918761593065026, guid: 83cb7cc51eeebe54b96f1c56ac2f2f10, type: 3}
+  skillObject:
+    displayName: "\u5C0F\u7B26\u5361"
     keyName: FireCard
     baseDamage:
       propertyName: Damage
@@ -24,3 +27,4 @@ MonoBehaviour:
     - tagName: Tag_Project
       value: 1
     customEffects: []
+  CoolingTime: 1

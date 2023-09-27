@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   datas:
   - displayName: "\u7B26\u5361"
-    keyName: Card
+    keyName: Tag_Card
   - displayName: "\u6295\u5C04"
-    keyName: Project
+    keyName: Tag_Project
   - displayName: "\u4ED9\u8853"
-    keyName: Immortal
+    keyName: Tag_Immortal
   - displayName: "\u7BC4\u570D"
-    keyName: Range
+    keyName: Tag_Range

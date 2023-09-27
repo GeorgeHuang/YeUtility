@@ -220,6 +220,7 @@ namespace YeActorState.UI
 
             //有點那個
             RefreshBtnPress(Unit.Default);
+            SetupCurrentSkillPanel();
         }
     }
 }

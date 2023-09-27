@@ -11,15 +11,20 @@ namespace ActorStateTest.Systems
     {
         [SerializeField] private YeActorBaseDataRepo actorBaseDataRepo;
         [SerializeField] private ActorDataRepo actorDataRepo;
+        [SerializeField] private SkillDataRepo skillDataRepo;
         
         [ValueDropdown("@EditorHelper.ActorNames")]
         [SerializeField] public string PlayerDataName;
+        [ValueDropdown("@EditorHelper.ActorNames")]
+        [SerializeField] public string EnemyDataName;
+        [SerializeField] public int MaxEnemyNumber;
 
         public override void InstallBindings()
         {
             Container.BindInstance(this).AsSingle();
             Container.BindInstance(actorBaseDataRepo).AsSingle();
             Container.BindInstance(actorDataRepo).AsSingle();
+            Container.BindInstance(skillDataRepo).AsSingle();
         }
     }
 }

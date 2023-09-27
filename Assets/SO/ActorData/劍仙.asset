@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   yeActorBaseData: {fileID: 11400000, guid: a3fc0f829f530ca47bb9955ca6826208, type: 2}
   displayName: "\u528D\u4ED9"
-  modelPrefab: {fileID: -3217011724804285456, guid: b5ec804a8210e044a997ec604e34dbec, type: 3}
+  modelPrefab: {fileID: -3217011724804285456, guid: 50b504f7f65548c43aa8a66146cb01ab, type: 3}

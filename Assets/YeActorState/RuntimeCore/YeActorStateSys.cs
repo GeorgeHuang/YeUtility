@@ -8,6 +8,8 @@ namespace YeActorState.RuntimeCore
     {
         [InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
         [Inject] private DiContainer container;
+        [Inject] private List<ISkillChangeReceiver> skillChangeReceivers;
+
         private List<ActorStateHandler> handlers = new();
         private DefaultPropertyProcessor defaultPropertyProcessor = new();
         private Dictionary<ActorStateHandler, List<PropertyEffectData>> actorEffectList = new();
@@ -38,7 +40,7 @@ namespace YeActorState.RuntimeCore
             var runtime = new YeActorRuntimeData();
             runtime.Setup(baseData);
             defaultPropertyProcessor.Processor(baseData, runtime);
-            runtimeProcessors.ForEach(x=>x.Processor(baseData, runtime));
+            runtimeProcessors.ForEach(x => x.Processor(baseData, runtime));
             var perimeter = new List<object> { runtime, baseData, this };
             container.Inject(rv, perimeter);
             handlers.Add(rv);
@@ -52,13 +54,15 @@ namespace YeActorState.RuntimeCore
                 Calculate(data.Value);
                 data.Value.IsDirty = false;
             }
+
             dirtyActorList.Clear();
-            
+
             for (var data = dirtySkillList.First; data != null; data = data.Next)
             {
                 data.Value.Calculate();
                 data.Value.IsDirty = false;
             }
+
             dirtySkillList.Clear();
         }
 
@@ -68,18 +72,18 @@ namespace YeActorState.RuntimeCore
             var baseData = actorStateHandler.ActorBaseData;
             var oldRuntime = actorStateHandler.RuntimeData;
             runtime.Setup(baseData);
-            
+
             runtime.SetProperty("CurHp", oldRuntime.GetProperty("CurHp"));
             runtime.SetProperty("CurMp", oldRuntime.GetProperty("CurMp"));
-            
+
             var effectList = actorEffectList[actorStateHandler];
             foreach (var data in effectList)
             {
                 data.Processor(baseData: baseData, runtimeData: runtime);
             }
 
-            runtimeProcessors.ForEach(x=>x.Processor(baseData, runtime));
-            
+            runtimeProcessors.ForEach(x => x.Processor(baseData, runtime));
+
             actorStateHandler.RuntimeData = runtime;
         }
 
@@ -100,6 +104,7 @@ namespace YeActorState.RuntimeCore
             actorStateHandler.IsDirty = true;
             actorEffectList[actorStateHandler].Add(propertyEffectData);
             dirtyActorList.AddLast(actorStateHandler);
+            actorSkillList[actorStateHandler].ForEach(SetSkillDirty);
         }
 
         public void AddSkill(SkillObject skillObject, ActorStateHandler actorStateHandler)
@@ -112,8 +117,15 @@ namespace YeActorState.RuntimeCore
 
             var newRuntimeSkill = new RuntimeSkill(skillObject, actorStateHandler);
             actorSkillList[actorStateHandler].Add(newRuntimeSkill);
-            dirtySkillList.AddLast(newRuntimeSkill);
+            SetSkillDirty(newRuntimeSkill);
+            skillChangeReceivers.ForEach(receiver => receiver.SkillChanged(actorStateHandler, skillObject));
+        }
+
+        private void SetSkillDirty(RuntimeSkill newRuntimeSkill)
+        {
+            if (newRuntimeSkill.IsDirty) return;
             newRuntimeSkill.IsDirty = true;
+            dirtySkillList.AddLast(newRuntimeSkill);
         }
 
         public List<RuntimeSkill> GetRuntimeList(ActorStateHandler actorStateHandler)

@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actorBaseDataRepo: {fileID: 11400000, guid: aa2c5b764447923449961bf0fc583455, type: 2}
   actorDataRepo: {fileID: 11400000, guid: 42846330c4c60444dabafd0a99ef19ac, type: 2}
+  skillDataRepo: {fileID: 11400000, guid: df5513554299eb644ad65b0a5f7f1cbb, type: 2}
   PlayerDataName: "\u69CD\u5361\u5E2B"
+  EnemyDataName: "\u528D\u4ED9"
+  MaxEnemyNumber: 10

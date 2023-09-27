@@ -1,4 +1,5 @@
 using ActorStateTest.Data;
+using ActorStateTest.Systems;
 using OdinUnit;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
@@ -25,8 +26,16 @@ namespace ActorStateTest.Editor
             
             var key = "角色資料";
             _tree.Add(key, new ObjectRepoPage<ActorDataRepo, ActorData>());
-            var repo = OdinEditorHelpers.GetScriptableObject<ActorDataRepo>();
-            repo.Datas.ForEach(x => _tree.Add($"{key}/{x.GetDisplayName()}", x));
+            var actorDataRepo = OdinEditorHelpers.GetScriptableObject<ActorDataRepo>();
+            actorDataRepo.Datas.ForEach(x => _tree.Add($"{key}/{x.GetDisplayName()}", x));
+
+            key = "技能資料";
+            _tree.Add(key, new ObjectRepoPage<SkillDataRepo, SkillData>());
+            var skillDataRepo = OdinEditorHelpers.GetScriptableObject<SkillDataRepo>();
+            skillDataRepo.Datas.ForEach(x => _tree.Add($"{key}/{x.GetDisplayName()}", x));
+
+            key = "設定";
+            _tree.Add(key, OdinEditorHelpers.GetScriptableObject<ShootingRageConfig>());
             
             return _tree;
         }
