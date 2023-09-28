@@ -29,5 +29,5 @@ MonoBehaviour:
     - DashAmount
     - DashCoolingTime
     - BlockRate
-    - CtriRate
-    - CtriDamgeRatio
+    - CriticalRate
+    - CriticalDamageRatio

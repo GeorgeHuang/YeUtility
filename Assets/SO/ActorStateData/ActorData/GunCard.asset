@@ -46,9 +46,9 @@ MonoBehaviour:
     value: 0
   - name: BlockRate
     value: 0
-  - name: CtriRate
-    value: 0
-  - name: CtriDamgeRatio
-    value: 0
+  - name: CriticalRate
+    value: 10
+  - name: CriticalDamageRatio
+    value: 100
   - name: AtkSpeed
     value: 1

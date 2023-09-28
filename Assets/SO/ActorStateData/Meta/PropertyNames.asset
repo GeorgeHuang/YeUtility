@@ -53,10 +53,10 @@ MonoBehaviour:
     name: AtkSpeedRatio
     terms: 
   - displayName: "\u7206\u64CA\u6A5F\u7387%"
-    name: CtriRate
+    name: CriticalRate
     terms: 
   - displayName: "\u7206\u64CA\u50B7\u5BB3%"
-    name: CtriDamgeRatio
+    name: CriticalDamageRatio
     terms: 
   - displayName: "\u57FA\u672C\u8DD1\u901F"
     name: MoveSpeed

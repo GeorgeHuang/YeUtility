@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using YeUtility;
 using Zenject;
 
 namespace YeActorState.RuntimeCore
@@ -10,6 +11,7 @@ namespace YeActorState.RuntimeCore
         [InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
         [Inject] private DiContainer container;
         [Inject] private List<ISkillChangeReceiver> skillChangeReceivers;
+        [Inject] private List<IDealDamage> dealDamageReceiver;
 
         private readonly List<ActorStateHandler> handlers = new();
         private readonly DefaultPropertyProcessor defaultPropertyProcessor = new();
@@ -115,6 +117,7 @@ namespace YeActorState.RuntimeCore
             {
                 return;
             }
+
             var newRuntimeSkill = new RuntimeSkill(skillObject, actorStateHandler);
             actorSkillList[actorStateHandler].Add(newRuntimeSkill);
             SetSkillDirty(newRuntimeSkill);
@@ -137,7 +140,26 @@ namespace YeActorState.RuntimeCore
         {
             var runtimeSkill = actorSkillList[owner].FirstOrDefault(x => x.Compare(skillObject));
             if (runtimeSkill == null) return;
-            receiver.DealDamage(runtimeSkill.Damage);
+
+            var damage = runtimeSkill.Damage;
+            var criticalRate = owner.GetRuntimeProperty("CriticalRate");
+            var criticalDamageRate = owner.GetRuntimeProperty("CriticalDamageRatio");
+            var addDamage = 0f;
+            if (Common.Random((int)criticalRate))
+            {
+                addDamage = damage * criticalDamageRate * 0.01f;
+            }
+
+            damage += addDamage;
+
+            if (dealDamageReceiver.Count > 0)
+            {
+                var eventData = new DealDamageEventData
+                    { Owner = owner, Receiver = receiver, Damage = damage, IsCritical = addDamage > 0 };
+                dealDamageReceiver.ForEach(x => x.DealDamageEvent(eventData));
+            }
+
+            receiver.DealDamage(damage);
         }
 
         public void SetActorDirty(ActorStateHandler actorStateHandler)
@@ -150,11 +172,11 @@ namespace YeActorState.RuntimeCore
 
         public void SetSkillDirty(ActorStateHandler handler)
         {
-            actorSkillList[handler].ForEach((i,x) =>
+            actorSkillList[handler].ForEach((i, x) =>
             {
                 x.IsDirty = true;
                 dirtySkillList.AddLast(x);
-            }); 
+            });
         }
 
         public RuntimeSkill GetRuntimeSkill(ActorStateHandler actorStateHandler, SkillObject skillObject)
