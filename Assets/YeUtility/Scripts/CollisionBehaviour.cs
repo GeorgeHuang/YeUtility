@@ -27,14 +27,16 @@ namespace YeUtility
         Collision2D m_collision2D;
         Collider2D m_collider2D;
         List<Collider2D> triggerObjects = new List<Collider2D>();
-        
+
         Rect DetectRect;
         ContactFilter2D contactFilter2D = new ContactFilter2D();
 
         #region Gizmos
+
         public bool ShowGizmos = false;
         public Color DetectColor = Color.red;
         public Color NoDetectColor = Color.green;
+
         #endregion
 
         public UnityEngine.Collider OtherCollider
@@ -48,11 +50,13 @@ namespace YeUtility
             get { return m_collider2D; }
             set { m_collider2D = value; }
         }
+
         public UnityEngine.Collision2D OtherCollision2D
         {
             get { return m_collision2D; }
             set { m_collision2D = value; }
         }
+
         public UnityEngine.Collision CollisionObj
         {
             get { return m_collision; }
@@ -90,7 +94,12 @@ namespace YeUtility
                     trans = transform;
                 return trans;
             }
-        }    
+        }
+
+        // void Update()
+        // {
+        //     Debug.Log($"{triggerObjects.Count} {OtherCollider} {OtherObj}");
+        // }
 
         void OnCollisionEnter(Collision collision)
         {
@@ -144,6 +153,7 @@ namespace YeUtility
             OtherObj = other.gameObject;
             OnContact?.Invoke(this);
         }
+
         void OnTriggerStay2D(Collider2D other)
         {
             OtherCollider2D = other;
@@ -191,17 +201,20 @@ namespace YeUtility
                         //return Physics2D.OverlapBoxAll(rect.center, rect.size, transform.eulerAngles.z, 1 << layerMask);
                         //LayerMask layerMask = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
                         //return Physics2D.OverlapBoxAll(rect.center, rect.size, transform.eulerAngles.z);
-                        return Physics2D.OverlapBox(rect.center, rect.size, Trans.eulerAngles.z, contactFilter2D ,results);
+                        return Physics2D.OverlapBox(rect.center, rect.size, Trans.eulerAngles.z, contactFilter2D,
+                            results);
                     }
                     case ColliderType.Circle:
                         //return Physics2D.OverlapCircleAll(transform.position, transform.lossyScale.x * 0.5f);
-                        return Physics2D.OverlapCircle(Trans.position, Trans.lossyScale.x * 0.5f, contactFilter2D, results);
+                        return Physics2D.OverlapCircle(Trans.position, Trans.lossyScale.x * 0.5f, contactFilter2D,
+                            results);
                     case ColliderType.None:
                     default:
                         results = triggerObjects.ToArray();
                         break;
                 }
             }
+
             //return triggerObjects.ToArray();
             return triggerObjects.Count;
         }
@@ -213,10 +226,11 @@ namespace YeUtility
         }
 
         #region Gizmos
+
         private void OnDrawGizmos()
         {
             if (ShowGizmos == false) return;
-            
+
             var gizmosColor = triggerObjects.Count > 0 ? DetectColor : NoDetectColor;
 
             switch (ctype)
@@ -240,6 +254,7 @@ namespace YeUtility
                     throw new ArgumentOutOfRangeException();
             }
         }
+
         #endregion
     }
 }

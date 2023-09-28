@@ -16,7 +16,7 @@ namespace ActorStateTest.Element
         public override void InstallBindings()
         {
             Container.BindInstance(actorStateHandler);
-            Container.BindInterfacesAndSelfTo<MoveHandler>().AsTransient();
+            Container.BindInterfacesAndSelfTo<MoveHandler>().AsSingle();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ActorStateTest.Data;
+﻿using System.Collections.Generic;
+using ActorStateTest.Data;
 using ActorStateTest.Element;
 using UnityEngine;
 using YeActorState;
@@ -42,6 +43,11 @@ namespace ActorStateTest.Systems
         public Vector3 GetLaunchPos()
         {
             return player.GetPos();
+        }
+
+        public IEnumerable<Collider> GetColliders()
+        {
+            return player.GetColliders();
         }
     }
 }

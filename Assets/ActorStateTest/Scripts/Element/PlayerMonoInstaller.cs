@@ -10,6 +10,7 @@ namespace ActorStateTest.Element
         {
             Container.BindInstance(transform);
             Container.BindInterfacesAndSelfTo<MoveHandler>().AsSingle();
+            Container.Bind<Collider>().FromComponentsInHierarchy().AsSingle();
         }
     }
 }

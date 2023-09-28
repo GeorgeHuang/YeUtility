@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ActorStateTest.Data;
 using ActorStateTest.Systems;
 using UnityEditor;
@@ -12,6 +13,7 @@ namespace ActorStateTest.Element
     {
         [Inject] private TimeSys timeSys;
         [Inject] private MoveHandler moveHandler;
+        [Inject] private List<Collider> colliders;
 
         [SerializeField] private Vector3 gizmosHpOffset;
 
@@ -44,10 +46,15 @@ namespace ActorStateTest.Element
             return Trans.position;
         }
 
-        private void OnDrawGizmos()
+        // private void OnDrawGizmos()
+        // {
+        //     if (PropertyProvider == null) return;
+        //     var hp = PropertyProvider.GetRuntimeProperty("CurHp");
+        //     Handles.Label(transform.position + gizmosHpOffset, $"HP: {hp}");
+        // }
+        public IEnumerable<Collider> GetColliders()
         {
-            var hp = PropertyProvider.GetRuntimeProperty("CurHp");
-            Handles.Label(transform.position + gizmosHpOffset, $"HP: {hp}");
+            return colliders;
         }
     }
 }
