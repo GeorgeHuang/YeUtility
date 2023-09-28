@@ -4,6 +4,7 @@ using ActorStateTest.Element;
 using UnityEngine.Assertions;
 using YeActorState;
 using YeActorState.RuntimeCore;
+using YeActorState.UI;
 using Zenject;
 
 namespace ActorStateTest.Systems
@@ -13,6 +14,7 @@ namespace ActorStateTest.Systems
         [Inject] private ActorDataRepo actorDataRepo;
         [Inject] private YeActorStateSys yeActorStateSys;
         [Inject] private DiContainer container;
+        [Inject] private IAddActorReceiver[] addActorReceivers;
 
         private List<ActorHandler> actorHandlers = new();
 
@@ -38,6 +40,7 @@ namespace ActorStateTest.Systems
             container.Inject(rv, perimeter);
             rv.Initialize();
             actorHandlers.Add(rv);
+            addActorReceivers.ForEach((_,h)=>h.AddRuntimeData(yeActorHandler));
             return rv;
         }
     }

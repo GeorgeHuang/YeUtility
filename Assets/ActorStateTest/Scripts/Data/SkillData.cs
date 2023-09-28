@@ -10,12 +10,10 @@ namespace ActorStateTest.Data
     {
         public Sprite icon;
         public GameObject prefab;
-
         public float duration;
-        
+        public float Speed;
+        public float CoolingTime;
         [ValueDropdown("@YeActorStateEditorHelper.Skills")]
         public SkillObject skillObject;
-
-        public float CoolingTime;
     }
 }

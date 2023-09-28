@@ -6,7 +6,6 @@ using ActorStateTest.Data;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
 using Cysharp.Threading.Tasks.Triggers;
-using UniRx;
 using UnityEngine;
 using Zenject;
 using Object = UnityEngine.Object;
@@ -16,11 +15,12 @@ namespace ActorStateTest.Systems
     public class SkillSys : ITickable
     {
         [Inject] private SkillDataRepo repo;
+        [Inject] private TimeSys timeSys;
 
-        private Dictionary<SkillData, List<ActorHandler>> lunchInfoDict = new();
+        private readonly Dictionary<SkillData, List<ActorHandler>> lunchInfoDict = new();
         private Dictionary<SkillData, CancellationToken> tokens = new();
-        private Dictionary<Collider, ActorHandler> colliderDict = new();
-        private List<SkillInfo> skillInfos = new();
+        private readonly Dictionary<Collider, ActorHandler> colliderDict = new();
+        private readonly List<SkillInfo> skillInfos = new();
 
         class SkillInfo
         {
@@ -69,7 +69,7 @@ namespace ActorStateTest.Systems
             var prefab = skillInfo.SkillData.prefab;
             var bullet = GameObject.Instantiate(prefab);
             bullet.transform.position = skillInfo.ActorHandler.GetLaunchPos();
-            FlyBullet(bullet, Vector3.right).Forget();
+            FlyBullet(bullet, skillInfo, Vector3.right).Forget();
 
             //timeout and destroy token
             var destroyToken = bullet.transform.GetCancellationTokenOnDestroy();
@@ -97,12 +97,12 @@ namespace ActorStateTest.Systems
             // bullet.transform.GetAsyncCollisionEnterTrigger().
         }
 
-        private async UniTaskVoid FlyBullet(GameObject bullet, Vector3 right)
+        private async UniTaskVoid FlyBullet(GameObject bullet, SkillInfo skillInfo, Vector3 right)
         {
             while (true)
             {
                 await UniTask.Yield(bullet.transform.GetCancellationTokenOnDestroy());
-                bullet.transform.position += right;
+                bullet.transform.position += right * skillInfo.SkillData.Speed * timeSys.DeltaTime;
             }
         }
 

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Zenject;
 
 namespace YeActorState.RuntimeCore
@@ -10,14 +11,14 @@ namespace YeActorState.RuntimeCore
         [Inject] private DiContainer container;
         [Inject] private List<ISkillChangeReceiver> skillChangeReceivers;
 
-        private List<ActorStateHandler> handlers = new();
-        private DefaultPropertyProcessor defaultPropertyProcessor = new();
-        private Dictionary<ActorStateHandler, List<PropertyEffectData>> actorEffectList = new();
-        private Dictionary<ActorStateHandler, List<RuntimeSkill>> actorSkillList = new();
+        private readonly List<ActorStateHandler> handlers = new();
+        private readonly DefaultPropertyProcessor defaultPropertyProcessor = new();
+        private readonly Dictionary<ActorStateHandler, List<PropertyEffectData>> actorEffectList = new();
+        private readonly Dictionary<ActorStateHandler, List<RuntimeSkill>> actorSkillList = new();
 
-        private LinkedList<ActorStateHandler> dirtyActorList = new();
-        private LinkedList<RuntimeSkill> dirtySkillList = new();
-        private List<IBasePropertyProcessor> runtimeProcessors = new();
+        private readonly LinkedList<ActorStateHandler> dirtyActorList = new();
+        private readonly LinkedList<RuntimeSkill> dirtySkillList = new();
+        private readonly List<IBasePropertyProcessor> runtimeProcessors = new();
 
         public IEnumerable<ActorStateHandler> AllHandlers => handlers;
 

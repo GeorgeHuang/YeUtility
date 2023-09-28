@@ -13,7 +13,7 @@ using Zenject;
 
 namespace YeActorState.UI
 {
-    public class YeActorStateDashboard : MonoBehaviour
+    public class YeActorStateDashboard : MonoBehaviour, IAddActorReceiver
     {
         [SerializeField] private PropertyElement propertyElementPrefab;
         [SerializeField] private PropertyEffectElement propertyEffectElementPrefab;
@@ -149,7 +149,9 @@ namespace YeActorState.UI
             runtimeDropdownContent = actorStateHandlers
                 .Select(handler => handler.GetHashCode() + "_" + handler.GetBaseDataName())
                 .ToList();
+            runtimeListDropdown.ClearOptions();
             runtimeListDropdown.AddOptions(runtimeDropdownContent);
+            
             runtimeListDropdown.onValueChanged.AsObservable().Subscribe(RuntimeListDropdownValueChanged);
         }
 
@@ -221,6 +223,11 @@ namespace YeActorState.UI
             //有點那個
             RefreshBtnPress(Unit.Default);
             SetupCurrentSkillPanel();
+        }
+
+        public void AddRuntimeData(ActorStateHandler yeActorHandler)
+        {
+            UpdateRuntimeDataDropdown();
         }
     }
 }
