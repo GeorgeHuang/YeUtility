@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
 using UniRx.Triggers;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
@@ -127,8 +128,36 @@ namespace YeActorState.UI
                 skillObject.tagEffectList.Select(e => tagDataRepo.GetDataWithKeyName(e.tagName).GetDisplayName())
                     .ToList());
             var customString = string.Join(",", skillObject.customEffects.Select(_ => _.propertyName).ToList());
+
+            var key = skillObject.baseDamage.propertyName;
+
+            var damageStr = "";
+
+            damageStr = $"{GetPropertyStr(key)}x{skillObject.baseDamage.value}% x";
+
+            foreach (var tag in skillObject.tagEffectList)
+            {
+                damageStr += $"{GetPropertyStr(tag.tagName)}%x{tag.value * 100}%x";
+            }
+
+            foreach (var customEffect in skillObject.customEffects)
+            {
+                damageStr += $"{GetPropertyStr(customEffect.propertyName)}%x{customEffect.value * 100}%x";
+            }
+
+            damageStr = damageStr.Substring(0, damageStr.Length - 1);
+
             messageGUI.text =
-                $"{skillObject.GetDisplayName()}<br>Tags:{tagString}<br>Customs:{customString}";
+                $"{skillObject.GetDisplayName()}<br>Tags:{tagString}<br>Customs:{customString}<br>{damageStr}";
+
+            return;
+
+            string GetPropertyStr(string key)
+            {
+                var propertyValue = curActorStateHandler.GetRuntimeProperty(key);
+                var propertyName = propertyNames.GetDisplayName(key);
+                return $"{propertyName}(<color=#007700>{propertyValue}</color>)";
+            }
         }
 
         private void SetupDatabaseEffect()

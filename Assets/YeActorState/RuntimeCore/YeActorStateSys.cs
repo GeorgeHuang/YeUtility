@@ -156,5 +156,10 @@ namespace YeActorState.RuntimeCore
                 dirtySkillList.AddLast(x);
             }); 
         }
+
+        public RuntimeSkill GetRuntimeSkill(ActorStateHandler actorStateHandler, SkillObject skillObject)
+        {
+            return actorSkillList[actorStateHandler].FirstOrDefault(x => x.Compare(skillObject));
+        }
     }
 }

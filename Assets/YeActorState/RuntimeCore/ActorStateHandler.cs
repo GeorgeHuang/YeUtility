@@ -76,5 +76,10 @@ namespace YeActorState
         {
             yeActorStateSys.SetSkillDirty(this);
         }
+
+        public RuntimeSkill GetRuntimeSkill(SkillObject skillObject)
+        {
+            return yeActorStateSys.GetRuntimeSkill(this, skillObject);
+        }
     }
 }
