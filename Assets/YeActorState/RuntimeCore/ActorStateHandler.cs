@@ -54,5 +54,17 @@ namespace YeActorState
         {
             return yeActorStateSys.GetRuntimeList(this);
         }
+
+        public void Attack(ActorStateHandler otherHandler, SkillObject skillObject)
+        {
+            yeActorStateSys.Attack(this, otherHandler, skillObject);
+        }
+
+        public void DealDamage(float damage)
+        {
+            var curHp = GetRuntimeProperty("CurHp");
+            curHp = Mathf.Max(curHp - damage, 0);
+            RuntimeData.SetProperty("CurHp", curHp);
+        }
     }
 }

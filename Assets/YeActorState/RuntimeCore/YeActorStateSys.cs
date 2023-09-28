@@ -115,7 +115,6 @@ namespace YeActorState.RuntimeCore
             {
                 return;
             }
-
             var newRuntimeSkill = new RuntimeSkill(skillObject, actorStateHandler);
             actorSkillList[actorStateHandler].Add(newRuntimeSkill);
             SetSkillDirty(newRuntimeSkill);
@@ -132,6 +131,13 @@ namespace YeActorState.RuntimeCore
         public List<RuntimeSkill> GetRuntimeList(ActorStateHandler actorStateHandler)
         {
             return actorSkillList[actorStateHandler];
+        }
+
+        public void Attack(ActorStateHandler owner, ActorStateHandler receiver, SkillObject skillObject)
+        {
+            var runtimeSkill = actorSkillList[owner].FirstOrDefault(x => x.Compare(skillObject));
+            if (runtimeSkill == null) return;
+            receiver.DealDamage(runtimeSkill.Damage);
         }
     }
 }

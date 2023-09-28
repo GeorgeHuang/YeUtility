@@ -53,6 +53,12 @@ namespace ActorStateTest.Systems
         public void Initialize()
         {
             skillSys.SetupColliderInfo(this);
+            player.Setup(this);
+        }
+
+        public void Attack(ActorHandler otherHandler, SkillData skillData)
+        {
+            yeActorHandler.Attack(otherHandler.yeActorHandler, skillData.skillObject);
         }
     }
 }

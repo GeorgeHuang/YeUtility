@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using ActorStateTest.Data;
+using ActorStateTest.Scripts.UI;
 using ActorStateTest.Systems;
+using UniRx;
 using UnityEditor;
 using UnityEngine;
 using YeActorState;
@@ -14,6 +16,7 @@ namespace ActorStateTest.Element
         [Inject] private TimeSys timeSys;
         [Inject] private MoveHandler moveHandler;
         [Inject] private List<Collider> colliders;
+        [Inject] private HpBar hpbar;
 
         [SerializeField] private Vector3 gizmosHpOffset;
 
@@ -55,6 +58,16 @@ namespace ActorStateTest.Element
         public IEnumerable<Collider> GetColliders()
         {
             return colliders;
+        }
+
+        public void Setup(ActorHandler actorHandler)
+        {
+            PropertyProvider = actorHandler;
+            this.ObserveEveryValueChanged(x => x.PropertyProvider.GetRuntimeProperty("CurHp")).Subscribe(v =>
+            {
+                var maxHp = PropertyProvider.GetRuntimeProperty("Hp");
+                hpbar.SetPercent(v / maxHp);
+            });
         }
     }
 }

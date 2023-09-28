@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
 using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
+using YeActorState.RuntimeCore;
 using Zenject;
 using Object = UnityEngine.Object;
 
@@ -76,20 +77,20 @@ namespace ActorStateTest.Systems
             var waitAutoDestroy = UniTask.Delay(TimeSpan.FromSeconds(skillInfo.SkillData.duration),
                 cancellationToken: destroyToken);
 
-            var collisionResult = new UniTaskCompletionSource<Collider>();
+            var collisionResult = new UniTaskCompletionSource<ActorHandler>();
             bullet.transform.GetAsyncTriggerEnterTrigger().ForEachAsync(
                 (collider) =>
                 {
                     if (colliderDict.TryGetValue(collider, out var otherHandler) && otherHandler != skillInfo.ActorHandler)
                     {
-                        collisionResult.TrySetResult(collider);
+                        collisionResult.TrySetResult(otherHandler);
                     }
                 }, cancellationToken: destroyToken);
 
             var result = await UniTask.WhenAny(waitAutoDestroy, collisionResult.Task);
             if (result == 1)
             {
-                Debug.Log($"{collisionResult.GetResult(0)}");
+                skillInfo.ActorHandler.Attack(collisionResult.GetResult(0), skillInfo.SkillData);
             }
             Object.Destroy(bullet);
             // var timeoutToken = new CancellationTokenSource();

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using UnityEngine;
 using YeUtility;
 
 namespace YeActorState.RuntimeCore
@@ -39,7 +40,7 @@ namespace YeActorState.RuntimeCore
 
         public bool Compare(SkillObject o)
         {
-            return o == skillObject;
+            return o.GetKeyName() == skillObject.GetKeyName();
         }
 
         public string GetDisplayName()

@@ -29,7 +29,6 @@ namespace ActorStateTest.Systems
 
             ActorHandler rv = new();
             var player = container.InstantiatePrefabForComponent<Player>(actorData.modelPrefab);
-            player.PropertyProvider = rv;
 
             var perimeter = new List<object>
             {
