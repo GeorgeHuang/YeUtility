@@ -121,7 +121,7 @@ namespace YeActorState.RuntimeCore
             skillChangeReceivers.ForEach(receiver => receiver.SkillChanged(actorStateHandler, skillObject));
         }
 
-        private void SetSkillDirty(RuntimeSkill newRuntimeSkill)
+        public void SetSkillDirty(RuntimeSkill newRuntimeSkill)
         {
             if (newRuntimeSkill.IsDirty) return;
             newRuntimeSkill.IsDirty = true;
@@ -138,6 +138,23 @@ namespace YeActorState.RuntimeCore
             var runtimeSkill = actorSkillList[owner].FirstOrDefault(x => x.Compare(skillObject));
             if (runtimeSkill == null) return;
             receiver.DealDamage(runtimeSkill.Damage);
+        }
+
+        public void SetActorDirty(ActorStateHandler actorStateHandler)
+        {
+            if (actorStateHandler.IsDirty) return;
+            actorStateHandler.IsDirty = true;
+            dirtyActorList.AddLast(actorStateHandler);
+            actorSkillList[actorStateHandler].ForEach(SetSkillDirty);
+        }
+
+        public void SetSkillDirty(ActorStateHandler handler)
+        {
+            actorSkillList[handler].ForEach((i,x) =>
+            {
+                x.IsDirty = true;
+                dirtySkillList.AddLast(x);
+            }); 
         }
     }
 }

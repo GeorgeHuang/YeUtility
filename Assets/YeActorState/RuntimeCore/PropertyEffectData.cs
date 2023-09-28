@@ -32,6 +32,8 @@ namespace YeActorState.RuntimeCore
             public float value;
         }
 
+        public IEnumerable<Data> Datas => datas;
+
         public void Processor(YeActorBaseData baseData, YeActorRuntimeData runtimeData)
         {
             foreach (var data in datas)

@@ -10,21 +10,27 @@ namespace ActorStateTest.Scripts.UI
     {
         [SerializeField] private Image midImage;
         [SerializeField] private Image frontImage;
+        [SerializeField] private float midDelay = 1;
 
         [Button("SerPercent")]
         public void SetPercent(float percent)
         {
             frontImage.fillAmount = percent;
-            if (Math.Abs(frontImage.fillAmount - midImage.fillAmount) > 0.001f)
+            
+            if (DelayWorking == false)
             {
                 DelayMid().Forget();
             }
         }
 
-        async UniTaskVoid DelayMid()
+        private bool DelayWorking { get; set; }
+
+        private async UniTaskVoid DelayMid()
         {
-            await UniTask.WaitForSeconds(1);
+            DelayWorking = true;
+            await UniTask.WaitForSeconds(midDelay);
             midImage.fillAmount = frontImage.fillAmount;
+            DelayWorking = false;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using OdinUnit;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -13,6 +14,11 @@ namespace YeUtility
 
         public int Count => datas.Count;
         public IEnumerable<T> Datas => datas;
+
+        public T GetDataWithKeyName(string keyName)
+        {
+            return datas.FirstOrDefault(x => x.GetKeyName() == keyName);
+        }
         
         public static IEnumerable GetStringDropdown()
         {

@@ -66,5 +66,15 @@ namespace YeActorState
             curHp = Mathf.Max(curHp - damage, 0);
             RuntimeData.SetProperty("CurHp", curHp);
         }
+
+        public void SetActorDirty()
+        {
+            yeActorStateSys.SetActorDirty(this);
+        }
+
+        public void SetSkillDirty()
+        {
+            yeActorStateSys.SetSkillDirty(this);
+        }
     }
 }

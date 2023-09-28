@@ -61,7 +61,7 @@ namespace ActorStateTest.Systems
                 if (skillInfo.IsCooling) continue;
                 skillInfo.CancelToken = new CancellationToken();
                 SkillCooling(skillInfo).Forget();
-                LaunchSkill(skillInfo);
+                LaunchSkill(skillInfo).Forget();
             }
         }
 
@@ -81,7 +81,8 @@ namespace ActorStateTest.Systems
             bullet.transform.GetAsyncTriggerEnterTrigger().ForEachAsync(
                 (collider) =>
                 {
-                    if (colliderDict.TryGetValue(collider, out var otherHandler) && otherHandler != skillInfo.ActorHandler)
+                    if (colliderDict.TryGetValue(collider, out var otherHandler) &&
+                        otherHandler != skillInfo.ActorHandler)
                     {
                         collisionResult.TrySetResult(otherHandler);
                     }
@@ -93,9 +94,6 @@ namespace ActorStateTest.Systems
                 skillInfo.ActorHandler.Attack(collisionResult.GetResult(0), skillInfo.SkillData);
             }
             Object.Destroy(bullet);
-            // var timeoutToken = new CancellationTokenSource();
-            // timeoutToken.CancelAfterSlim(TimeSpan.FromSeconds(skillInfo.SkillData.duration));
-            // bullet.transform.GetAsyncCollisionEnterTrigger().
         }
 
         private async UniTaskVoid FlyBullet(GameObject bullet, SkillInfo skillInfo, Vector3 right)

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Globalization;
 using TMPro;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Zenject;
 using Image = UnityEngine.UI.Image;
 
@@ -37,6 +35,8 @@ namespace YeActorState.UI
             if (float.TryParse(s, out var v))
             {
                 stateHandler.SetProperty(propertyName, v);
+                stateHandler.SetSkillDirty();
+                //stateHandler.SetActorDirty();
             }
             else
             {
@@ -46,7 +46,7 @@ namespace YeActorState.UI
 
         private void OnDestroy()
         {
-           disposable.Dispose();
+            disposable.Dispose();
         }
 
         public void Refresh()

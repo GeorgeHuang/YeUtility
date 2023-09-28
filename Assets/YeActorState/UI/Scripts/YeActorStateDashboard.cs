@@ -30,19 +30,20 @@ namespace YeActorState.UI
 
         [Inject(Id = "DatabaseEffectViewContent")]
         private RectTransform DatabaseEffectViewContentTrans;
-        
+
         [Inject(Id = "SkillObjectViewContent")]
         private RectTransform SkillObjectViewContentTrans;
-        
+
         [Inject(Id = "CurrentSkillObjectViewContent")]
         private RectTransform CurrentSkillObjectViewContentTrans;
-        
+
         [Inject(Id = "RefreshBtn")] private Button refreshBtn;
         [Inject(Id = "Message")] private TextMeshProUGUI messageGUI;
 
         [Inject] private YeActorStateSys yeActorStateSys;
         [Inject] private PropertyNames propertyNames;
         [Inject] private DiContainer Container;
+        [Inject] private TagDataRepo tagDataRepo;
 
         private List<string> runtimeDropdownContent;
         private List<ActorStateHandler> actorStateHandlers;
@@ -51,6 +52,7 @@ namespace YeActorState.UI
         private async void Start()
         {
             await UniTask.WaitUntil(() => yeActorStateSys.AllHandlers.ToList().Count > 0);
+            runtimeListDropdown.onValueChanged.AsObservable().Subscribe(RuntimeListDropdownValueChanged);
             UpdateRuntimeDataDropdown();
             SetupPropertyContent(actorStateHandlers.First());
             SetupDatabaseEffect();
@@ -106,7 +108,7 @@ namespace YeActorState.UI
                 element.Setup(runtimeSkill);
             }
         }
-        
+
         private void OnSkillClick(SkillObject skillObject)
         {
             curActorStateHandler.AddSkill(skillObject);
@@ -121,7 +123,9 @@ namespace YeActorState.UI
 
         private void OnSkillElementEnter(SkillObject skillObject)
         {
-            var tagString = string.Join(",", skillObject.tagEffectList.Select(e => e.tagName).ToList());
+            var tagString = string.Join(",",
+                skillObject.tagEffectList.Select(e => tagDataRepo.GetDataWithKeyName(e.tagName).GetDisplayName())
+                    .ToList());
             var customString = string.Join(",", skillObject.customEffects.Select(_ => _.propertyName).ToList());
             messageGUI.text =
                 $"{skillObject.GetDisplayName()}<br>Tags:{tagString}<br>Customs:{customString}";
@@ -151,13 +155,14 @@ namespace YeActorState.UI
                 .ToList();
             runtimeListDropdown.ClearOptions();
             runtimeListDropdown.AddOptions(runtimeDropdownContent);
-            
-            runtimeListDropdown.onValueChanged.AsObservable().Subscribe(RuntimeListDropdownValueChanged);
         }
 
         private void RuntimeListDropdownValueChanged(int i)
         {
             SetupPropertyContent(actorStateHandlers[i]);
+            SetupApplyEffectContent(actorStateHandlers[i]);
+            SetupSkillContent();
+            SetupCurrentSkillPanel();
         }
 
         private async void SetupPropertyContent(ActorStateHandler actorStateHandler)
@@ -185,9 +190,10 @@ namespace YeActorState.UI
 
         private static void ClearViewContent(RectTransform trans)
         {
-            foreach (Transform c in trans.gameObject.transform)
+            for (int i = 0; i < trans.childCount; ++i)
             {
-                Destroy(c.gameObject);
+                var child = trans.GetChild(i);
+                Destroy(child.gameObject);
             }
         }
 

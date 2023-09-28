@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ActorStateTest.Data;
 using ActorStateTest.Scripts.UI;
 using ActorStateTest.Systems;
 using UniRx;
-using UnityEditor;
 using UnityEngine;
-using YeActorState;
 using Zenject;
 
 namespace ActorStateTest.Element
@@ -63,11 +60,11 @@ namespace ActorStateTest.Element
         public void Setup(ActorHandler actorHandler)
         {
             PropertyProvider = actorHandler;
-            this.ObserveEveryValueChanged(x => x.PropertyProvider.GetRuntimeProperty("CurHp")).Subscribe(v =>
+            PropertyProvider.ObserveEveryValueChanged(x => x.GetRuntimeProperty("CurHp")).Subscribe(v =>
             {
                 var maxHp = PropertyProvider.GetRuntimeProperty("Hp");
                 hpbar.SetPercent(v / maxHp);
-            });
+            }).AddTo(this);
         }
     }
 }

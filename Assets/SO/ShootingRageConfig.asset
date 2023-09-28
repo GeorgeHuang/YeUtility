@@ -17,4 +17,4 @@ MonoBehaviour:
   skillDataRepo: {fileID: 11400000, guid: df5513554299eb644ad65b0a5f7f1cbb, type: 2}
   PlayerDataName: "\u69CD\u5361\u5E2B"
   EnemyDataName: "\u528D\u4ED9"
-  MaxEnemyNumber: 10
+  MaxEnemyNumber: 1

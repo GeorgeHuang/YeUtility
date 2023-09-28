@@ -1,8 +1,8 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
-using TMPro;
+﻿using TMPro;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
 using Zenject;
@@ -15,25 +15,28 @@ namespace YeActorState.UI
         [SerializeField] private Button btn;
 
         [Inject] private YeActorStateDashboard dashboard;
+        [Inject(Id = "Message")] private TextMeshProUGUI messageGUI;
 
         private PropertyEffectData propertyEffectData;
         private ActorStateHandler stateHandler;
-        private IDisposable disposable;
 
         public void Setup(PropertyEffectData propertyEffectData, ActorStateHandler handler)
         {
             stateHandler = handler;
             this.propertyEffectData = propertyEffectData;
             labelText.text = propertyEffectData.GetDisplayName();
-            disposable = btn.OnClickAsObservable().Subscribe(OnBtnPress);
+            btn.OnClickAsObservable().Subscribe(OnBtnPress).AddTo(gameObject);
+            btn.OnPointerEnterAsObservable().Subscribe(OnPointEnter).AddTo(gameObject);
         }
 
-        private void OnDestroy()
+        private void OnPointEnter(PointerEventData pointerEventData)
         {
-            disposable.Dispose();
+            var text = "";
+            propertyEffectData.Datas.ForEach((i, data) => text += $"{data.targetPropertyName} + {data.value}<br>");
+            messageGUI.text = text;
         }
 
-        void OnBtnPress(Unit u)
+        private void OnBtnPress(Unit u)
         {
             stateHandler.ApplyEffect(propertyEffectData);
             dashboard.RefreshPropertyView();
