@@ -36,6 +36,7 @@ namespace ActorStateTest.Systems
                 player
             };
             container.Inject(rv, perimeter);
+            rv.Initialize();
             actorHandlers.Add(rv);
             return rv;
         }

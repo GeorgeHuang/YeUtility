@@ -8,7 +8,7 @@ using Zenject;
 
 namespace ActorStateTest.Systems
 {
-    public class ActorHandler : IPropertyProvider
+    public class ActorHandler : IPropertyProvider, IInitializable
     {
         [Inject] private readonly ActorStateHandler yeActorHandler;
         [Inject] private readonly GameObject gameObject;
@@ -48,6 +48,11 @@ namespace ActorStateTest.Systems
         public IEnumerable<Collider> GetColliders()
         {
             return player.GetColliders();
+        }
+
+        public void Initialize()
+        {
+            skillSys.SetupColliderInfo(this);
         }
     }
 }

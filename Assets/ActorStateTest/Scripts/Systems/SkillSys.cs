@@ -30,6 +30,11 @@ namespace ActorStateTest.Systems
             public bool IsCooling { get; set; }
         }
 
+        public void SetupColliderInfo(ActorHandler handler)
+        {
+            handler.GetColliders().ForEach((_, c) => { colliderDict.TryAdd(c, handler); });
+        }
+
         public void AddSkillLunchInfo(ActorHandler handler, SkillData skillData)
         {
             if (!lunchInfoDict.TryGetValue(skillData, out var data))
@@ -42,8 +47,6 @@ namespace ActorStateTest.Systems
             {
                 return;
             }
-            
-            //handler.GetColliders()
 
             data.Add(handler);
             var newSkillInfo = new SkillInfo { ActorHandler = handler, SkillData = skillData };
@@ -75,14 +78,20 @@ namespace ActorStateTest.Systems
 
             var collisionResult = new UniTaskCompletionSource<Collider>();
             bullet.transform.GetAsyncTriggerEnterTrigger().ForEachAsync(
-                (collision) => { collisionResult.TrySetResult(collision); }, cancellationToken: destroyToken);
+                (collider) =>
+                {
+                    if (colliderDict.TryGetValue(collider, out var otherHandler) && otherHandler != skillInfo.ActorHandler)
+                    {
+                        collisionResult.TrySetResult(collider);
+                    }
+                }, cancellationToken: destroyToken);
 
             var result = await UniTask.WhenAny(waitAutoDestroy, collisionResult.Task);
             if (result == 1)
             {
                 Debug.Log($"{collisionResult.GetResult(0)}");
-                Object.Destroy(bullet);
             }
+            Object.Destroy(bullet);
             // var timeoutToken = new CancellationTokenSource();
             // timeoutToken.CancelAfterSlim(TimeSpan.FromSeconds(skillInfo.SkillData.duration));
             // bullet.transform.GetAsyncCollisionEnterTrigger().
