@@ -10,7 +10,7 @@ namespace YeActorState.RuntimeCore
     [Serializable]
     public class SkillObject : NamedObject
     {
-        public CustomEffect baseDamage;
+        public LevelEffect baseDamage;
         public List<TagEffect> tagEffectList;
         public List<CustomEffect> customEffects;
         
@@ -27,6 +27,13 @@ namespace YeActorState.RuntimeCore
         {
             public string propertyName;
             public float value;
+        }
+
+        [Serializable]
+        public class LevelEffect
+        {
+            public string propertyName;
+            public List<float> values = new();
         }
     }
 }

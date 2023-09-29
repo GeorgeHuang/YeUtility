@@ -10,7 +10,9 @@ namespace YeActorState.UI
 
         public void Setup(RuntimeSkill runtimeSkill)
         {
-            textMeshProUGUI.text = runtimeSkill.GetDisplayName() + " " + runtimeSkill.Damage;
+            var damage = Mathf.RoundToInt(runtimeSkill.Damage);
+            var lv = runtimeSkill.Lv;
+            textMeshProUGUI.text = $"{runtimeSkill.GetDisplayName()}_Lv{lv}: {damage}";
         }
     }
 }

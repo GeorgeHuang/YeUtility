@@ -113,8 +113,10 @@ namespace YeActorState.RuntimeCore
         public void AddSkill(SkillObject skillObject, ActorStateHandler actorStateHandler)
         {
             var skillList = actorSkillList[actorStateHandler];
-            if (skillList.Any(x => x.Compare(skillObject)))
+            var runtimeSkill = skillList.FirstOrDefault(x => x.Compare(skillObject));
+            if (runtimeSkill != null)
             {
+                runtimeSkill.AddLv(1);
                 return;
             }
 

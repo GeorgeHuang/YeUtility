@@ -133,7 +133,7 @@ namespace YeActorState.UI
 
             var damageStr = "";
 
-            damageStr = $"{GetPropertyStr(key)}x{skillObject.baseDamage.value}% x";
+            damageStr = $"{GetPropertyStr(key)}x{skillObject.baseDamage.values[0]}% x";
 
             foreach (var tag in skillObject.tagEffectList)
             {
