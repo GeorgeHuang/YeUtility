@@ -4,6 +4,7 @@ using ActorStateTest.Systems;
 using NUnit.Framework;
 using YeActorState;
 using YeActorState.RuntimeCore;
+using YeUtility.EditorHelper;
 using Zenject;
 
 namespace Test.MainTest
@@ -14,7 +15,7 @@ namespace Test.MainTest
         [SetUp]
         public void CommonInstall()
         {
-            var repo = OdinUnit.OdinEditorHelpers.GetScriptableObject<ActorDataRepo>();
+            var repo = OdinEditorHelpers.GetScriptableObject<ActorDataRepo>();
             Container.BindInstance(repo);
             Container.Bind<YeActorStateSys>().AsSingle();
             Container.BindInterfacesAndSelfTo<ActorMgr>().AsSingle();

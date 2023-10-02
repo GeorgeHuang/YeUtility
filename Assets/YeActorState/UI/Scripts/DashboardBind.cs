@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using YeActorState.RuntimeCore;
+using YeUtility.EditorHelper;
 using Zenject;
 
 namespace YeActorState.UI
@@ -10,7 +11,7 @@ namespace YeActorState.UI
         [SerializeField] private TagDataRepo tagDataRepo;
         public override void InstallBindings()
         {
-            var propertyNames = OdinUnit.OdinEditorHelpers.GetScriptableObject<PropertyNames>();
+            var propertyNames = OdinEditorHelpers.GetScriptableObject<PropertyNames>();
             if (Container.HasBinding<PropertyNames>() == false)
             {
                 Container.BindInstance(propertyNames).AsSingle();

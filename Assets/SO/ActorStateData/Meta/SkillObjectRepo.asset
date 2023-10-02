@@ -17,7 +17,12 @@ MonoBehaviour:
     keyName: FireCard
     baseDamage:
       propertyName: Damage
-      value: 110
+      values:
+      - 110
+      - 120
+      - 130
+      - 140
+      - 150
     tagEffectList:
     - tagName: Tag_Card
       value: 1

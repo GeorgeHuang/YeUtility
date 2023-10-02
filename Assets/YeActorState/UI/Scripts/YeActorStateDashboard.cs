@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using OdinUnit;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
@@ -10,6 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
+using YeUtility.EditorHelper;
 using Zenject;
 
 namespace YeActorState.UI
