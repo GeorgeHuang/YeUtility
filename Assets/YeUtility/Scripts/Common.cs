@@ -206,7 +206,7 @@ namespace YeUtility
             return rv;
         }
 
-        private static void ChangeGoParent(Transform childTrans, Transform parentTrans, bool resetPos = true, bool resetRotate = true)
+        public static void ChangeGOParent(Transform childTrans, Transform parentTrans, bool resetPos = true, bool resetRotate = true)
         {
             if (childTrans == null)
                 return;
@@ -239,15 +239,15 @@ namespace YeUtility
         }
         public static void ChangeGOParent(Transform childTrans, GameObject parent, bool resetPos = true, bool resetRotate = true)
         {
-            ChangeGoParent(childTrans, parent.transform, resetPos, resetRotate);
+            ChangeGOParent(childTrans, parent.transform, resetPos, resetRotate);
         }
         public static void ChangeGOParent(GameObject child, Transform parentTrans, bool resetPos = true, bool resetRotate = true)
         {
-            ChangeGoParent(child.transform, parentTrans, resetPos, resetRotate);
+            ChangeGOParent(child.transform, parentTrans, resetPos, resetRotate);
         }
         public static void ChangeGOParent(GameObject child, GameObject parent, bool resetPos = true, bool resetRotate = true)
         {
-            ChangeGoParent(child.transform, parent.transform, resetPos, resetRotate);
+            ChangeGOParent(child.transform, parent.transform, resetPos, resetRotate);
         }
         public static void DicToObject(object obj, Dictionary<string, object> dict)
         {
