@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using YeUtility;
 
-namespace CommonUnit
+namespace YeUtility
 {
     [Serializable]
     public class NamedObject : INamedObject

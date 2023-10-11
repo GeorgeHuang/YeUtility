@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace YeUtility
 {
-    public class MaterialCopier : MonoBehaviour
+    public class YeMaterialCopier : MonoBehaviour
     {
         public List<Renderer> renders = new List<Renderer>();
         public List<Image> images = new List<Image>();

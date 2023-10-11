@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 using Zenject;
-using OnTimeTaskClass = CommonUnit.OnTimeTask;
+using OnTimeTaskClass = YeUtility.Task.OnTimeTask;
 
-namespace CommonUnit
+namespace YeUtility.Task
 {
     public class OnTimeTask : Task, IPoolable, IDisposable
     {

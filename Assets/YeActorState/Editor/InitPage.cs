@@ -23,7 +23,7 @@ namespace YeActorState.Editor
         [BoxGroup("資料庫")] public ActorDataTemplateRepo TemplateRepo;
         [BoxGroup("資料庫")] public PropertyEffectRepo PropertyEffectRepo;
         [BoxGroup("資料庫")] public TagDataRepo TagDataRepo;
-        [BoxGroup("資料庫")] public SkillObjectRepo SkillObjectRepo;
+        [BoxGroup("資料庫")] public SkillYeObjectRepo SkillYeObjectRepo;
         
 
         private bool showCreateDirButton = false;
@@ -41,7 +41,7 @@ namespace YeActorState.Editor
             TemplateRepo = OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>(metaPath);
             PropertyEffectRepo = OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>(metaPath);
             TagDataRepo = OdinEditorHelpers.GetScriptableObject<TagDataRepo>(metaPath);
-            SkillObjectRepo = OdinEditorHelpers.GetScriptableObject<SkillObjectRepo>();
+            SkillYeObjectRepo = OdinEditorHelpers.GetScriptableObject<SkillYeObjectRepo>();
         }
 
         private void CheckDir()
@@ -103,9 +103,9 @@ namespace YeActorState.Editor
         [BoxGroup("資料庫"), Button("建立技能庫")]
         private void CreateSkillRepo()
         {
-            SkillObjectRepo = OdinEditorHelpers.GetScriptableObject<SkillObjectRepo>();
-            if (SkillObjectRepo != null) return;
-            SkillObjectRepo = OdinEditorHelpers.CreateScriptableObject<SkillObjectRepo>(metaPath);
+            SkillYeObjectRepo = OdinEditorHelpers.GetScriptableObject<SkillYeObjectRepo>();
+            if (SkillYeObjectRepo != null) return;
+            SkillYeObjectRepo = OdinEditorHelpers.CreateScriptableObject<SkillYeObjectRepo>(metaPath);
         }
     }
 }

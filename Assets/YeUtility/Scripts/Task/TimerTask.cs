@@ -1,8 +1,8 @@
 using System;
 using Zenject;
-using TimerTaskClass = CommonUnit.TimerTask;
+using TimerTaskClass = YeUtility.Task.TimerTask;
 
-namespace CommonUnit
+namespace YeUtility.Task
 {
     public class TimerTask : Task, IPoolable, IDisposable
     {

@@ -4,7 +4,7 @@ using YeUtility;
 namespace YeActorState.RuntimeCore
 {
     [Serializable]
-    public class SkillObjectRepo : ObjectRepo<SkillObjectRepo, SkillObject>
+    public class SkillYeObjectRepo : YeObjectRepo<SkillYeObjectRepo, SkillObject>
     {
     }
 }

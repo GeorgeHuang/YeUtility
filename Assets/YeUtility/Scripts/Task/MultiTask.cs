@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Zenject;
-using MultiTaskClass = CommonUnit.MultiTask;
+using MultiTaskClass = YeUtility.Task.MultiTask;
 
-namespace CommonUnit
+namespace YeUtility.Task
 {
     public class MultiTask : Task, IPoolable, IDisposable
     {

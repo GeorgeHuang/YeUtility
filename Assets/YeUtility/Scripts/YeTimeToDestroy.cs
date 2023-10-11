@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class TimeToDestroy : MonoBehaviour
+    public class YeTimeToDestroy : MonoBehaviour
     {
 
         public float m_time;

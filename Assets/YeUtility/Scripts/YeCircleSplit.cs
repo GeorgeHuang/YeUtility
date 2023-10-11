@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using CommonUnit;
 using UnityEngine;
 
 namespace YeUtility
 {
-    public class CircleSplit : MonoBehaviour
+    public class YeCircleSplit : MonoBehaviour
     {
         //public float radiusOffset;
 

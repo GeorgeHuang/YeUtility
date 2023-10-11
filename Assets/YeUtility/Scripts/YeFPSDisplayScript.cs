@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class FPSDisplayScript : MonoBehaviour
+    public class YeFPSDisplayScript : MonoBehaviour
     {
         bool hasMesh = false;
         float timeA;

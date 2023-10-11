@@ -7,7 +7,7 @@ using YeUtility.EditorHelper;
 
 namespace YeUtility
 {
-    public class ObjectRepo<RT, T> : ScriptableObject where RT : ObjectRepo<RT, T> where T : INamedObject
+    public class YeObjectRepo<RT, T> : ScriptableObject where RT : YeObjectRepo<RT, T> where T : INamedObject
     {
         [Searchable]
         [SerializeField] protected List<T> datas = new();

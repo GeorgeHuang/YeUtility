@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using YeUtility;
 using YeUtility.EditorHelper;
 
 namespace YeActorState.Editor

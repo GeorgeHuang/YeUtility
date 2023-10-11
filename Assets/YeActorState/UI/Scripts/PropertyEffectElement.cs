@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
+using YeUtility;
 using Zenject;
 
 namespace YeActorState.UI

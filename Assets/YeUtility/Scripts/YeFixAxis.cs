@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class FixAxis : MonoBehaviour
+    public class YeFixAxis : MonoBehaviour
     {
         [SerializeField]
         bool UseLateUpdate;

@@ -9,6 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
+using YeUtility;
 using YeUtility.EditorHelper;
 using Zenject;
 
@@ -85,7 +86,7 @@ namespace YeActorState.UI
         private void SetupSkillContent()
         {
             ClearViewContent(SkillObjectViewContentTrans);
-            var repo = OdinEditorHelpers.GetScriptableObject<SkillObjectRepo>();
+            var repo = OdinEditorHelpers.GetScriptableObject<SkillYeObjectRepo>();
             foreach (var skillObject in repo.Datas)
             {
                 var element = Container.InstantiatePrefabForComponent<SkillObjectElement>(skillObjectElementPrefab);

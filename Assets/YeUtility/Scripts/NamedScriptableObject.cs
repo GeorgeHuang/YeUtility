@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace YeUtility.Scripts
+namespace YeUtility
 {
     public class NamedScriptableObject : ScriptableObject, INamedObject
     {

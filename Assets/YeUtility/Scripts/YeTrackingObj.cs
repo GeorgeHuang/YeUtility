@@ -2,7 +2,7 @@
 
 namespace YeUtility
 {
-    public class TrackingObj : MonoBehaviour
+    public class YeTrackingObj : MonoBehaviour
     {
 
         public Transform targetObj;

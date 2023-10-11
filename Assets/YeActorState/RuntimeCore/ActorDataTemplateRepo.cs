@@ -3,7 +3,7 @@ using YeUtility;
 
 namespace YeActorState
 {
-    public class ActorDataTemplateRepo : ObjectRepo<ActorDataTemplateRepo, ActorDataTemplate>
+    public class ActorDataTemplateRepo : YeObjectRepo<ActorDataTemplateRepo, ActorDataTemplate>
     {
     }
 }

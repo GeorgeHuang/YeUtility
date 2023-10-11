@@ -1,21 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
-using UnityEngine;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
+using System.Text;
 using Newtonsoft.Json;
+using UnityEngine;
 
-public static class ExtensionMethods
+namespace YeUtility
 {
-}
+    public static class ExtensionMethods
+    {
+    }
 
-namespace YeUtility 
-{
     public class Common
     {
         static public Vector3 Size = new Vector3(1, 1, 1);
@@ -300,12 +300,12 @@ namespace YeUtility
         private static IEnumerable<MethodInfo> GetMethods(object src)
         {
             return src.GetType().GetMethods(BindingFlags.Public
-                        | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                                            | BindingFlags.Instance | BindingFlags.DeclaredOnly);
         }
         public static MethodInfo[] GetMethods(Type t)
         {
             return t.GetMethods(BindingFlags.Public
-                        | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                                | BindingFlags.Instance | BindingFlags.DeclaredOnly);
         }
         public static object GetPropValue(object src, string propName)
         {
@@ -382,7 +382,7 @@ namespace YeUtility
 
         private static object FromMiniJson(string input)
         {
-            return MiniJSON.Json.Deserialize(input);
+            return Json.Deserialize(input);
         }
         public static string ToString(object obj, bool toJson = false, bool hasKeyStringSymbol = false)
         {
@@ -454,17 +454,17 @@ namespace YeUtility
             return min.ToString("D2") + "'" + sec.ToString("D2") + "''" + ms.ToString("D3");
         }
         public static Vector2 WorldPosToUIPos(Transform refTrans,
-                                              Camera gameCamera,
-                                              Canvas uiCanvas,
-                                              Camera uiCamera)
+            Camera gameCamera,
+            Canvas uiCanvas,
+            Camera uiCamera)
         {
             return WorldPosToUIPos(refTrans.position, gameCamera, uiCanvas, uiCamera);
         }
 
         private static Vector2 WorldPosToUIPos(Vector3 pos,
-                                              Camera gameCamera,
-                                              Canvas uiCanvas,
-                                              Camera uiCamera)
+            Camera gameCamera,
+            Canvas uiCanvas,
+            Camera uiCamera)
         {
 
             var actorPos = gameCamera.WorldToScreenPoint(pos);
@@ -478,7 +478,7 @@ namespace YeUtility
 
         public static string ToMiniJson(System.Object obj)
         {
-            return MiniJSON.Json.Serialize(obj);
+            return Json.Serialize(obj);
         }
         // ReSharper disable Unity.PerformanceAnalysis
         public static void SysPrint(System.Object temp)

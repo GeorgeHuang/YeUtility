@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks.Linq;
 using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
 using YeActorState.RuntimeCore;
+using YeUtility;
 using Zenject;
 using Object = UnityEngine.Object;
 

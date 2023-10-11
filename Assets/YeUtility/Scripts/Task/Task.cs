@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-namespace CommonUnit
+namespace YeUtility.Task
 {
     public partial class Task : IPoolable, IDisposable
     {

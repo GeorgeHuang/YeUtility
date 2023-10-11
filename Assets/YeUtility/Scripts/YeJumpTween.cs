@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class JumpTween : MonoBehaviour
+    public class YeJumpTween : MonoBehaviour
     {
 
         public Vector3 m_velocity;

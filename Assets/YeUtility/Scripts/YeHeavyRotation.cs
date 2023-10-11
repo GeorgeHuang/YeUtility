@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class HeavyRotation : MonoBehaviour
+    public class YeHeavyRotation : MonoBehaviour
     {
         public bool m_useRotateCenter = false;
         public Vector3 m_speed = Vector3.zero;

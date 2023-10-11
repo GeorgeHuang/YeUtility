@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class FaceCamera : MonoBehaviour
+    public class YeFaceCamera : MonoBehaviour
     {
         enum Axis
         {

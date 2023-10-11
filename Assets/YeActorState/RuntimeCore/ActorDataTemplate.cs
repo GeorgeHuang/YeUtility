@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using CommonUnit;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using YeUtility;
 
 namespace YeActorState
 {

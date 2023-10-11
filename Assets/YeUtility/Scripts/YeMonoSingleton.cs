@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
+    public abstract class YeMonoSingleton<T> : MonoBehaviour where T : YeMonoSingleton<T>
     {
         //public static string PrefabName = "";
 

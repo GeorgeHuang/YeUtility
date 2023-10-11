@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CommonUnit
+namespace YeUtility.Task
 {
     public partial class TaskLauncher : ITaskLauncher
     {

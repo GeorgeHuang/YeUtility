@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 using YeActorState;
 using YeActorState.RuntimeCore;
 using YeActorState.UI;
+using YeUtility;
 using Zenject;
 
 namespace ActorStateTest.Systems

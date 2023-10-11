@@ -16,7 +16,7 @@ public class CircleSplitTest
     public void CircleSplitTestSimplePasses(int number, float radius, float rvAngle)
     {
         var rootGo = new GameObject("root");
-        var circleSplit = rootGo.AddComponent<CircleSplit>();
+        var circleSplit = rootGo.AddComponent<YeCircleSplit>();
         circleSplit.number = number;
         circleSplit.radius = radius;
         var rvGoList = circleSplit.Apply();

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 using YeActorState.RuntimeCore;
-using YeUtility.Scripts;
+using YeUtility;
 
 namespace ActorStateTest.Data
 {

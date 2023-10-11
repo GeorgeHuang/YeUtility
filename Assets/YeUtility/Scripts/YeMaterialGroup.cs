@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace YeUtility
 {
-    public class MaterialGroup : MonoBehaviour
+    public class YeMaterialGroup : MonoBehaviour
     {
         [SerializeField]
         List<SpriteRenderer> sprites = new List<SpriteRenderer>();

@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace CommonUnit
+namespace YeUtility.Task
 {
     public partial interface ITaskLauncher
     {

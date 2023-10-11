@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CommonUnit
+namespace YeUtility.Task
 {
     public class MultiTaskLauncher : ITaskLauncher
     {

@@ -2,7 +2,7 @@
 
 namespace YeUtility
 {
-    public class DontDestroy : MonoBehaviour
+    public class YeDontDestroy : MonoBehaviour
     {
 
         // Use this for initialization

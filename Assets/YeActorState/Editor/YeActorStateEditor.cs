@@ -49,7 +49,7 @@ namespace YeActorState.Editor
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<TagDataRepo>());
             
             key = "技能庫";
-            _tree.Add(key, OdinEditorHelpers.GetScriptableObject<SkillObjectRepo>());
+            _tree.Add(key, OdinEditorHelpers.GetScriptableObject<SkillYeObjectRepo>());
 
             return _tree;
         }

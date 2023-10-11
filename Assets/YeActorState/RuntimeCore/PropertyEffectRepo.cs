@@ -3,7 +3,7 @@ using YeUtility;
 
 namespace YeActorState.RuntimeCore
 {
-    public class PropertyEffectRepo : ObjectRepo<PropertyEffectRepo, PropertyEffectData>
+    public class PropertyEffectRepo : YeObjectRepo<PropertyEffectRepo, PropertyEffectData>
     {
         
     }

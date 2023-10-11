@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace YeUtility
 {
-    public class CollisionBehaviour : MonoBehaviour
+    public class YeCollisionBehaviour : MonoBehaviour
     {
         public enum ColliderType
         {
@@ -15,8 +15,8 @@ namespace YeUtility
             Circle
         }
 
-        public UnityEvent<CollisionBehaviour> OnContact;
-        public UnityEvent<CollisionBehaviour> OnExit;
+        public UnityEvent<YeCollisionBehaviour> OnContact;
+        public UnityEvent<YeCollisionBehaviour> OnExit;
         public ColliderType ctype = ColliderType.None;
         public Transform trans;
 
