@@ -8,6 +8,7 @@ namespace ActorStateTest.Systems
     public class ShootingRageBind : MonoInstaller
     {
         [SerializeField] private YeActorStateDashboard dashboard;
+
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<InputState>().AsSingle();
@@ -16,7 +17,8 @@ namespace ActorStateTest.Systems
             Container.BindInterfacesAndSelfTo<ActorMgr>().AsSingle();
             Container.BindInterfacesAndSelfTo<SkillChangeHandler>().AsSingle();
             Container.BindInterfacesAndSelfTo<SkillSys>().AsSingle();
-            Container.BindInterfacesAndSelfTo<YeActorStateDashboard>().FromComponentInNewPrefab(dashboard).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<YeActorStateDashboard>().FromComponentInNewPrefab(dashboard).AsSingle()
+                .NonLazy();
         }
     }
 }

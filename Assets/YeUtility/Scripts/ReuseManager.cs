@@ -4,36 +4,34 @@ using UnityEngine;
 namespace YeUtility
 {
     /// <summary>
-    /// prefab must have unique name
+    ///     prefab must have unique name
     /// </summary>
     public class ReuseManager : IReusePool
     {
+        public int MaxNumber = 100000;
         public System.Action<Object> OnObjectBack;
 
         public bool verbose = false;
 
-        public int MaxNumber = 100000;
+        public GameObject Parent { get; set; }
 
         #region Variable
-        Dictionary<string, Queue<Object>> m_dict = new Dictionary<string, Queue<Object>>();
-        Dictionary<string, int> m_numberDict = new Dictionary<string, int>();
-        Dictionary<Object, string> m_parentTable = new Dictionary<Object, string>();
-        GameObject m_parent;
+
+        private readonly Dictionary<string, Queue<Object>> m_dict = new();
+        private readonly Dictionary<string, int> m_numberDict = new();
+        private readonly Dictionary<Object, string> m_parentTable = new();
+
         #endregion
 
-        public UnityEngine.GameObject Parent
-        {
-            get { return m_parent; }
-            set { m_parent = value; }
-        }
-
         #region public method
+
         public int Count(Object prefab)
         {
             if (m_dict.ContainsKey(prefab.name) == false)
                 return 0;
             return m_numberDict[prefab.name];
         }
+
         public Object get(Object prefab)
         {
             Object rv = null;
@@ -67,13 +65,14 @@ namespace YeUtility
                         Common.SysPrint("get Name: " + rv.name + " ID: " + rv.GetInstanceID() + " is old");
                 }
             }
+
             //Common.sysPrint("get Name: " + rv.name + " ID: " + rv.GetInstanceID() + " is new");
             return rv;
         }
 
         public void back(Object obj)
         {
-            if (m_parentTable.ContainsKey(obj) == true)
+            if (m_parentTable.ContainsKey(obj))
             {
 #if YEDEBUG
                 if (m_dict[m_parentTable[obj]].Contains(obj))
@@ -84,10 +83,7 @@ namespace YeUtility
 #endif
 
                 m_dict[m_parentTable[obj]].Enqueue(obj);
-                if (OnObjectBack != null)
-                {
-                    OnObjectBack(obj);
-                }
+                if (OnObjectBack != null) OnObjectBack(obj);
             }
             else
             {
@@ -116,6 +112,7 @@ namespace YeUtility
         {
             back(obj);
         }
+
         #endregion
     }
 }

@@ -5,7 +5,6 @@ using Cysharp.Threading.Tasks;
 using TMPro;
 using UniRx;
 using UniRx.Triggers;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
@@ -23,33 +22,35 @@ namespace YeActorState.UI
         [SerializeField] private SkillObjectElement skillObjectElementPrefab;
         [SerializeField] private RuntimeSkillElement runtimeSkillElementPrefab;
         [SerializeField] private List<Color> elementColos;
-
-        [Inject(Id = "RuntimeListDropdown")] private TMP_Dropdown runtimeListDropdown;
-        [Inject(Id = "PropertyContent")] private RectTransform propertyContentTrans;
+        private List<ActorStateHandler> actorStateHandlers;
+        [Inject] private DiContainer Container;
+        private ActorStateHandler curActorStateHandler;
 
         [Inject(Id = "CurrentEffectViewContent")]
         private RectTransform CurrentEffectViewContentTrans;
 
+        [Inject(Id = "CurrentSkillObjectViewContent")]
+        private RectTransform CurrentSkillObjectViewContentTrans;
+
         [Inject(Id = "DatabaseEffectViewContent")]
         private RectTransform DatabaseEffectViewContentTrans;
+
+        [Inject(Id = "Message")] private TextMeshProUGUI messageGUI;
+        [Inject(Id = "PropertyContent")] private RectTransform propertyContentTrans;
+        [Inject] private PropertyNames propertyNames;
+
+        [Inject(Id = "RefreshBtn")] private Button refreshBtn;
+
+        private List<string> runtimeDropdownContent;
+
+        [Inject(Id = "RuntimeListDropdown")] private TMP_Dropdown runtimeListDropdown;
 
         [Inject(Id = "SkillObjectViewContent")]
         private RectTransform SkillObjectViewContentTrans;
 
-        [Inject(Id = "CurrentSkillObjectViewContent")]
-        private RectTransform CurrentSkillObjectViewContentTrans;
-
-        [Inject(Id = "RefreshBtn")] private Button refreshBtn;
-        [Inject(Id = "Message")] private TextMeshProUGUI messageGUI;
-
-        [Inject] private YeActorStateSys yeActorStateSys;
-        [Inject] private PropertyNames propertyNames;
-        [Inject] private DiContainer Container;
         [Inject] private TagDataRepo tagDataRepo;
 
-        private List<string> runtimeDropdownContent;
-        private List<ActorStateHandler> actorStateHandlers;
-        private ActorStateHandler curActorStateHandler;
+        [Inject] private YeActorStateSys yeActorStateSys;
 
         private async void Start()
         {
@@ -60,6 +61,11 @@ namespace YeActorState.UI
             SetupDatabaseEffect();
             SetupSkillContent();
             refreshBtn.OnClickAsObservable().Subscribe(RefreshBtnPress);
+        }
+
+        public void AddRuntimeData(ActorStateHandler yeActorHandler)
+        {
+            UpdateRuntimeDataDropdown();
         }
 
         private void RefreshBtnPress(Unit unit)
@@ -137,14 +143,10 @@ namespace YeActorState.UI
             damageStr = $"{GetPropertyStr(key)}x{skillObject.baseDamage.values[0]}% x";
 
             foreach (var tag in skillObject.tagEffectList)
-            {
                 damageStr += $"{GetPropertyStr(tag.tagName)}%x{tag.value * 100}%x";
-            }
 
             foreach (var customEffect in skillObject.customEffects)
-            {
                 damageStr += $"{GetPropertyStr(customEffect.propertyName)}%x{customEffect.value * 100}%x";
-            }
 
             damageStr = damageStr.Substring(0, damageStr.Length - 1);
 
@@ -220,7 +222,7 @@ namespace YeActorState.UI
 
         private static void ClearViewContent(RectTransform trans)
         {
-            for (int i = 0; i < trans.childCount; ++i)
+            for (var i = 0; i < trans.childCount; ++i)
             {
                 var child = trans.GetChild(i);
                 Destroy(child.gameObject);
@@ -259,11 +261,6 @@ namespace YeActorState.UI
             //有點那個
             RefreshBtnPress(Unit.Default);
             SetupCurrentSkillPanel();
-        }
-
-        public void AddRuntimeData(ActorStateHandler yeActorHandler)
-        {
-            UpdateRuntimeDataDropdown();
         }
     }
 }

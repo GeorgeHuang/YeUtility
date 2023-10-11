@@ -7,7 +7,6 @@ using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
 using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
-using YeActorState.RuntimeCore;
 using YeUtility;
 using Zenject;
 using Object = UnityEngine.Object;
@@ -16,44 +15,13 @@ namespace ActorStateTest.Systems
 {
     public class SkillSys : ITickable
     {
-        [Inject] private SkillDataRepo repo;
-        [Inject] private TimeSys timeSys;
+        private readonly Dictionary<Collider, ActorHandler> colliderDict = new();
 
         private readonly Dictionary<SkillData, List<ActorHandler>> lunchInfoDict = new();
-        private Dictionary<SkillData, CancellationToken> tokens = new();
-        private readonly Dictionary<Collider, ActorHandler> colliderDict = new();
         private readonly List<SkillInfo> skillInfos = new();
-
-        class SkillInfo
-        {
-            public ActorHandler ActorHandler;
-            public SkillData SkillData;
-            public CancellationToken CancelToken;
-            public bool IsCooling { get; set; }
-        }
-
-        public void SetupColliderInfo(ActorHandler handler)
-        {
-            handler.GetColliders().ForEach((_, c) => { colliderDict.TryAdd(c, handler); });
-        }
-
-        public void AddSkillLunchInfo(ActorHandler handler, SkillData skillData)
-        {
-            if (!lunchInfoDict.TryGetValue(skillData, out var data))
-            {
-                data = new();
-                lunchInfoDict[skillData] = data;
-            }
-
-            if (data.Contains(handler))
-            {
-                return;
-            }
-
-            data.Add(handler);
-            var newSkillInfo = new SkillInfo { ActorHandler = handler, SkillData = skillData };
-            skillInfos.Add(newSkillInfo);
-        }
+        [Inject] private SkillDataRepo repo;
+        [Inject] private TimeSys timeSys;
+        private Dictionary<SkillData, CancellationToken> tokens = new();
 
         public void Tick()
         {
@@ -66,10 +34,30 @@ namespace ActorStateTest.Systems
             }
         }
 
+        public void SetupColliderInfo(ActorHandler handler)
+        {
+            handler.GetColliders().ForEach((_, c) => { colliderDict.TryAdd(c, handler); });
+        }
+
+        public void AddSkillLunchInfo(ActorHandler handler, SkillData skillData)
+        {
+            if (!lunchInfoDict.TryGetValue(skillData, out var data))
+            {
+                data = new List<ActorHandler>();
+                lunchInfoDict[skillData] = data;
+            }
+
+            if (data.Contains(handler)) return;
+
+            data.Add(handler);
+            var newSkillInfo = new SkillInfo { ActorHandler = handler, SkillData = skillData };
+            skillInfos.Add(newSkillInfo);
+        }
+
         private async UniTaskVoid LaunchSkill(SkillInfo skillInfo)
         {
             var prefab = skillInfo.SkillData.prefab;
-            var bullet = GameObject.Instantiate(prefab);
+            var bullet = Object.Instantiate(prefab);
             bullet.transform.position = skillInfo.ActorHandler.GetLaunchPos();
             FlyBullet(bullet, skillInfo, Vector3.right).Forget();
 
@@ -80,20 +68,15 @@ namespace ActorStateTest.Systems
 
             var collisionResult = new UniTaskCompletionSource<ActorHandler>();
             bullet.transform.GetAsyncTriggerEnterTrigger().ForEachAsync(
-                (collider) =>
+                collider =>
                 {
                     if (colliderDict.TryGetValue(collider, out var otherHandler) &&
                         otherHandler != skillInfo.ActorHandler)
-                    {
                         collisionResult.TrySetResult(otherHandler);
-                    }
-                }, cancellationToken: destroyToken);
+                }, destroyToken);
 
             var result = await UniTask.WhenAny(waitAutoDestroy, collisionResult.Task);
-            if (result == 1)
-            {
-                skillInfo.ActorHandler.Attack(collisionResult.GetResult(0), skillInfo.SkillData);
-            }
+            if (result == 1) skillInfo.ActorHandler.Attack(collisionResult.GetResult(0), skillInfo.SkillData);
             Object.Destroy(bullet);
         }
 
@@ -120,6 +103,14 @@ namespace ActorStateTest.Systems
         {
             var skillData = repo.Datas.Where(x => x.skillObject.GetKeyName() == keyName).ToList().FirstOrDefault();
             AddSkillLunchInfo(handler, skillData);
+        }
+
+        private class SkillInfo
+        {
+            public ActorHandler ActorHandler;
+            public CancellationToken CancelToken;
+            public SkillData SkillData;
+            public bool IsCooling { get; set; }
         }
     }
 }

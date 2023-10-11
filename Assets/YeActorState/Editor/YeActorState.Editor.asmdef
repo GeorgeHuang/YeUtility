@@ -1,20 +1,20 @@
 {
-    "name": "YeActorState.Editor",
-    "rootNamespace": "",
-    "references": [
-        "GUID:e736674366a55134e9ab00bae629c78a",
-        "GUID:10dccd2b8cb3cfd4993425c6b0fe24e5",
-        "GUID:3ec3078b1fbfac949bcfb7e5dc9ab44b"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": false,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "YeActorState.Editor",
+  "rootNamespace": "",
+  "references": [
+    "GUID:e736674366a55134e9ab00bae629c78a",
+    "GUID:10dccd2b8cb3cfd4993425c6b0fe24e5",
+    "GUID:3ec3078b1fbfac949bcfb7e5dc9ab44b"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }

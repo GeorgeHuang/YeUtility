@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -16,9 +14,8 @@ namespace YeActorState
         public float GetProperty(string _name)
         {
             foreach (var propertyData in properties)
-            {
-                if (propertyData.Name == _name) return propertyData.value;
-            }
+                if (propertyData.Name == _name)
+                    return propertyData.value;
 
             Assert.IsFalse(true, $"找不到 Base Property {_name}");
             return 0;

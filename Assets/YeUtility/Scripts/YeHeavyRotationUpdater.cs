@@ -6,7 +6,8 @@ namespace YeUtility
     [RequireComponent(typeof(YeHeavyRotation))]
     public class YeHeavyRotationUpdater : MonoBehaviour
     {
-        [FormerlySerializedAs("heavyRotation")] [SerializeField] private YeHeavyRotation yeHeavyRotation;
+        [FormerlySerializedAs("heavyRotation")] [SerializeField]
+        private YeHeavyRotation yeHeavyRotation;
 
         private void Update()
         {

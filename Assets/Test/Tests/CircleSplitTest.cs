@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using NUnit.Framework;
-using UnityEditor.VersionControl;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.TestTools;
 using YeUtility;
 
 public class CircleSplitTest
 {
     // A Test behaves as an ordinary method
     [Test]
-    [TestCase(3,8,360/3)]
+    [TestCase(3, 8, 360 / 3)]
     public void CircleSplitTestSimplePasses(int number, float radius, float rvAngle)
     {
         var rootGo = new GameObject("root");
@@ -21,7 +15,7 @@ public class CircleSplitTest
         circleSplit.radius = radius;
         var rvGoList = circleSplit.Apply();
         Assert.That(rvGoList.Count, Is.EqualTo(number));
-        int index = 0;
+        var index = 0;
         foreach (var go in rvGoList)
         {
             var dis = Vector3.Distance(go.transform.position, rootGo.transform.position);
@@ -33,5 +27,4 @@ public class CircleSplitTest
             index++;
         }
     }
-
 }

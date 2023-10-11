@@ -2,7 +2,6 @@
 using TMPro;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using YeActorState.RuntimeCore;
 using Zenject;
@@ -16,10 +15,15 @@ namespace YeActorState.UI
         [SerializeField] private Button deleteButton;
 
         [Inject] private YeActorStateDashboard dashboard;
+        private IDisposable disposable;
 
         private PropertyEffectData propertyEffectData;
         private ActorStateHandler stateHandler;
-        private IDisposable disposable;
+
+        private void OnDestroy()
+        {
+            disposable.Dispose();
+        }
 
         public void Setup(PropertyEffectData propertyEffectData, ActorStateHandler handler, Color color)
         {
@@ -30,12 +34,7 @@ namespace YeActorState.UI
             image.color = color;
         }
 
-        private void OnDestroy()
-        {
-            disposable.Dispose();
-        }
-
-        void OnBtnPress(Unit u)
+        private void OnBtnPress(Unit u)
         {
             stateHandler.DeleteEffect(propertyEffectData);
             dashboard.RefreshPropertyView();

@@ -8,7 +8,7 @@ namespace ActorStateTest.Element
     {
         [Inject] private Player player;
 
-        [Inject] TimeSys timeSys;
+        [Inject] private TimeSys timeSys;
 
         public void Initialize()
         {

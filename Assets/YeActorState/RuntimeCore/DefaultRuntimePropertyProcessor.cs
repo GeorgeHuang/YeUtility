@@ -1,6 +1,6 @@
 ﻿namespace YeActorState.RuntimeCore
 {
-    public class DefaultRuntimePropertyProcessor: IBasePropertyProcessor
+    public class DefaultRuntimePropertyProcessor : IBasePropertyProcessor
     {
         public void Processor(YeActorBaseData baseData, YeActorRuntimeData runtimeData)
         {
@@ -13,7 +13,7 @@
         {
             var value = runtimeData.GetProperty(key);
             var valueRatio = runtimeData.GetProperty(ratioKey);
-            value *= (1 + valueRatio * 0.01f);
+            value *= 1 + valueRatio * 0.01f;
             runtimeData.SetProperty(key, value);
         }
     }

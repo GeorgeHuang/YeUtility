@@ -4,41 +4,32 @@ namespace YeUtility
 {
     public class YeJumpTween : MonoBehaviour
     {
-
         public Vector3 m_velocity;
-        public Vector3 m_gravity = new Vector3(0, -9.8f, 0);
+        public Vector3 m_gravity = new(0, -9.8f, 0);
 
         public bool m_autoPlay;
         public bool m_useFixedUpdate;
+        private Vector3 m_orgV = Vector3.zero;
 
-        bool m_playing = false;
-        Vector3 m_posCatch = Vector3.zero;
-        Vector3 m_orgV = Vector3.zero;
-        Transform m_trans;
+        private Vector3 m_posCatch = Vector3.zero;
+        private Transform m_trans;
 
-        public bool IsPlaying
-        {
-            get { return m_playing; }
-            set { m_playing = value; }
-        }
+        public bool IsPlaying { get; set; }
 
-        void Awake()
+        private void Awake()
         {
             m_orgV = m_velocity;
             m_trans = transform;
         }
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
-            if (m_autoPlay == true)
-            {
-                play();
-            }
+            if (m_autoPlay) play();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             tweenUpdate(m_useFixedUpdate ? Time.fixedDeltaTime : Time.deltaTime);
         }
@@ -46,20 +37,20 @@ namespace YeUtility
         [ContextMenu("Play")]
         public void play()
         {
-            if (m_playing == true) return;
-            m_playing = true;
+            if (IsPlaying) return;
+            IsPlaying = true;
         }
 
         public void reset()
         {
             m_velocity = m_orgV;
-            m_playing = false;
+            IsPlaying = false;
         }
 
         public void tweenUpdate(float deltaTime)
         {
             deltaTime = Time.deltaTime;
-            if (m_playing == true)
+            if (IsPlaying)
             {
                 m_posCatch = m_trans.localPosition;
                 m_velocity = m_velocity + m_gravity * deltaTime;

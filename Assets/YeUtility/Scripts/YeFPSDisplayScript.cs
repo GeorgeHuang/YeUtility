@@ -5,15 +5,15 @@ namespace YeUtility
 {
     public class YeFPSDisplayScript : MonoBehaviour
     {
-        bool hasMesh = false;
-        float timeA;
         public int fps;
         public int lastFPS;
         public GUIStyle textStyle;
         public TextMeshProUGUI textMesh;
+        private bool hasMesh;
+        private float timeA;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             timeA = Time.realtimeSinceStartup;
             textStyle.fontSize = 60;
@@ -22,7 +22,7 @@ namespace YeUtility
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             //Debug.Log(Time.timeSinceLevelLoad+" "+timeA);
             if (Time.realtimeSinceStartup - timeA <= 1)
@@ -38,7 +38,8 @@ namespace YeUtility
 
             if (hasMesh) textMesh.text = lastFPS.ToString();
         }
-        void OnGUI()
+
+        private void OnGUI()
         {
             if (hasMesh) return;
             GUI.Label(new Rect(5, 5, 300, 300), "" + lastFPS, textStyle);

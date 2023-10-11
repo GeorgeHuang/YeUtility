@@ -2,8 +2,8 @@
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
-using Image = UnityEngine.UI.Image;
 
 namespace YeActorState.UI
 {
@@ -12,12 +12,17 @@ namespace YeActorState.UI
         [SerializeField] private TextMeshProUGUI propertyNameText;
         [SerializeField] private Image image;
         [SerializeField] private TMP_InputField value;
+        private IDisposable disposable;
+        private string propertyName;
 
         [Inject] private PropertyNames propertyNames;
 
         private ActorStateHandler stateHandler;
-        private string propertyName;
-        private IDisposable disposable;
+
+        private void OnDestroy()
+        {
+            disposable.Dispose();
+        }
 
         public void Setup(string propertyName, ActorStateHandler stateHandler, Color color)
         {
@@ -40,18 +45,13 @@ namespace YeActorState.UI
             }
             else
             {
-                value.text = stateHandler.GetRuntimeProperty(this.propertyName).ToString();
+                value.text = stateHandler.GetRuntimeProperty(propertyName).ToString();
             }
-        }
-
-        private void OnDestroy()
-        {
-            disposable.Dispose();
         }
 
         public void Refresh()
         {
-            value.text = stateHandler.GetRuntimeProperty(this.propertyName).ToString();
+            value.text = stateHandler.GetRuntimeProperty(propertyName).ToString();
         }
     }
 }

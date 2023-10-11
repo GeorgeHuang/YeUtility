@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Unity.Burst;
 using Unity.Collections;
@@ -8,44 +9,46 @@ using UnityEngine.Jobs;
 namespace YeUtility
 {
     [BurstCompile]
-    public struct CalculateDistanceJobs : IJobParallelFor, System.IDisposable
+    public struct CalculateDistanceJobs : IJobParallelFor, IDisposable
     {
-        [ReadOnly]
-        public NativeArray<Vector3> SourcePosList;
-        [NativeDisableParallelForRestriction]
-        [WriteOnly]
+        [ReadOnly] public NativeArray<Vector3> SourcePosList;
+
+        [NativeDisableParallelForRestriction] [WriteOnly]
         public NativeArray<float> Result;
+
         private int _length;
+
         public void Setup(List<Vector3> input)
         {
             _length = input.Count;
             SourcePosList = new NativeArray<Vector3>(input.ToArray(), Allocator.TempJob);
-            Result = new NativeArray<float>(_length*_length, Allocator.TempJob);
+            Result = new NativeArray<float>(_length * _length, Allocator.TempJob);
         }
+
         public void Setup(NativeArray<Vector3> input)
         {
             _length = input.Length;
             SourcePosList = new NativeArray<Vector3>(input, Allocator.TempJob);
-            Result = new NativeArray<float>(_length*_length, Allocator.TempJob);
+            Result = new NativeArray<float>(_length * _length, Allocator.TempJob);
         }
+
         [BurstCompile]
         public void Execute(int index)
         {
             var myPos = SourcePosList[index];
-            for(int i = 0; i < _length; ++i)
-            {
-                Result[index * _length + i]  = (myPos - SourcePosList[i]).magnitude;
-            }
+            for (var i = 0; i < _length; ++i) Result[index * _length + i] = (myPos - SourcePosList[i]).magnitude;
         }
+
         public void Execute_old(int index)
         {
-            int myI = index / _length;
-            int tarI = index % _length;
+            var myI = index / _length;
+            var tarI = index % _length;
             var myPos = SourcePosList[myI];
             var tarPos = SourcePosList[tarI];
-            float rv = Vector3.Distance(myPos, tarPos);
+            var rv = Vector3.Distance(myPos, tarPos);
             Result[index] = rv;
         }
+
         public void Dispose()
         {
             if (SourcePosList.IsCreated)
@@ -56,10 +59,9 @@ namespace YeUtility
     }
 
     [BurstCompile]
-    public struct GetTransInfoJob : IJobParallelForTransform, System.IDisposable
+    public struct GetTransInfoJob : IJobParallelForTransform, IDisposable
     {
-        [WriteOnly]
-        public NativeArray<Vector3> PosList;
+        [WriteOnly] public NativeArray<Vector3> PosList;
 
         public void Dispose()
         {
@@ -71,11 +73,11 @@ namespace YeUtility
             PosList[index] = transform.position;
         }
     }
+
     [BurstCompile]
-    public struct SetTransInfoJob : IJobParallelForTransform, System.IDisposable
+    public struct SetTransInfoJob : IJobParallelForTransform, IDisposable
     {
-        [ReadOnly]
-        public NativeArray<Vector3> PosList;
+        [ReadOnly] public NativeArray<Vector3> PosList;
 
         public void Dispose()
         {
@@ -88,16 +90,16 @@ namespace YeUtility
     }
 
     [BurstCompile]
-    public class TransAccessJob : System.IDisposable
+    public class TransAccessJob : IDisposable
     {
-        private int length;
-        private TransformAccessArray transformAccessArray;
-        private NativeArray<Vector3> posList;
         private GetTransInfoJob getTransInfoJob;
-        private SetTransInfoJob setTransInfoJob;
         private JobHandle getTransInfoJobHandle;
-        private JobHandle setTransInfoJobHandle;
+        private int length;
+        private NativeArray<Vector3> posList;
         private Vector3[] resultPosArray;
+        private SetTransInfoJob setTransInfoJob;
+        private JobHandle setTransInfoJobHandle;
+        private TransformAccessArray transformAccessArray;
 
         public ref NativeArray<Vector3> PosList => ref posList;
 

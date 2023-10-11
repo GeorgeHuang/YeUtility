@@ -1,12 +1,11 @@
-﻿using UnityEngine;
-using YeActorState;
+﻿using YeActorState;
 using Zenject;
 
 namespace ActorStateTest.Element
 {
     public class PlayerInstaller : Installer
     {
-        private ActorStateHandler actorStateHandler;
+        private readonly ActorStateHandler actorStateHandler;
 
         public PlayerInstaller(ActorStateHandler actorStateHandler)
         {

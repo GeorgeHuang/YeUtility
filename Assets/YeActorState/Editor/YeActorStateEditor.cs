@@ -35,19 +35,17 @@ namespace YeActorState.Editor
             //page.AddDateItem(_tree, key);
             var actorDataRepo = OdinEditorHelpers.GetScriptableObject<YeActorBaseDataRepo>();
             if (actorDataRepo != null)
-            {
                 actorDataRepo.Datas.ForEach(x => { _tree.Add($"{key}/{x.name}", new ActorDataPage(x)); });
-            }
 
             key = "角色模板";
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<ActorDataTemplateRepo>());
 
             key = "屬性效果資料庫";
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<PropertyEffectRepo>());
-                
+
             key = "Tag庫";
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<TagDataRepo>());
-            
+
             key = "技能庫";
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<SkillYeObjectRepo>());
 

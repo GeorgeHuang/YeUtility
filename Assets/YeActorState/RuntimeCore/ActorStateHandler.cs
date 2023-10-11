@@ -8,10 +8,10 @@ namespace YeActorState
 {
     public class ActorStateHandler
     {
+        [Inject] private YeActorStateSys yeActorStateSys;
         [field: Inject] internal YeActorBaseData ActorBaseData { get; }
         [field: Inject] internal YeActorRuntimeData RuntimeData { get; set; }
-        [Inject] private YeActorStateSys yeActorStateSys;
-        
+
         public Hashtable AllRuntimeProperties => RuntimeData.AllProperties;
         public bool IsDirty { get; set; }
 

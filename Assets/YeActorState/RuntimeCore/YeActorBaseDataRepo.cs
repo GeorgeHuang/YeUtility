@@ -4,6 +4,5 @@ namespace YeActorState
 {
     public class YeActorBaseDataRepo : ScriptableObjectRepo<YeActorBaseDataRepo, YeActorBaseData>
     {
-        
     }
 }

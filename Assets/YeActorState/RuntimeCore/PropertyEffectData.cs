@@ -9,37 +9,31 @@ namespace YeActorState.RuntimeCore
     [Serializable]
     public class PropertyEffectData : IBasePropertyProcessor, INamedObject
     {
-        [SerializeField] private string name;
-        [SerializeField] private string key;
-        [SerializeField] private List<Data> datas = new();
-
         public enum EffectType
         {
             BaseToRuntime,
             RuntimeToRuntime
         }
 
-        [Serializable]
-        public class Data
-        {
-            [ValueDropdown("@YeActorStateEditorHelper.PropertyNames")]
-            public string sourcePropertyName;
-
-            [ValueDropdown("@YeActorStateEditorHelper.PropertyNames")]
-            public string targetPropertyName;
-
-            public EffectType effectType;
-            public float value;
-        }
+        [SerializeField] private string name;
+        [SerializeField] private string key;
+        [SerializeField] private List<Data> datas = new();
 
         public IEnumerable<Data> Datas => datas;
 
         public void Processor(YeActorBaseData baseData, YeActorRuntimeData runtimeData)
         {
-            foreach (var data in datas)
-            {
-                ProcessorData(data, baseData, runtimeData);
-            }
+            foreach (var data in datas) ProcessorData(data, baseData, runtimeData);
+        }
+
+        public string GetDisplayName()
+        {
+            return name;
+        }
+
+        public string GetKeyName()
+        {
+            return key;
         }
 
         private static void ProcessorData(Data data, YeActorBaseData baseData, YeActorRuntimeData runtimeData)
@@ -61,14 +55,17 @@ namespace YeActorState.RuntimeCore
             }
         }
 
-        public string GetDisplayName()
+        [Serializable]
+        public class Data
         {
-            return name;
-        }
+            [ValueDropdown("@YeActorStateEditorHelper.PropertyNames")]
+            public string sourcePropertyName;
 
-        public string GetKeyName()
-        {
-            return key;
+            [ValueDropdown("@YeActorStateEditorHelper.PropertyNames")]
+            public string targetPropertyName;
+
+            public EffectType effectType;
+            public float value;
         }
     }
 }

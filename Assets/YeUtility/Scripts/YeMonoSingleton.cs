@@ -6,16 +6,15 @@ namespace YeUtility
     {
         //public static string PrefabName = "";
 
-        protected static T m_Instance = null;
+        protected static T m_Instance;
+
         public static T Instance
         {
             get
             {
                 // Instance requiered for the first time, we look for it
-                if (m_Instance == null)
-                {
-                    m_Instance = GameObject.FindObjectOfType(typeof(T)) as T;
-                    /*
+                if (m_Instance == null) m_Instance = FindObjectOfType(typeof(T)) as T;
+                /*
                     // Object not found, we create a temporary one
                     if( m_Instance == null )
                     {
@@ -30,34 +29,33 @@ namespace YeUtility
                     }
                     m_Instance.Init();
                     */
-                }
                 return m_Instance;
             }
         }
+
         // If no other monobehaviour request the instance in an awake function
         // executing before this one, no need to search the object.
         public virtual void Awake()
         {
-            if (m_Instance == null)
-            {
-                m_Instance = this as T;
-                //m_Instance.Init();
-            }
-        }
-
-        // This function is called when the instance is used the first time
-        // Put all the initializations you need here, as you would do in Awake
-        public virtual void Init() { }
-
-        public static bool IsNull()
-        {
-            return m_Instance == null;
+            if (m_Instance == null) m_Instance = this as T;
+            //m_Instance.Init();
         }
 
         // Make sure the instance isn't referenced anymore when the user quit, just in case.
         private void OnApplicationQuit()
         {
             m_Instance = null;
+        }
+
+        // This function is called when the instance is used the first time
+        // Put all the initializations you need here, as you would do in Awake
+        public virtual void Init()
+        {
+        }
+
+        public static bool IsNull()
+        {
+            return m_Instance == null;
         }
     }
 }

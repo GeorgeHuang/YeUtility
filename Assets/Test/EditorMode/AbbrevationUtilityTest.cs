@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEditor.VersionControl;
-using UnityEngine;
-using UnityEngine.TestTools;
+using YeUtility;
 
 public class AbbrevationUtilityTest
 {
@@ -18,7 +15,7 @@ public class AbbrevationUtilityTest
     public void AbbrevationUtilityTestSimplePasses(float input, string result)
     {
         // Use the Assert class to test conditions
-        var rv = YeUtility.AbbrevationUtility.AbbreviateNumber(input);
+        var rv = AbbrevationUtility.AbbreviateNumber(input);
         Assert.That(result, Is.EqualTo(rv));
     }
 

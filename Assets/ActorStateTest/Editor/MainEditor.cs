@@ -9,7 +9,7 @@ using YeUtility.EditorHelper;
 
 namespace ActorStateTest.Editor
 {
-    public class MainEditor  : OdinMenuEditorWindow
+    public class MainEditor : OdinMenuEditorWindow
     {
         private OdinMenuTree _tree;
 
@@ -19,11 +19,11 @@ namespace ActorStateTest.Editor
             var window = GetWindow<MainEditor>();
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(1200, 750);
         }
-        
+
         protected override OdinMenuTree BuildMenuTree()
         {
             _tree = new OdinMenuTree(true);
-            
+
             var key = "角色資料";
             _tree.Add(key, new ObjectRepoPage<ActorDataRepo, ActorData>());
             var actorDataRepo = OdinEditorHelpers.GetScriptableObject<ActorDataRepo>();
@@ -36,7 +36,7 @@ namespace ActorStateTest.Editor
 
             key = "設定";
             _tree.Add(key, OdinEditorHelpers.GetScriptableObject<ShootingRageConfig>());
-            
+
             return _tree;
         }
     }

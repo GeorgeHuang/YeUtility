@@ -10,19 +10,25 @@ namespace ActorStateTest.Systems
 {
     public class ActorHandler : IPropertyProvider, IInitializable
     {
-        [Inject] private readonly ActorStateHandler yeActorHandler;
         [Inject] private readonly GameObject gameObject;
+        [Inject] private readonly ActorStateHandler yeActorHandler;
         [Inject] private Player player;
         [Inject] private SkillSys skillSys;
 
-        public void Move(Vector3 moveDir)
+        public void Initialize()
         {
-            player.Move(moveDir);
+            skillSys.SetupColliderInfo(this);
+            player.Setup(this);
         }
 
         public float GetRuntimeProperty(string propertyName)
         {
             return yeActorHandler.GetRuntimeProperty(propertyName);
+        }
+
+        public void Move(Vector3 moveDir)
+        {
+            player.Move(moveDir);
         }
 
         public bool Compare(ActorStateHandler actorStateHandler)
@@ -48,12 +54,6 @@ namespace ActorStateTest.Systems
         public IEnumerable<Collider> GetColliders()
         {
             return player.GetColliders();
-        }
-
-        public void Initialize()
-        {
-            skillSys.SetupColliderInfo(this);
-            player.Setup(this);
         }
 
         public void Attack(ActorHandler otherHandler, SkillData skillData)

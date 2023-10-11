@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using YeUtility;
 using Zenject;
 
@@ -8,25 +7,44 @@ namespace YeActorState.RuntimeCore
 {
     public class YeActorStateSys : ITickable, IInitializable
     {
-        [InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
-        [Inject] private DiContainer container;
-        [Inject] private List<ISkillChangeReceiver> skillChangeReceivers;
-        [Inject] private List<IDealDamage> dealDamageReceiver;
-
-        private readonly List<ActorStateHandler> handlers = new();
-        private readonly DefaultPropertyProcessor defaultPropertyProcessor = new();
         private readonly Dictionary<ActorStateHandler, List<PropertyEffectData>> actorEffectList = new();
         private readonly Dictionary<ActorStateHandler, List<RuntimeSkill>> actorSkillList = new();
+        private readonly DefaultPropertyProcessor defaultPropertyProcessor = new();
 
         private readonly LinkedList<ActorStateHandler> dirtyActorList = new();
         private readonly LinkedList<RuntimeSkill> dirtySkillList = new();
+
+        private readonly List<ActorStateHandler> handlers = new();
         private readonly List<IBasePropertyProcessor> runtimeProcessors = new();
+        [InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
+        [Inject] private DiContainer container;
+        [Inject] private List<IDealDamage> dealDamageReceiver;
+        [Inject] private List<ISkillChangeReceiver> skillChangeReceivers;
 
         public IEnumerable<ActorStateHandler> AllHandlers => handlers;
 
         public void Initialize()
         {
             runtimeProcessors.Add(new DefaultRuntimePropertyProcessor());
+        }
+
+        public void Tick()
+        {
+            for (var data = dirtyActorList.First; data != null; data = data.Next)
+            {
+                Calculate(data.Value);
+                data.Value.IsDirty = false;
+            }
+
+            dirtyActorList.Clear();
+
+            for (var data = dirtySkillList.First; data != null; data = data.Next)
+            {
+                data.Value.Calculate();
+                data.Value.IsDirty = false;
+            }
+
+            dirtySkillList.Clear();
         }
 
         public ActorStateHandler AddActor(string name)
@@ -50,25 +68,6 @@ namespace YeActorState.RuntimeCore
             return rv;
         }
 
-        public void Tick()
-        {
-            for (var data = dirtyActorList.First; data != null; data = data.Next)
-            {
-                Calculate(data.Value);
-                data.Value.IsDirty = false;
-            }
-
-            dirtyActorList.Clear();
-
-            for (var data = dirtySkillList.First; data != null; data = data.Next)
-            {
-                data.Value.Calculate();
-                data.Value.IsDirty = false;
-            }
-
-            dirtySkillList.Clear();
-        }
-
         private void Calculate(ActorStateHandler actorStateHandler)
         {
             var runtime = new YeActorRuntimeData();
@@ -80,10 +79,7 @@ namespace YeActorState.RuntimeCore
             runtime.SetProperty("CurMp", oldRuntime.GetProperty("CurMp"));
 
             var effectList = actorEffectList[actorStateHandler];
-            foreach (var data in effectList)
-            {
-                data.Processor(baseData: baseData, runtimeData: runtime);
-            }
+            foreach (var data in effectList) data.Processor(baseData, runtime);
 
             runtimeProcessors.ForEach(x => x.Processor(baseData, runtime));
 
@@ -147,10 +143,7 @@ namespace YeActorState.RuntimeCore
             var criticalRate = owner.GetRuntimeProperty("CriticalRate");
             var criticalDamageRate = owner.GetRuntimeProperty("CriticalDamageRatio");
             var addDamage = 0f;
-            if (Common.Random((int)criticalRate))
-            {
-                addDamage = damage * criticalDamageRate * 0.01f;
-            }
+            if (Common.Random((int)criticalRate)) addDamage = damage * criticalDamageRate * 0.01f;
 
             damage += addDamage;
 

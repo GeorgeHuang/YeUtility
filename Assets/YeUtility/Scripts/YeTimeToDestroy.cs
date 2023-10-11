@@ -4,7 +4,6 @@ namespace YeUtility
 {
     public class YeTimeToDestroy : MonoBehaviour
     {
-
         public float m_time;
         public bool m_hide;
         public bool m_autoStart;
@@ -13,15 +12,12 @@ namespace YeUtility
         protected float m_timer;
         protected float m_timeRatio = 1;
 
-        public bool IsCreated {get;set;}
+        public bool IsCreated { get; set; }
 
         // Use this for initialization
         public virtual void Start()
         {
-            if (m_autoStart)
-            {
-                MyStart();
-            }
+            if (m_autoStart) MyStart();
         }
 
         protected virtual void MyStart()
@@ -32,13 +28,9 @@ namespace YeUtility
         public virtual void Tick(float dt)
         {
             if (m_timer > 0)
-            {
                 m_timer -= dt * m_timeRatio;
-            }
             else
-            {
                 Stop();
-            }
         }
 
         public void Stop()
@@ -49,13 +41,9 @@ namespace YeUtility
             if (m_reuseMgr == null)
             {
                 if (m_hide == false)
-                {
                     Destroy(gameObject);
-                }
                 else
-                {
                     gameObject.SetActive(false);
-                }
             }
             else
             {
@@ -66,7 +54,6 @@ namespace YeUtility
 
         protected virtual void SubStop()
         {
-
         }
     }
 }

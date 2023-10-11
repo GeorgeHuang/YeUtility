@@ -6,12 +6,15 @@ namespace YeUtility
 {
     public class YeMaterialGroup : MonoBehaviour
     {
-        [SerializeField]
-        List<SpriteRenderer> sprites = new List<SpriteRenderer>();
-        public List<SpriteRenderer> Sprites { get => sprites; set => sprites = value; }
-        public Material M { get => m; set => m = value; }
+        [SerializeField] private List<SpriteRenderer> sprites = new();
 
-        Material m;
+        public List<SpriteRenderer> Sprites
+        {
+            get => sprites;
+            set => sprites = value;
+        }
+
+        public Material M { get; set; }
 
         private void Awake()
         {
@@ -38,10 +41,10 @@ namespace YeUtility
         public void FindAllSpriteRenderer()
         {
             sprites.Clear();
-            Component[] objs = gameObject.GetComponentsInChildren(typeof(SpriteRenderer), true);
-            foreach (Component com in objs)
+            var objs = gameObject.GetComponentsInChildren(typeof(SpriteRenderer), true);
+            foreach (var com in objs)
             {
-                SpriteRenderer sr = com as SpriteRenderer;
+                var sr = com as SpriteRenderer;
                 sprites.Add(sr);
             }
 #if UNITY_EDITOR

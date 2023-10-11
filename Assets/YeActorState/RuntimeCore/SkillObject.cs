@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using UnityEngine;
-using UnityEngine.Serialization;
 using YeUtility;
 
 namespace YeActorState.RuntimeCore
@@ -13,15 +11,16 @@ namespace YeActorState.RuntimeCore
         public LevelEffect baseDamage;
         public List<TagEffect> tagEffectList;
         public List<CustomEffect> customEffects;
-        
+
         [Serializable]
         public class TagEffect
         {
             [ValueDropdown("@YeActorStateEditorHelper.Tags")]
             public string tagName;
+
             public float value;
         }
-        
+
         [Serializable]
         public class CustomEffect
         {

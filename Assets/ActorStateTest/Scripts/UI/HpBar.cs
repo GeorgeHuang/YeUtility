@@ -1,5 +1,4 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,18 +11,15 @@ namespace ActorStateTest.Scripts.UI
         [SerializeField] private Image frontImage;
         [SerializeField] private float midDelay = 1;
 
+        private bool DelayWorking { get; set; }
+
         [Button("SerPercent")]
         public void SetPercent(float percent)
         {
             frontImage.fillAmount = percent;
-            
-            if (DelayWorking == false)
-            {
-                DelayMid().Forget();
-            }
-        }
 
-        private bool DelayWorking { get; set; }
+            if (DelayWorking == false) DelayMid().Forget();
+        }
 
         private async UniTaskVoid DelayMid()
         {

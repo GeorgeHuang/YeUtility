@@ -10,21 +10,12 @@ namespace YeUtility.Editor
         {
             tree.Config.DrawSearchToolbar = true;
 
-            if (typeof(T).IsClass && !typeof(T).IsAbstract)
-            {
-                tree.Add(typeof(T).FullName, typeof(T));
-            }
+            if (typeof(T).IsClass && !typeof(T).IsAbstract) tree.Add(typeof(T).FullName, typeof(T));
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                foreach (var type in assembly.GetTypes())
-                {
-                    if (type.IsSubclassOf(typeof(T)) && !type.IsAbstract)
-                    {
-                        tree.Add(type.FullName, type);
-                    }
-                }
-            }
+            foreach (var type in assembly.GetTypes())
+                if (type.IsSubclassOf(typeof(T)) && !type.IsAbstract)
+                    tree.Add(type.FullName, type);
         }
     }
 }

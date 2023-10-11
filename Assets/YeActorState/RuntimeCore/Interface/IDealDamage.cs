@@ -7,9 +7,9 @@
 
     public class DealDamageEventData
     {
-        public ActorStateHandler Owner;
-        public ActorStateHandler Receiver;
         public float Damage;
         public bool IsCritical;
+        public ActorStateHandler Owner;
+        public ActorStateHandler Receiver;
     }
 }

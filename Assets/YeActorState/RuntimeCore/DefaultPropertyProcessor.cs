@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace YeActorState.RuntimeCore
+﻿namespace YeActorState.RuntimeCore
 {
     public class DefaultPropertyProcessor : IBasePropertyProcessor
     {

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using YeActorState;
 using Zenject;
 
 namespace ActorStateTest.Element

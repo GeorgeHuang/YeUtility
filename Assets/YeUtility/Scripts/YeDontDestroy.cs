@@ -4,9 +4,8 @@ namespace YeUtility
 {
     public class YeDontDestroy : MonoBehaviour
     {
-
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             DontDestroyOnLoad(this);
         }

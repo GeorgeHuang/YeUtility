@@ -2,7 +2,6 @@
 using ActorStateTest.Data;
 using ActorStateTest.Systems;
 using NUnit.Framework;
-using YeActorState;
 using YeActorState.RuntimeCore;
 using YeUtility.EditorHelper;
 using Zenject;
@@ -20,7 +19,7 @@ namespace Test.MainTest
             Container.Bind<YeActorStateSys>().AsSingle();
             Container.BindInterfacesAndSelfTo<ActorMgr>().AsSingle();
         }
-        
+
         [Test]
         public void ActorMgrCreatePlayerErrorTest()
         {
@@ -34,6 +33,7 @@ namespace Test.MainTest
             {
                 throwAssert = true;
             }
+
             Assert.IsTrue(throwAssert, "沒丟出Assert");
         }
 

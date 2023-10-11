@@ -7,10 +7,10 @@ namespace ActorStateTest.Element
 {
     public class InputState : ITickable
     {
-        private Subject<Vector2> movePress = new();
+        private readonly Subject<Vector2> movePress = new();
+
+        private readonly Subject<Unit> spaceKeyPress = new();
         public IObservable<Vector2> MovePress => movePress;
-        
-        private Subject<Unit> spaceKeyPress = new();
         public IObservable<Unit> SpaceKeyPress => spaceKeyPress;
 
         public void Tick()

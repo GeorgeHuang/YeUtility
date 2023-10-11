@@ -10,8 +10,8 @@ namespace YeUtility
         public static void ForEach<T>(this IEnumerable<T> sequence, Action<int, T> action)
         {
             // argument null checking omitted
-            int i = 0;
-            foreach (T item in sequence)
+            var i = 0;
+            foreach (var item in sequence)
             {
                 action(i, item);
                 i++;

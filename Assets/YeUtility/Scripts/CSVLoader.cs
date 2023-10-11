@@ -1,30 +1,28 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 namespace YeUtility
 {
     public class CSVLoader
     {
-        private Dictionary<string, string[]> m_map = new Dictionary<string, string[]>();
+        private int m_index;
         private string[] m_it;
-        private int m_index = 0;
+        private readonly Dictionary<string, string[]> m_map = new();
 
         public string AllStr { get; private set; }
-
-        public CSVLoader()
-        {
-        }
 
         public void SetAllStr(string allStr, int keyOffset = 0)
         {
             AllStr = allStr;
             AllStr = AllStr.Replace("\r", "");
             var token = new[] { "\n" };
-            var step1Strs = AllStr.Split(token, System.StringSplitOptions.None);
+            var step1Strs = AllStr.Split(token, StringSplitOptions.None);
             foreach (var step1 in step1Strs)
             {
                 if (step1.Length <= 0) continue;
-                if (step1.Length <= 1 || (step1[0] == "/"[0] || step1[1] == "/"[0])) continue;
+                if (step1.Length <= 1 || step1[0] == "/"[0] || step1[1] == "/"[0]) continue;
                 var step2Strs = step1.Split(","[0]);
                 var index = 0;
                 var key = "";
@@ -44,6 +42,7 @@ namespace YeUtility
                     {
                         val.Add(step2);
                     }
+
                     ++index;
                 }
 
@@ -60,6 +59,7 @@ namespace YeUtility
                             find = true;
                             begineIndex = index;
                         }
+
                         ++size;
                     }
                     else
@@ -68,32 +68,32 @@ namespace YeUtility
                         size = 0;
                         find = false;
                     }
+
                     ++index;
                 }
 
-                if (find)
-                {
-                    val.RemoveRange(begineIndex, size);
-                }
+                if (find) val.RemoveRange(begineIndex, size);
 
                 if (key.Length <= 0) continue;
                 if (m_map.ContainsKey(key))
                 {
 #if UNITY_EDITOR
-                    UnityEngine.Debug.LogError("Key Duplicates : " + key);
+                    Debug.LogError("Key Duplicates : " + key);
 #endif
                     m_map[key] = val.ToArray();
                 }
                 else
+                {
                     m_map.Add(key, val.ToArray());
+                }
             }
+
             m_index = 0;
             //Debug.Log("After: " + m_allStr);
         }
 
         public bool Load(string fileName)
         {
-
 #if UNITY_WEBPLAYER
         return true;
 #else
@@ -109,6 +109,7 @@ namespace YeUtility
                 SetAllStr(sr.ReadToEnd());
                 sr.Close();
             }
+
             fs.Close();
             return true;
 #endif
@@ -120,12 +121,10 @@ namespace YeUtility
             foreach (var key in m_map.Keys)
             {
                 rv += key;
-                foreach (var c in m_map[key])
-                {
-                    rv += "," + c;
-                }
+                foreach (var c in m_map[key]) rv += "," + c;
                 rv += "\n";
             }
+
             return rv;
         }
 
@@ -154,6 +153,7 @@ namespace YeUtility
             m_index = index + 1;
             return int.Parse(m_it[index]);
         }
+
         public int GetInt()
         {
             return GetInt(m_index);
@@ -164,6 +164,7 @@ namespace YeUtility
             m_index = index + 1;
             return index >= m_it.Length ? "" : m_it[index];
         }
+
         public string GetString()
         {
             return GetString(m_index);
@@ -174,6 +175,7 @@ namespace YeUtility
             m_index = index + 1;
             return float.Parse(m_it[index]);
         }
+
         public float GetFloat()
         {
             return GetFloat(m_index);

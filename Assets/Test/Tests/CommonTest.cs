@@ -16,8 +16,8 @@ namespace Test.Tests
         [TestCase(1, 2, 4)]
         public void RemapTest(float input, float to1, float to2)
         {
-            var rv = input.Remap(0, to1, 0, to2: to2);
-            Assert.AreEqual(rv, input*to2/to1, Delta);
+            var rv = input.Remap(0, to1, 0, to2);
+            Assert.AreEqual(rv, input * to2 / to1, Delta);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace Test.Tests
             var result = bytes.ToSting();
             Assert.AreEqual(input, result);
         }
-    
+
         [Test]
         [TestCase("MeaderG")]
         public void EncryptTest(string input)
@@ -39,8 +39,8 @@ namespace Test.Tests
         }
 
         [Test]
-        [TestCase(50, 3, 1,0,0)]
-        [TestCase(180, 30, 0.5f,0.5f,0)]
+        [TestCase(50, 3, 1, 0, 0)]
+        [TestCase(180, 30, 0.5f, 0.5f, 0)]
         public void CreateFanVectors(float angle, int number, float x, float y, float z)
         {
             var centerDir = new Vector3(x, y, z);
@@ -55,7 +55,7 @@ namespace Test.Tests
             }
 
             var temp = Vector3.Angle(centerDir, rvDirs[0]);
-            Assert.AreEqual(temp, angle*0.5f, Delta);
+            Assert.AreEqual(temp, angle * 0.5f, Delta);
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace Test.Tests
             sourceObj.Init();
             var temp = Common.ToString(sourceObj);
             var resultObj = new TestToStringClass();
-            Common.FromString(resultObj,temp);
+            Common.FromString(resultObj, temp);
             Assert.IsTrue(sourceObj.Compare(resultObj));
         }
 
@@ -88,20 +88,13 @@ namespace Test.Tests
 
         internal class TestToStringClass
         {
-            private enum MyEnum
-            {
-                e1,
-                e2,
-                e3,
-            }
-
+            private readonly Dictionary<string, int> _intDict = new();
+            private readonly Dictionary<string, string> _strDict = new();
+            private readonly List<string> _strs = new();
             private MyEnum _enums;
-            private string _string;
-            private Dictionary<string, int> _intDict = new();
-            private Dictionary<string, string> _strDict = new();
-            private int[] _ints;
             private float[] _floats;
-            private List<string> _strs = new();
+            private int[] _ints;
+            private string _string;
 
             public void Init()
             {
@@ -139,6 +132,13 @@ namespace Test.Tests
                 if (!_floats.SequenceEqual(other._floats))
                     return false;
                 return _strs.SequenceEqual(other._strs);
+            }
+
+            private enum MyEnum
+            {
+                e1,
+                e2,
+                e3
             }
         }
     }

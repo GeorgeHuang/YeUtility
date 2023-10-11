@@ -1,4 +1,3 @@
-using System;
 using ActorStateTest.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,11 +11,13 @@ namespace ActorStateTest.Systems
         [SerializeField] private YeActorBaseDataRepo actorBaseDataRepo;
         [SerializeField] private ActorDataRepo actorDataRepo;
         [SerializeField] private SkillDataRepo skillDataRepo;
-        
-        [ValueDropdown("@EditorHelper.ActorNames")]
-        [SerializeField] public string PlayerDataName;
-        [ValueDropdown("@EditorHelper.ActorNames")]
-        [SerializeField] public string EnemyDataName;
+
+        [ValueDropdown("@EditorHelper.ActorNames")] [SerializeField]
+        public string PlayerDataName;
+
+        [ValueDropdown("@EditorHelper.ActorNames")] [SerializeField]
+        public string EnemyDataName;
+
         [SerializeField] public int MaxEnemyNumber;
 
         public override void InstallBindings()

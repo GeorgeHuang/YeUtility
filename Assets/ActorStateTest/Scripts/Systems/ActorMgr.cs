@@ -2,9 +2,7 @@
 using ActorStateTest.Data;
 using ActorStateTest.Element;
 using UnityEngine.Assertions;
-using YeActorState;
 using YeActorState.RuntimeCore;
-using YeActorState.UI;
 using YeUtility;
 using Zenject;
 
@@ -13,11 +11,11 @@ namespace ActorStateTest.Systems
     public class ActorMgr
     {
         [Inject] private ActorDataRepo actorDataRepo;
-        [Inject] private YeActorStateSys yeActorStateSys;
-        [Inject] private DiContainer container;
-        [Inject] private IAddActorReceiver[] addActorReceivers;
 
-        private List<ActorHandler> actorHandlers = new();
+        private readonly List<ActorHandler> actorHandlers = new();
+        [Inject] private IAddActorReceiver[] addActorReceivers;
+        [Inject] private DiContainer container;
+        [Inject] private YeActorStateSys yeActorStateSys;
 
         public IEnumerable<ActorHandler> ActorHandlers => actorHandlers;
 
@@ -40,7 +38,7 @@ namespace ActorStateTest.Systems
             container.Inject(rv, perimeter);
             rv.Initialize();
             actorHandlers.Add(rv);
-            addActorReceivers.ForEach((_,h)=>h.AddRuntimeData(yeActorHandler));
+            addActorReceivers.ForEach((_, h) => h.AddRuntimeData(yeActorHandler));
             return rv;
         }
     }

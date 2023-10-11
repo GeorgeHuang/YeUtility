@@ -1,75 +1,72 @@
-﻿
-namespace YeUtility
+﻿namespace YeUtility
 {
     public class RecoverValueFloat
     {
-        float curValue;
-        float maxValue;
-        float recorverValue;
-
-        bool isFull = false;
+        private float recorverValue;
 
         public RecoverValueFloat(RecoverValueFloat recoverValueFloat)
         {
-            curValue= recoverValueFloat.curValue;
-            maxValue= recoverValueFloat.maxValue;
+            CurValue = recoverValueFloat.CurValue;
+            MaxValue = recoverValueFloat.MaxValue;
             recorverValue = recoverValueFloat.recorverValue;
-            isFull = recoverValueFloat.isFull;
+            IsFull = recoverValueFloat.IsFull;
         }
 
         public RecoverValueFloat(SettingData setting)
         {
             Setup(setting);
-            curValue = maxValue;
-            isFull = true;
+            CurValue = MaxValue;
+            IsFull = true;
         }
 
-        public float CurValue => curValue;
-        public float MaxValue => maxValue;
-        public float Ratio => curValue / maxValue;
+        public float CurValue { get; private set; }
 
-        public bool IsFull => isFull;
+        public float MaxValue { get; private set; }
+
+        public float Ratio => CurValue / MaxValue;
+
+        public bool IsFull { get; private set; }
 
         public void Tick(float deltaTime)
         {
-            if (isFull) { return; }
+            if (IsFull) return;
             Add(recorverValue * deltaTime);
         }
 
         public void Add(float value)
         {
-            curValue += value;
-            if (!(curValue > maxValue)) return;
-            curValue = maxValue; 
-            isFull= true;
+            CurValue += value;
+            if (!(CurValue > MaxValue)) return;
+            CurValue = MaxValue;
+            IsFull = true;
         }
 
         public void Reduce(float value)
         {
-            curValue -= value;
-            if (curValue < 0) { curValue = 0; }
+            CurValue -= value;
+            if (CurValue < 0) CurValue = 0;
         }
 
         public RecoverValueFloat Clear()
-        { 
-            curValue = 0;
-            isFull = false;
+        {
+            CurValue = 0;
+            IsFull = false;
             return this;
         }
-            
+
 
         public void Setup(SettingData setting)
         {
-            maxValue = setting.Max;
+            MaxValue = setting.Max;
             recorverValue = setting.Recover;
         }
 
         public static RecoverValueFloat operator +(RecoverValueFloat left, float right)
         {
             var rv = new RecoverValueFloat(left);
-            rv.curValue += right;
-            rv.isFull = rv.curValue >= left.maxValue;
-            if (rv.isFull ) { rv.curValue = left.maxValue; }
+            rv.CurValue += right;
+            rv.IsFull = rv.CurValue >= left.MaxValue;
+            if (rv.IsFull) rv.CurValue = left.MaxValue;
             return rv;
         }
 

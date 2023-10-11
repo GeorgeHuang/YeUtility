@@ -1,26 +1,29 @@
-using System;
 using System.Collections.Generic;
 using ActorStateTest.Element;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace ActorStateTest.Systems
 {
     public class ShootingRageSys : ITickable, IInitializable
     {
-        [Inject] private InputState inputState;
-        [Inject] private ShootingRageConfig config;
         [Inject] private ActorMgr actorMgr;
+        [Inject] private ShootingRageConfig config;
+        private readonly List<ActorHandler> enemys = new();
+        [Inject] private InputState inputState;
 
         private ActorHandler mainActorStateHandler;
-        private List<ActorHandler> enemys = new();
 
         public void Initialize()
         {
             Setup();
+        }
+
+
+        public void Tick()
+        {
         }
 
         // private async UniTaskVoid AAA()
@@ -48,9 +51,10 @@ namespace ActorStateTest.Systems
                 {
                     var newEnemy = actorMgr.CreatePlayer(config.EnemyDataName);
                     var posX = Random.Range(0, 10);
-                    newEnemy.SetPos(new Vector3(posX, 0 , 0));
+                    newEnemy.SetPos(new Vector3(posX, 0, 0));
                     enemys.Add(newEnemy);
                 }
+
                 await UniTask.Yield();
             }
         }
@@ -58,11 +62,6 @@ namespace ActorStateTest.Systems
         private void InputMovePress(Vector2 dir)
         {
             mainActorStateHandler.Move(dir);
-        }
-
-
-        public void Tick()
-        {
         }
     }
 }
