@@ -3555,7 +3555,6 @@ GameObject:
   - component: {fileID: 7089204094893551758}
   - component: {fileID: 2235482835504045492}
   - component: {fileID: 2174668573623306479}
-  - component: {fileID: 6725247540267705561}
   - component: {fileID: 3815545368035396245}
   - component: {fileID: 907120139267257020}
   m_Layer: 5
@@ -3669,24 +3668,6 @@ MonoBehaviour:
   elementColos:
   - {r: 0.5372549, g: 0.7254902, b: 0.7058824, a: 1}
   - {r: 0.5372549, g: 0.5568628, b: 0.7254902, a: 1}
---- !u!114 &6725247540267705561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5887373082151538334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 2174668573623306479}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 2
 --- !u!114 &3815545368035396245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3717,6 +3698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a09a73839074b57b3f88d69fcf89f65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dashboard: {fileID: 2174668573623306479}
   tagDataRepo: {fileID: 11400000, guid: d02d7825996ec60478f5390a337e79cc, type: 2}
 --- !u!1 &6085047941756371967
 GameObject:

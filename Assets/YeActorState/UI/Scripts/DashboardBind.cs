@@ -7,6 +7,7 @@ namespace YeActorState.UI
 {
     public class DashboardBind : MonoInstaller
     {
+        [SerializeField] private YeActorStateDashboard dashboard;
         [SerializeField] private TagDataRepo tagDataRepo;
 
         public override void InstallBindings()

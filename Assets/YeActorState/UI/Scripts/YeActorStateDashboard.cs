@@ -14,7 +14,7 @@ using Zenject;
 
 namespace YeActorState.UI
 {
-    public class YeActorStateDashboard : MonoBehaviour, IAddActorReceiver
+    public class YeActorStateDashboard : MonoBehaviour, IAddActorReceiver, IInitializable
     {
         [SerializeField] private PropertyElement propertyElementPrefab;
         [SerializeField] private PropertyEffectElement propertyEffectElementPrefab;
@@ -52,8 +52,14 @@ namespace YeActorState.UI
 
         [Inject] private YeActorStateSys yeActorStateSys;
 
-        private async void Start()
+        public void Initialize()
         {
+            InitASync().Forget();
+        }
+
+        private async UniTaskVoid InitASync()
+        {
+            await UniTask.WaitUntil(() => yeActorStateSys != null);
             await UniTask.WaitUntil(() => yeActorStateSys.AllHandlers.ToList().Count > 0);
             runtimeListDropdown.onValueChanged.AsObservable().Subscribe(RuntimeListDropdownValueChanged);
             UpdateRuntimeDataDropdown();
@@ -61,6 +67,11 @@ namespace YeActorState.UI
             SetupDatabaseEffect();
             SetupSkillContent();
             refreshBtn.OnClickAsObservable().Subscribe(RefreshBtnPress);
+        }
+
+
+        private async void Start()
+        {
         }
 
         public void AddRuntimeData(ActorStateHandler yeActorHandler)
