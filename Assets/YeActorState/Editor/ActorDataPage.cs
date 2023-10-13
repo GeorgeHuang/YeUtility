@@ -9,7 +9,7 @@ namespace YeActorState.Editor
 {
     public class ActorDataPage
     {
-        [SerializeField] [InlineEditor] private readonly YeActorBaseData data;
+        [SerializeField] [InlineEditor(inlineEditorMode:InlineEditorModes.FullEditor)] private YeActorBaseData data;
 
         [ValueDropdown("@YeActorStateEditorHelper.ActorTemplates")] [SerializeField]
         private ActorDataTemplate template;
