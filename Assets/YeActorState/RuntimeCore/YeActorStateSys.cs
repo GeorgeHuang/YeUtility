@@ -62,6 +62,12 @@ namespace YeActorState.RuntimeCore
                 .FirstOrDefault();
         }
 
+        public void AddRuntimeProcessor(IBasePropertyProcessor processor)
+        {
+            if (runtimeProcessors.Contains(processor) == true) return;
+            runtimeProcessors.Add(processor);
+        }
+
         public ActorStateHandler AddActor(YeActorBaseData baseData)
         {
             var rv = new ActorStateHandler();
