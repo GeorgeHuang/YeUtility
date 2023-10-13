@@ -9,23 +9,32 @@ namespace YeActorState.RuntimeCore
     {
         private readonly Dictionary<ActorStateHandler, List<PropertyEffectData>> actorEffectList = new();
         private readonly Dictionary<ActorStateHandler, List<RuntimeSkill>> actorSkillList = new();
-        private readonly DefaultPropertyProcessor defaultPropertyProcessor = new();
+        private static readonly DefaultPropertyProcessor defaultPropertyProcessor = new();
+        private readonly DefaultPropertyProcessor[] defaultPropertyProcessors = new[] { defaultPropertyProcessor };
 
         private readonly LinkedList<ActorStateHandler> dirtyActorList = new();
         private readonly LinkedList<RuntimeSkill> dirtySkillList = new();
 
         private readonly List<ActorStateHandler> handlers = new();
         private readonly List<IBasePropertyProcessor> runtimeProcessors = new();
+
         [InjectOptional] private YeActorBaseDataRepo actorBaseDataRepo;
         [Inject] private DiContainer container;
         [Inject] private List<IDealDamage> dealDamageReceiver;
         [Inject] private List<ISkillChangeReceiver> skillChangeReceivers;
+        private bool needDefault = false;
 
         public IEnumerable<ActorStateHandler> AllHandlers => handlers;
 
         public void Initialize()
         {
+        }
+
+        public void NeedDefaultProcessor()
+        {
+            if (needDefault) return;
             runtimeProcessors.Add(new DefaultRuntimePropertyProcessor());
+            needDefault = true;
         }
 
         public void Tick()
@@ -60,7 +69,7 @@ namespace YeActorState.RuntimeCore
             actorSkillList.Add(rv, new List<RuntimeSkill>());
             var runtime = new YeActorRuntimeData();
             runtime.Setup(baseData);
-            defaultPropertyProcessor.Processor(baseData, runtime);
+            if (needDefault) defaultPropertyProcessor.Processor(baseData, runtime);
             runtimeProcessors.ForEach(x => x.Processor(baseData, runtime));
             var perimeter = new List<object> { runtime, baseData, this };
             container.Inject(rv, perimeter);

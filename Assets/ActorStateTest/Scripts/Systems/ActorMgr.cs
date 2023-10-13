@@ -21,6 +21,8 @@ namespace ActorStateTest.Systems
 
         public ActorHandler CreatePlayer(string name)
         {
+            yeActorStateSys.NeedDefaultProcessor();
+            
             var actorData = actorDataRepo.GetData(name);
             Assert.IsNotNull(actorData, $"沒找到角色 {name}");
 
