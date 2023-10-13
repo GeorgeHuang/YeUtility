@@ -69,9 +69,14 @@ namespace YeActorState.UI
             refreshBtn.OnClickAsObservable().Subscribe(RefreshBtnPress);
         }
 
-
-        private async void Start()
+        public void SetEnable(bool e)
         {
+            gameObject.SetActive(e);
+        }
+
+        public bool GetEnable()
+        {
+            return gameObject.activeSelf;
         }
 
         public void AddRuntimeData(ActorStateHandler yeActorHandler)

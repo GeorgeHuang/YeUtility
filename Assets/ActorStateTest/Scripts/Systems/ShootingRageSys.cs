@@ -3,6 +3,7 @@ using ActorStateTest.Element;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
+using YeActorState.UI;
 using Zenject;
 
 namespace ActorStateTest.Systems
@@ -11,8 +12,10 @@ namespace ActorStateTest.Systems
     {
         [Inject] private ActorMgr actorMgr;
         [Inject] private ShootingRageConfig config;
-        private readonly List<ActorHandler> enemys = new();
         [Inject] private InputState inputState;
+        [Inject] private YeActorStateDashboard dashboard;
+        
+        private readonly List<ActorHandler> enemys = new();
 
         private ActorHandler mainActorStateHandler;
 
@@ -39,8 +42,13 @@ namespace ActorStateTest.Systems
             mainActorStateHandler = actorMgr.CreatePlayer(config.PlayerDataName);
             mainActorStateHandler.SetPos(new Vector3(-5, 0, 0));
             inputState.MovePress.Subscribe(InputMovePress);
-
+            inputState.DebugKeyPress.Subscribe(_=>DebugPress(_));
             UniTask.Void(CheckEnemyNumber);
+        }
+
+        private void DebugPress(Unit unit)
+        {
+            dashboard.SetEnable(!dashboard.GetEnable());
         }
 
         private async UniTaskVoid CheckEnemyNumber()
