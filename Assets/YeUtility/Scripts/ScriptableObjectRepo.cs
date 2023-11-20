@@ -11,6 +11,7 @@ using YeUtility.EditorHelper;
 
 namespace YeUtility
 {
+    //T是ScriptableObject的時候用, 如果不是ScriptableObject要用YeObjectRepo
     public class ScriptableObjectRepo<TR, T> : ScriptableObject where TR : ScriptableObjectRepo<TR, T> where T : ScriptableObject
     {
         [ReadOnly] [SerializeField, ListDrawerSettings(ShowFoldout = true)]

@@ -7,6 +7,7 @@ using YeUtility.EditorHelper;
 
 namespace YeUtility
 {
+    //T不是ScriptableObject的時候用, 如果是ScriptableObject要用ScriptableObjectRepo
     public class YeObjectRepo<RT, T> : ScriptableObject where RT : YeObjectRepo<RT, T> where T : INamedObject
     {
         [Searchable]
