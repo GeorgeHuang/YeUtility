@@ -18,5 +18,15 @@ namespace YeUtility
         {
             return keyName;
         }
+
+        public void SetDisplayName(string v)
+        {
+            displayName = v;
+        }
+
+        public void SetKeyName(string v)
+        {
+            keyName = v;
+        }
     }
 }
