@@ -25,7 +25,7 @@ namespace YeUtility
             return GetDataWithKeyName(keyName) != null;
         }
 
-        public void SetDataWithKeyName(string keyName, T data)
+        public void AddDataWithKeyName(string keyName, T data)
         {
             if (HasDataWithKeyName(keyName) != false) return;
             datas.Add(data);
