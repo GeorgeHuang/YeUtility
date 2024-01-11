@@ -8,3 +8,5 @@ https://github.com/GeorgeHuang/YeUtility.git?path=Assets/YeUtility
 ```
 https://github.com/GeorgeHuang/YeUtility.git?path=Assets/YeActorState
 ```
+
+com.unity.nuget.newtonsoft-json
