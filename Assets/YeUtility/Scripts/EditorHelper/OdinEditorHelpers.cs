@@ -15,7 +15,7 @@ namespace YeUtility.EditorHelper
 #endif
         }
 
-        public static List<T> GetObjList<T>(string path) where T : Object
+        public static List<T> GetObjList<T>(string path = "Assets") where T : Object
         {
             var rv = new List<T>();
 #if UNITY_EDITOR
