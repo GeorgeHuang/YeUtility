@@ -8,7 +8,7 @@ namespace YeUtility
 
         public string GetDisplayName()
         {
-            return displayName;
+            return string.IsNullOrEmpty(displayName) ? name : displayName;
         }
 
         public string GetKeyName()
